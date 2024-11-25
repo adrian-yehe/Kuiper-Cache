@@ -1,0 +1,16 @@
+# Copyright(c) 2023 Tsingmicro NPU model  project
+
+PROJECT(NPU_LIBRARY)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.23)
+
+# ---------------------------------------------------------------------------------------
+# Set source file 
+# ---------------------------------------------------------------------------------------
+AUX_SOURCE_DIRECTORY(.  CACHE_SRC_FIELS)
+
+FILE(CACHE_INC_FIELS HEADER_FILES "*.h")
+FILE(CACHE_SRC_FIELS CPP_FILES "*.cpp")
+
+ADD_EXECUTABLE(dv_cache_case 
+    ${DOT_TEST_SRC}
+)
