@@ -7,17 +7,11 @@
 #include <string>
 #include <memory>
 
-#include "../cache_blk.h"
-#include "../base/types.h"
-#include "../base/callback.h"
-
-//#include "base/logging.h"
-//#include "base/statistics.h"
-
-//#include "mem/cache/cache_blk.hh"
-//#include "mem/packet.hh"
-//#include "params/BaseTags.hh"
-//#include "sim/clocked_object.hh"
+#include "cache_blk.h"
+#include "types.h"
+#include "callback.h"
+#include "../../indexing/include/base.h"
+#include "../../params/BaseTags.h"
 
 namespace Kuiper {
     namespace Cache {
@@ -186,7 +180,8 @@ namespace Kuiper {
              */
             virtual void setWayAllocationMax(int ways)
             {
-                panic("This tag class does not implement way allocation limit!\n");
+                // panic("This tag class does not implement way allocation limit!\n");
+                assert(0);
             }
 
             /**
@@ -195,7 +190,8 @@ namespace Kuiper {
              */
             virtual int getWayAllocationMax() const
             {
-                panic("This tag class does not implement way allocation limit!\n");
+                // panic("This tag class does not implement way allocation limit!\n");
+                assert(0);
                 return -1;
             }
 

@@ -5,9 +5,9 @@
 #include <memory>
 #include <tuple>
 #include <utility>
-
+#include <optional>
 #include "type_traits.h"
-//#include "magic_enum/magic_enum.hh"
+#include "magic_enum.h"
 
 namespace Kuiper {
     namespace Cache {

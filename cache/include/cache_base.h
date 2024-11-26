@@ -1,3 +1,7 @@
+#ifndef _CACHE_BASE_H__
+#define _CACHE_BASE_H__
+
+
 #include <cstdint>
 #include <map>
 #include <list>
@@ -58,4 +62,4 @@ namespace Kuiper {
 
 } /* namespace Kuiper */
 
-
+#endif /* __CACHE_FLAGS_H__ */

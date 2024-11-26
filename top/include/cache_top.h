@@ -1,8 +1,8 @@
 #ifndef  __CACHE_TOP_H__
 #define __CACHE_TOP_H__
 
-#include "models/SimpleBusAT.h" 
-#include "global_memory.h"
+// #include "models/SimpleBusAT.h" 
+// #include "global_memory.h"
 #include "l0.h"
 #include "l1.h"
 

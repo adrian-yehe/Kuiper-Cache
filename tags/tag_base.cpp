@@ -1,15 +1,7 @@
 #include <cassert>
-
-#include "../cache_blk.h"
-#include "../base/types.h"
-#include "tag_base.h"
-
-//#include "mem/cache/replacement_policies/replaceable_entry.hh"
-//#include "mem/cache/tags/indexing_policies/base.hh"
-//#include "mem/request.hh"
-//#include "sim/core.hh"
-//#include "sim/sim_exit.hh"
-//#include "sim/system.hh"
+#include "types.h"
+#include "include/tag_base.h"
+#include "../cache/include/cache_blk.h"
 
 namespace Kuiper {
     namespace Cache {
@@ -19,10 +11,10 @@ namespace Kuiper {
             indexingPolicy(p.indexing_policy),
             warmupBound((p.warmup_percentage / 100.0)* (p.size / p.block_size)),
             warmedUp(false), numBlocks(p.size / p.block_size),
-            dataBlks(new uint8_t[p.size]), // Allocate data storage in one big chunk
-            stats(*this)
+            dataBlks(new uint8_t[p.size]) // Allocate data storage in one big chunk
+            // stats(*this)
         {
-            registerExitCallback([this]() { cleanupRefs(); });
+            // registerExitCallback([this]() { cleanupRefs(); });
         }
 
         ReplaceableEntry*
@@ -64,21 +56,21 @@ namespace Kuiper {
             // Deal with what we are bringing in
             RequestorID requestor_id = pkt->req->requestorId();
             //assert(requestor_id < system->maxRequestors());
-            stats.occupancies[requestor_id]++;
+            // stats.occupancies[requestor_id]++;
 
             // Insert block with tag, src requestor id and task id
             blk->insert(extractTag(pkt->getAddr()), pkt->isSecure(), requestor_id,
                 pkt->req->taskId());
 
-            // Check if cache warm up is done
-            if (!warmedUp && stats.tagsInUse.value() >= warmupBound) {
-                warmedUp = true;
-                stats.warmupTick = curTick();
-            }
+            // // Check if cache warm up is done
+            // if (!warmedUp && stats.tagsInUse.value() >= warmupBound) {
+            //     warmedUp = true;
+            //     stats.warmupTick = curTick();
+            // }
 
-            // We only need to write into one tag and one data block.
-            stats.tagAccesses += 1;
-            stats.dataAccesses += 1;
+            // // We only need to write into one tag and one data block.
+            // stats.tagAccesses += 1;
+            // stats.dataAccesses += 1;
         }
 
         void
@@ -104,8 +96,8 @@ namespace Kuiper {
             BaseTags::cleanupRefsVisitor(CacheBlk& blk)
         {
             if (blk.isValid()) {
-                stats.totalRefs += blk.getRefCount();
-                ++stats.sampledRefs;
+                // stats.totalRefs += blk.getRefCount();
+                // ++stats.sampledRefs;
             }
         }
 
@@ -121,36 +113,36 @@ namespace Kuiper {
             if (blk.isValid()) {
                 const uint32_t task_id = blk.getTaskId();
                 assert(task_id < context_switch_task_id::NumTaskId);
-                stats.occupanciesTaskId[task_id]++;
+                // stats.occupanciesTaskId[task_id]++;
                 Tick age = blk.getAge();
 
-                int age_index;
-                if (age / sim_clock::as_int::us < 10) { // <10us
-                    age_index = 0;
-                }
-                else if (age / sim_clock::as_int::us < 100) { // <100us
-                    age_index = 1;
-                }
-                else if (age / sim_clock::as_int::ms < 1) { // <1ms
-                    age_index = 2;
-                }
-                else if (age / sim_clock::as_int::ms < 10) { // <10ms
-                    age_index = 3;
-                }
-                else
-                    age_index = 4; // >10ms
+                // int age_index;
+                // if (age / sim_clock::as_int::us < 10) { // <10us
+                //     age_index = 0;
+                // }
+                // else if (age / sim_clock::as_int::us < 100) { // <100us
+                //     age_index = 1;
+                // }
+                // else if (age / sim_clock::as_int::ms < 1) { // <1ms
+                //     age_index = 2;
+                // }
+                // else if (age / sim_clock::as_int::ms < 10) { // <10ms
+                //     age_index = 3;
+                // }
+                // else
+                //     age_index = 4; // >10ms
 
-                stats.ageTaskId[task_id][age_index]++;
+                // stats.ageTaskId[task_id][age_index]++;
             }
         }
 
         void
             BaseTags::computeStats() {
             for (unsigned i = 0; i < context_switch_task_id::NumTaskId; ++i) {
-                stats.occupanciesTaskId[i] = 0;
-                for (unsigned j = 0; j < 5; ++j) {
-                    stats.ageTaskId[i][j] = 0;
-                }
+                // stats.occupanciesTaskId[i] = 0;
+                // for (unsigned j = 0; j < 5; ++j) {
+                //     stats.ageTaskId[i][j] = 0;
+                // }
             }
 
             forEachBlk([this](CacheBlk& blk) { computeStatsVisitor(blk); });

@@ -7,8 +7,8 @@
 #define __MEM_CACHE_INDEXING_POLICIES_BASE_HH__
 
 #include <vector>
-#include "../base/types.h"
-//#include "params/BaseIndexingPolicy.hh"
+#include "types.h"
+#include "../../params/BaseIndexingPolicy.h"
 
 namespace Kuiper {
     namespace Cache {

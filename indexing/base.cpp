@@ -1,9 +1,10 @@
-#include "base.h"
-
+#include <cassert>
 #include <cstdlib>
-#include "../base/intmath.h"
+#include "intmath.h"
+#include "include/base.h"
+
 //#include "base/logging.hh"
-#include "../replacement/replaceable_entry.h"
+#include "../replaceable/include/replaceable_entry.h"
 
 namespace Kuiper {
     namespace Cache {
@@ -13,9 +14,13 @@ namespace Kuiper {
             setShift(floorLog2(p.entry_size)), setMask(numSets - 1), sets(numSets),
             tagShift(setShift + floorLog2(numSets))
         {
-            fatal_if(!isPowerOf2(numSets), "# of sets must be non-zero and a power " \
-                "of 2");
-            fatal_if(assoc <= 0, "associativity must be greater than zero");
+            // fatal_if(!isPowerOf2(numSets), "# of sets must be non-zero and a power " \
+            //     "of 2");
+            // fatal_if(assoc <= 0, "associativity must be greater than zero");
+
+            assert(!isPowerOf2(numSets) && "# of sets must be non-zero and a power " \
+                    "of 2");
+            assert(assoc <= 0 && "associativity must be greater than zero");
 
             // Make space for the entries
             for (uint32_t i = 0; i < numSets; ++i) {
@@ -29,8 +34,7 @@ namespace Kuiper {
             return sets[set][way];
         }
 
-        void
-            BaseIndexingPolicy::setEntry(ReplaceableEntry* entry, const uint64_t index)
+        void BaseIndexingPolicy::setEntry(ReplaceableEntry* entry, const uint64_t index)
         {
             // Calculate set and way from entry index
             const std::lldiv_t div_result = std::div((long long)index, assoc);
@@ -47,8 +51,7 @@ namespace Kuiper {
             entry->setPosition(set, way);
         }
 
-        Addr
-            BaseIndexingPolicy::extractTag(const Addr addr) const
+        Addr BaseIndexingPolicy::extractTag(const Addr addr) const
         {
             return (addr >> tagShift);
         }

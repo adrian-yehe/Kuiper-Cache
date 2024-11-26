@@ -37,18 +37,17 @@ namespace Kuiper {
             using return_t = R;
             using argsTuple_t = std::tuple<A...>;
         };
-        template<typename F>
+        template<auto F>
         using MemberFunctionClass_t =
             typename MemberFunctionSignature<decltype(F)>::class_t;
 
-        template<typename F>
+        template<auto F>
         using MemberFunctionReturn_t =
             typename MemberFunctionSignature<decltype(F)>::return_t;
 
-        template<typename F>
+        template<auto F>
         using MemberFunctionArgsTuple_t =
             typename MemberFunctionSignature<decltype(F)>::argsTuple_t;
-
 
         // iterable type trait
         template <typename, typename = void>

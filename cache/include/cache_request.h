@@ -8,10 +8,10 @@
 #include <limits>
 #include <memory>
 #include <vector>
-#include "base/flags.h"
-#include "base/types.h"
-#include "base/extensible.h"
-#include "base/inst_seq.h"
+#include "flags.h"
+#include "types.h"
+#include "extensible.h"
+#include "inst_seq.h"
 
 namespace Kuiper {
 	namespace Cache {
@@ -284,7 +284,7 @@ namespace Kuiper {
 
         private:
             typedef uint16_t PrivateFlagsType;
-            typedef Flags<PrivateFlagsType> PrivateFlags;
+            typedef Kuiper::Cache::Flags<PrivateFlagsType> PrivateFlags;
 
             enum : PrivateFlagsType
             {

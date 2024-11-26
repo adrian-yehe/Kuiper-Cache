@@ -1,5 +1,5 @@
-#include "set_associative.h"
-#include "../replacement/replaceable_entry.h"
+#include "include/set_associative.h"
+#include "../replaceable/include/replaceable_entry.h"
 
 namespace Kuiper {
     namespace Cache {

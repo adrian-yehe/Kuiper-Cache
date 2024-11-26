@@ -8,9 +8,9 @@
 #include <string>
 #include <cassert>
 
-#include "base/types.h"
-#include "base/cur_tick.h"
-#include "tags/tagged_entry.h"
+#include "types.h"
+#include "cur_tick.h"
+#include "../../tags/include/tagged_entry.h"
 
 #include "cache_packet.h"
 #include "cache_request.h"

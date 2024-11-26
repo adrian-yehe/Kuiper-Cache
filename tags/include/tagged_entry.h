@@ -3,9 +3,9 @@
 
 #include <cassert>
 
-#include "base/cprintf.h"
-#include "base/types.h"
-#include "replacement/replaceable_entry.h"
+#include "cprintf.h"
+#include "types.h"
+#include "../../replaceable/include/replaceable_entry.h"
 
 namespace Kuiper {
     namespace Cache {

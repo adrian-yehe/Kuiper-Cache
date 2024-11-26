@@ -1,12 +1,13 @@
 #ifndef __MEM_PACKET_HH__
 #define __MEM_PACKET_HH__
 
+#include <cstring>
 #include <bitset>
 #include <cassert>
 #include <initializer_list>
 #include <list>
 #include <cassert>
-#include "base/flags.h"
+#include "flags.h"
 #include "cache_request.h"
 
 namespace Kuiper {
@@ -241,7 +242,7 @@ namespace Kuiper {
         class Packet:  public Extensible<Packet> {
         public:
            using FlagsType =  std::uint32_t ;
-           using Flags = Flags<FlagsType> ;
+           using Flags = Kuiper::Cache::Flags<FlagsType> ;
 
         private:
             enum : FlagsType  {
@@ -1182,5 +1183,5 @@ namespace Kuiper {
     } /* namespace Cache */
 } /* namespace Kuiper */
 
-#endif //__MEM_PACKET_HH
+#endif //__MEM_PACKET_HH__
 

@@ -1,5 +1,5 @@
 #include "cache_blk.h"
-#include "base/cprintf.h"
+#include "cprintf.h"
 
 namespace Kuiper {
     namespace Cache {

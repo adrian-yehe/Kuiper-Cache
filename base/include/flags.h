@@ -1,5 +1,5 @@
 #ifndef  __CACHE_FLAGS_H__
-#define __CACHE__FLAGS_H__
+#define __CACHE_FLAGS_H__
 
 #include <type_traits>
 
