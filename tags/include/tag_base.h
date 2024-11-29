@@ -6,12 +6,12 @@
 #include <functional>
 #include <string>
 #include <memory>
-
-#include "cache_blk.h"
 #include "types.h"
 #include "callback.h"
-#include "../../indexing/include/base.h"
-#include "../../params/BaseTags.h"
+#include "cache/include/cache_packet.h"
+#include "cache/include/cache_blk.h"
+#include "indexing/include/indexing_base.h"
+#include "params/BaseTags.h"
 
 namespace Kuiper {
     namespace Cache {

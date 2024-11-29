@@ -5,8 +5,8 @@
 #include <tuple>
 #include <type_traits>
 
-namespace Kuiper {
-    namespace Cache {
+// namespace Kuiper {
+    namespace gem5 {
         template<typename F>
         struct MemberFunctionSignature;
         template<typename C, typename R, class... A>
@@ -72,6 +72,6 @@ namespace Kuiper {
         template <typename T>
         constexpr bool is_std_hash_enabled_v = is_std_hash_enabled<T>::value;
     } // namespace Cache
-} // namespace Kuiper
+// } // namespace Kuiper
 
 #endif // BASE_TYPETRAITS_HH

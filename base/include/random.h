@@ -49,9 +49,9 @@
 #include <string>
 #include <type_traits>
 
-#include "base/compiler.hh"
-#include "base/types.hh"
-#include "sim/serialize.hh"
+// #include "base/compiler.hh"
+#include "types.h"
+// #include "sim/serialize.hh"
 
 namespace gem5
 {

@@ -83,6 +83,8 @@ FILE(GLOB_RECURSE CACHE_SRC_FILES
     "prefetch/*.cpp"
     "replacement/*.cpp"
     "tags/*.cpp"
+    "mshr/*.cpp"
+    "write/*.cpp"
     "top/*.cpp")
 
 FILE(GLOB_RECURSE CACHE_INC_FILES 
@@ -92,12 +94,17 @@ FILE(GLOB_RECURSE CACHE_INC_FILES
     "prefetch/*.h" 
     "replacementt/*.h" 
     "tags/*.h" 
+    "mshr/*.h"
+    "write/*.h"
+    "param/*.h"
     "top/*.h")
 
 # ---------------------------------------------------------------------------------------
 # Set the library information for compiling output.
 # ---------------------------------------------------------------------------------------
-ADD_LIBRARY(${CACHE_LIBRARY} STATIC ${CACHE_SRC_FILES})
+ADD_LIBRARY(${CACHE_LIBRARY} STATIC 
+            ${CACHE_SRC_FILES} 
+            ${CACHE_INC_FILES})
 
 SET_TARGET_PROPERTIES(${CACHE_LIBRARY} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
@@ -108,28 +115,30 @@ SET_TARGET_PROPERTIES(${CACHE_LIBRARY} PROPERTIES
 # include  3rd_party and npu head  files
 # ---------------------------------------------------------------------------------------
 INCLUDE_DIRECTORIES(
+    ${CMAKE_SOURCE_DIR}/
     ${CMAKE_SOURCE_DIR}/lib/spdlog/include/
     ${CMAKE_SOURCE_DIR}/lib/systemc/include/
     ${CMAKE_SOURCE_DIR}/base/include/
-    ${CMAKE_SOURCE_DIR}/cache/include/
-    ${CMAKE_SOURCE_DIR}/indexing/include/
-    ${CMAKE_SOURCE_DIR}/prefetch/include/
-    ${CMAKE_SOURCE_DIR}/replacement/include/
-    ${CMAKE_SOURCE_DIR}/tags/include/
-    ${CMAKE_SOURCE_DIR}/top/include/
+    ${CMAKE_SOURCE_DIR}/params/
+    ${CMAKE_SOURCE_DIR}/cache/
+    ${CMAKE_SOURCE_DIR}/indexing/
+    ${CMAKE_SOURCE_DIR}/prefetch/
+    ${CMAKE_SOURCE_DIR}/replaceable/
+    ${CMAKE_SOURCE_DIR}/tags/
+    ${CMAKE_SOURCE_DIR}/top/
 )
 
 LINK_DIRECTORIES (
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${CMAKE_SOURCE_DIR}/lib/spdlog/
-    ${CMAKE_SOURCE_DIR}/lib/systemc/
+    ${CMAKE_SOURCE_DIR}/lib/systemc/lib/
 )
 
 LINK_LIBRARIES (
-    gtest_main
     ${CACHE_LIBRARY}
+    systemc
 )
 
 ADD_EXECUTABLE(dv_cache_case 
-    cache_main.cpp
+    main.cpp
 )

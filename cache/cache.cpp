@@ -1,10 +1,13 @@
-#include "cache.h"
+#include "include/cache.h"
 
 namespace Kuiper {
 	namespace Cache {
-		Debug::Debug() {
-			spdlog::set_default_logger(spdlog::basic_logger_mt("cache_logger", m_log_prefix + "log.txt"));
-			spdlog::set_pattern("%v");
+		Debug::Debug(const bool _debug, const bool _dump) {
+			if(true == _dump) {
+				spdlog::set_default_logger(spdlog::basic_logger_mt("cache_logger", 
+				m_log_prefix + "log.txt"));
+				spdlog::set_pattern("%v");
+			}
 		};
 
 		auto Debug::SetDebug(const bool _debug, const bool _dump, int32_t _opt_id = 0) {
@@ -39,8 +42,8 @@ namespace Kuiper {
 			}
 		}
 
-		Cache::Cache(sc_core::sc_module_name _name) :
-			BaseCache(_name) {};
+		// Cache::Cache(sc_core::sc_module_name _name) :
+		// 	BaseCache(_name) {};
 
 
 	} /* namespace Cache */

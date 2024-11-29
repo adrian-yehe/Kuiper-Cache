@@ -13,7 +13,7 @@
 #include "systemc.h"
 #include "spdlog/spdlog.h"
 #include "cache_packet.h"
-#include "cache.h"
+// #include "cache.h"
 
 namespace Kuiper {
 	namespace Cache {
@@ -33,7 +33,8 @@ namespace Kuiper {
         class CpuSidePort : public sc_core::sc_module {
         public:
             CpuSidePort(sc_core::sc_module_name _name, CacheType* _cache) :
-                sc_module(_name) {
+                sc_module(_name),
+                mBaseCache(_cache) {
                 SC_HAS_PROCESS(CpuSidePort);
                 SC_THREAD(ReqMonitor);
             };
@@ -50,19 +51,21 @@ namespace Kuiper {
                     auto pkt = RecvPacket();
                     spdlog::info("{:s}.recive packet ",
                         sc_module::name());
+
+                    // mBaseCache->recvTimingReq(); 
                 }
             }
 
         public:
             auto RecvPacket(void) { return mReqPort->read(); };
-            void SendPacket(PacketAddr& _pkt) { mResPort->write(_pkt); };
+            void SendPacket(PacketPtr& _pkt) { mResPort->write(_pkt); };
 
         public:
             RequestPort mReqPort;
             sc_core::sc_port<sc_core::sc_signal_out_if<PacketPtr>, 0> mResPort;
 
         private:
-            CacheType* mCache;
+            CacheType* mBaseCache;
         };
 
         /**
@@ -73,7 +76,8 @@ namespace Kuiper {
         class MemSidePort : public sc_core::sc_module {
         public:
             MemSidePort(sc_core::sc_module_name _name, CacheType* _cache):
-                sc_module(_name) {
+                sc_module(_name),
+                 mBaseCache(_cache) {
                 //SC_HAS_PROCESS(MemSidePort);
                 //SC_THREAD(ResMonitor);
             };
@@ -106,8 +110,4 @@ namespace Kuiper {
 	} /* namespace Cache */
 } /* namespace Kuiper */
 
-
 #endif // ! _CACHE_PORT_H__
-
-
-

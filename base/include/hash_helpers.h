@@ -14,8 +14,9 @@
 
 #include "type_traits.h"
 
-namespace Kuiper {
-    namespace Cache {
+// namespace Kuiper 
+// {
+    namespace gem5 {
         namespace hash_impl {
             // The math in hash_combine and hash_refine functions are inspired from Jon
             // Maiga's work hosted at https://github.com/jonmaiga/mx3 under the CC0
@@ -164,6 +165,6 @@ namespace Kuiper {
             struct unordered_set : std::unordered_set<Key, Hash, KeyEqual, Allocator>
         {};
     }  // namespace Cache
-} // namespace Kuiper
+// } // namespace Kuiper
 
 #endif // BASE_STL_HELPERS_HASH_HELPERS_HH

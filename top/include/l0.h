@@ -1,20 +1,22 @@
 #ifndef __L0_H__
-#define _L0_H__
+#define __L0_H__
 
 #include<cstdint>
 #include<iostream>
 
 #include "tlm.h"
-#include "cache.h"
-#include "cache_port.h"
+#include "cache/include/cache_port.h"
+#include "cache/include/cache_noncoherent.h"
+#include "params/BaseCache.h"
 
 namespace Kuiper {
 	namespace Cache {
-		class L0 : public Cache {
+		class L0 : public NoncoherentCache, public sc_core::sc_module {
 		public:
-			L0(const std::uint32_t& _cap, const std::uint32_t& _assoc, const std::uint32_t& _line_size);
-			L0(sc_core::sc_module_name _name) :
-				Cache(_name),
+			typedef struct NoncoherentCacheParams Params;
+			L0(sc_core::sc_module_name _name, const Params &_params):
+				sc_module(_name),
+				NoncoherentCache(_params),
 				mLoad0("load0"),
 				mLoad1("load1"),
 				mStore("store"),
@@ -42,12 +44,11 @@ namespace Kuiper {
 			};
 
 		private:
-			CpuSidePort<Cache> mLoad0;
-			CpuSidePort<Cache> mLoad1;
-			CpuSidePort<Cache> mStore;
+			CpuSidePort<NoncoherentCache> mLoad0;
+			CpuSidePort<NoncoherentCache> mLoad1;
+			CpuSidePort<NoncoherentCache> mStore;
 
 	//		MemSidePort<Cache> mMemPort;
-
 	//		tlm::tlm_initiator_socket< > mInitiatorSocket;
 
 		private:
@@ -58,8 +59,4 @@ namespace Kuiper {
 	} /* namespace Cache */
 }  /* namespace Kuiper */
 
-#endif /* _L0_H__ */
-
-
-
-
+#endif /* __L0_H__ */

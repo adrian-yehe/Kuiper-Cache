@@ -322,6 +322,25 @@ namespace Kuiper {
            /*  A pointer to the original request.*/
             RequestPtr req;
 
+            /**
+             * The extra pipelining delay from seeing the packet until the end of
+             * payload is transmitted by the component that provided it (if
+             * any). This includes the header delay. Similar to the header
+             * delay, this is used to make up for the fact that the
+             * crossbar does not make the packet wait. As the delay is
+             * relative, a 32-bit unsigned should be sufficient.
+             */
+            uint32_t payloadDelay;
+
+            /**
+             * The extra delay from seeing the packet until the header is
+             * transmitted. This delay is used to communicate the crossbar
+             * forwarding latency to the neighbouring object (e.g. a cache)
+             * that actually makes the packet wait. As the delay is relative,
+             * a 32-bit unsigned should be sufficient.
+             */
+            uint32_t headerDelay;
+
         private:
             /**
              * A pointer to the data being transferred. It can be different
@@ -682,6 +701,7 @@ namespace Kuiper {
                 return _isSecure;
             }
 
+            Packet() {};
             /**
              * Constructor. Note that a Request object must be constructed
              * first, but the Requests's physical address and size fields need
@@ -1108,9 +1128,9 @@ namespace Kuiper {
             // * packet intersects this one, then we update the data
             // * accordingly.
             // */
-            //bool
-            //    trySatisfyFunctional(PacketPtr other)
-            //{
+            bool
+               trySatisfyFunctional(PacketPtr other)
+            {
             //    if (other->isMaskedWrite()) {
             //         Do not forward data if overlapping with a masked write
             //        if (_isSecure == other->isSecure() &&
@@ -1128,7 +1148,8 @@ namespace Kuiper {
             //        other->getSize(),
             //        other->hasData() ?
             //        other->getPtr<uint8_t>() : NULL);
-            //}
+            return true;
+            }
 
             /**
              * Does the request need to check for cached copies of the same block

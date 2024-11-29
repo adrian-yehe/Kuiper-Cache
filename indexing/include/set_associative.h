@@ -2,7 +2,7 @@
 #define __MEM_CACHE_INDEXING_POLICIES_SET_ASSOCIATIVE_HH__
 
 #include <vector>
-#include "base.h"
+#include "indexing_base.h"
 
 //#include "params/SetAssociative.hh"
 

@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-#include "cache_packet.h"
+#include "include/cache_packet.h"
 
 namespace Kuiper {
     namespace Cache {

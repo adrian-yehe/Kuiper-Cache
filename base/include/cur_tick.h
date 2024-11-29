@@ -6,7 +6,7 @@
 namespace Kuiper {
 	namespace Cache {
 		// This pointer is maintained by curEventQueue in src/sim/eventq.hh.
-		Tick _curTickPtr;
+		static Tick _curTickPtr;
 
 		/// The universal simulation clock.
 		inline Tick curTick() { return _curTickPtr; }

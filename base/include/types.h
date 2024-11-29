@@ -11,6 +11,12 @@
 
 namespace Kuiper {
     namespace Cache {
+        enum class ByteOrder {
+            big = 0,
+            little = 1,
+            Num_ByteOrder = 2
+        };
+
         /** Statistics counter type.  Not much excuse for not using a 64-bit
          * integer here, but if you're desperate and only run short
          * simulations you could make this 32 bits.

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "base.h"
+#include "indexing_base.h"
 //#include "params/SkewedAssociative.hh"
 
 namespace Kuiper {

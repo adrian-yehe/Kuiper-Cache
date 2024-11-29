@@ -1,7 +1,7 @@
 #include <cassert>
 #include "types.h"
-#include "include/tag_base.h"
-#include "../cache/include/cache_blk.h"
+#include "tags/include/tag_base.h"
+#include "cache/include/cache_blk.h"
 
 namespace Kuiper {
     namespace Cache {
@@ -152,8 +152,8 @@ namespace Kuiper {
             std::string str;
 
             auto print_blk = [&str](CacheBlk& blk) {
-                if (blk.isValid())
-                    str += csprintf("\tBlock: %s\n", blk.print());
+                // if (blk.isValid())
+                //     str += gem5::csprintf("\tBlock: %s\n", blk.print());
             };
             forEachBlk(print_blk);
 

@@ -9,8 +9,9 @@
 #include "type_traits.h"
 #include "magic_enum.h"
 
-namespace Kuiper {
-    namespace Cache {
+// namespace Kuiper 
+// {
+    namespace gem5 {
         namespace stl_helpers {
             /*
              * Wrap any object in a Printer object to force using a opExtract_impl printing
@@ -192,6 +193,6 @@ namespace Kuiper {
             }
         } // namespace stl_helpers
      } // namespace Cache
-} // namespace Kuiper
+// } // namespace Kuiper
 
 #endif // BASE_STL_HELPERS_OSTREAM_HELPERS_HH

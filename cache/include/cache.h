@@ -3,7 +3,6 @@
 
 #include<cstdint>
 #include<iostream>
-#include "cache_base.h"
 
 #include "spdlog/cfg/env.h"  // support for loading levels from the environment variable
 #include "spdlog/fmt/ostr.h" // support for user defined types
@@ -17,7 +16,7 @@ namespace Kuiper {
 	namespace Cache {
 		class Debug {
 		public:
-			Debug();
+			Debug(const bool _debug = false, const bool _dump = false);
 			virtual ~Debug() {  };
 
 		public:
@@ -40,14 +39,6 @@ namespace Kuiper {
 			std::uint32_t m_opt_id;
 			std::string m_log_prefix = "logs/";
 		};
-
-		class Cache : public BaseCache, public Debug {
-		public:
-			Cache(sc_core::sc_module_name _name);
-
-		};
-
-
 	} // namespace  Cache
 } // namespace Kuiper
 #endif /* __CACHE_H__ */

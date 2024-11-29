@@ -3,9 +3,9 @@
 
 #include <cassert>
 
-#include "cprintf.h"
+// #include "cprintf.h"
 #include "types.h"
-#include "../../replaceable/include/replaceable_entry.h"
+#include "replaceable/include/replaceable_entry.h"
 
 namespace Kuiper {
     namespace Cache {
@@ -80,8 +80,9 @@ namespace Kuiper {
             std::string
                 print() const override
             {
-                return csprintf("tag: %#x secure: %d valid: %d | %s", getTag(),
-                    isSecure(), isValid(), ReplaceableEntry::print());
+                return ("abc");
+                // return gem5::csprintf("tag: %#x secure: %d valid: %d | %s", getTag(),
+                //     isSecure(), isValid(), ReplaceableEntry::print());
             }
 
         protected:

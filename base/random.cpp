@@ -38,12 +38,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "base/random.hh"
+#include "include/random.h"
 
 #include <sstream>
 
-#include "base/logging.hh"
-#include "sim/serialize.hh"
+#include "include/logging.h"
+// #include "sim/serialize.hh"
 
 namespace gem5
 {

@@ -10,12 +10,10 @@
 
 #include "types.h"
 #include "cur_tick.h"
-#include "../../tags/include/tagged_entry.h"
+#include "tags/include/tagged_entry.h"
 
 #include "cache_packet.h"
 #include "cache_request.h"
-//#include "base/printable.hh"
-
 
 namespace Kuiper {
     namespace Cache {
@@ -68,8 +66,7 @@ namespace Kuiper {
              * Represents that the indicated thread context has a "lock" on
              * the block, in the LL/SC sense.
              */
-            class Lock
-            {
+            class Lock {
             public:
                 ContextID contextId;     // locking context
                 Addr lowAddr;      // low address of lock range
@@ -353,10 +350,11 @@ namespace Kuiper {
                 case 0b000: s = 'I'; break;
                 default:    s = 'T'; break; // @TODO add other types
                 }
-                return csprintf("state: %x (%c) writable: %d readable: %d "
-                    "dirty: %d prefetched: %d | %s", coherence, s,
-                    isSet(WritableBit), isSet(ReadableBit), isSet(DirtyBit),
-                    wasPrefetched(), TaggedEntry::print());
+                return ("abc");
+                // return gem5::csprintf("state: %x (%c) writable: %d readable: %d "
+                //     "dirty: %d prefetched: %d | %s", coherence, s,
+                //     isSet(WritableBit), isSet(ReadableBit), isSet(DirtyBit),
+                //     wasPrefetched(), TaggedEntry::print());
             }
 
             /**
