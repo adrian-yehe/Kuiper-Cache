@@ -10,7 +10,7 @@ namespace Kuiper {
 			}
 		};
 
-		auto Debug::SetDebug(const bool _debug, const bool _dump, int32_t _opt_id = 0) {
+		auto Debug::SetDebug(const bool _debug, const bool _dump, int32_t _opt_id) {
 			m_self_save = true;
 			m_debug = _debug;
 			m_dump = _dump;

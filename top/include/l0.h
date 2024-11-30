@@ -11,16 +11,15 @@
 
 namespace Kuiper {
 	namespace Cache {
-		class L0 : public NoncoherentCache, public sc_core::sc_module {
+		class L0 : public NoncoherentCache {
 		public:
 			typedef struct NoncoherentCacheParams Params;
 			L0(sc_core::sc_module_name _name, const Params &_params):
-				sc_module(_name),
 				NoncoherentCache(_params),
 				mLoad0("load0"),
 				mLoad1("load1"),
 				mStore("store"),
-			//	mMemPort("l0"),
+				// mMemPort("l0"),
 				mLoad0Fifo("load0_fifo", 16),
 				mLoad1Fifo("load1_fifo", 16),
 				mStoreFifo("store_fifo", 10) {
@@ -48,7 +47,7 @@ namespace Kuiper {
 			CpuSidePort<NoncoherentCache> mLoad1;
 			CpuSidePort<NoncoherentCache> mStore;
 
-	//		MemSidePort<Cache> mMemPort;
+			// MemSidePort<NoncoherentCache> mMemPort;
 	//		tlm::tlm_initiator_socket< > mInitiatorSocket;
 
 		private:

@@ -701,7 +701,18 @@ namespace Kuiper {
                 return _isSecure;
             }
 
-            Packet() {};
+            PacketPtr Package(Addr _addr, std::uint8_t *_buf,std::size_t _len, 
+                                Request::Flags _flag, MemCmd _cmd) {
+                // Create a new request-packet pair
+                RequestPtr req = std::make_shared<Request>(
+                    addr, _len, _flag, 0);
+
+                PacketPtr pkt = new Packet(req, cmd, _len);
+
+                pkt->dataDynamic(_buf);
+                return pkt;
+            }
+
             /**
              * Constructor. Note that a Request object must be constructed
              * first, but the Requests's physical address and size fields need

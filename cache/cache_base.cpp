@@ -280,8 +280,7 @@ namespace Kuiper {
         }
 
         void
-        BaseCache::recvTimingReq(PacketPtr pkt)
-        {
+        BaseCache::recvTimingReq(PacketPtr pkt) {
             // anything that is merely forwarded pays for the forward latency and
             // the delay provided by the crossbar
             Tick forward_time = 0;

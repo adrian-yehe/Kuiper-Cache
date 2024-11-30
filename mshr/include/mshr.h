@@ -21,7 +21,7 @@ namespace Kuiper {
          * needed to handle a cache miss including a list of target requests.
          * @sa  \ref gem5MemorySystem "gem5 Memory System"
          */
-        class MSHR : public QueueEntry, public Named {
+        class MSHR : public QueueEntry {
             /**
              * Consider the queues friends to avoid making everything public.
              */

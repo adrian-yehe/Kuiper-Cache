@@ -711,7 +711,7 @@ namespace Kuiper {
             // since that's where the actual data lies.
             if (pkt->isPrint())
             {
-                pkt->trySatisfyFunctional(this, blkAddr, isSecure, blkSize, nullptr);
+                // pkt->trySatisfyFunctional(this, blkAddr, isSecure, blkSize, nullptr);
                 return false;
             }
             else

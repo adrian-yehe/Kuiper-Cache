@@ -19,7 +19,7 @@ namespace Kuiper {
 
 		public:
 			
-		 	L0 L0;
+		 	L0 l0;
 		//	Memory GlobalMemory;
 			
 			ReqOutPort load0;
@@ -27,6 +27,21 @@ namespace Kuiper {
 			ReqOutPort store;
 
 			std::array<ResSignal, 3> mResSignal;
+		
+		private:
+
+			PacketPtr Package(Addr _addr, std::uint8_t *_buf,std::size_t _len, 
+                                Request::Flags _flag, MemCmd _cmd) {
+                // Create a new request-packet pair
+                RequestPtr req = std::make_shared<Request>(
+                    _addr, _len, _flag, 0);
+
+                PacketPtr pkt = new Packet(req, _cmd, _len);
+
+                pkt->dataDynamic(_buf);
+                return pkt;
+            }
+			auto AllocateReqPacket(MemCmd _cmd);
 		};
 	} /* namespace Cache */
 } /* namespace Kuiper */

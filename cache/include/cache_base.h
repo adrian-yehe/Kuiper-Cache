@@ -56,7 +56,7 @@ namespace Kuiper {
                 NUM_BLOCKED_CAUSES
             };
 
-        protected:
+        public: 
             struct CacheAccessorImpl : CacheAccessor
             {
                 BaseCache &cache;
@@ -1208,8 +1208,7 @@ namespace Kuiper {
              * normal operation (ALLOCATE), write coalescing (COALESCE), or
              * write coalescing without allocation (NO_ALLOCATE).
              */
-            enum class WriteMode : char
-            {
+            enum class WriteMode : char {
                 ALLOCATE,
                 COALESCE,
                 NO_ALLOCATE,

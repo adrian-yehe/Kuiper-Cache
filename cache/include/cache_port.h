@@ -13,7 +13,6 @@
 #include "systemc.h"
 #include "spdlog/spdlog.h"
 #include "cache_packet.h"
-// #include "cache.h"
 
 namespace Kuiper {
 	namespace Cache {
@@ -52,7 +51,7 @@ namespace Kuiper {
                     spdlog::info("{:s}.recive packet ",
                         sc_module::name());
 
-                    // mBaseCache->recvTimingReq(); 
+                    mBaseCache->recvTimingReq(pkt); 
                 }
             }
 

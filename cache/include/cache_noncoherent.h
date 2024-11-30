@@ -15,7 +15,7 @@ namespace Kuiper {
          * A non-coherent cache
          */
         class NoncoherentCache : public BaseCache {
-        protected:
+        public:
             bool access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
                         PacketList &writebacks) override;
 

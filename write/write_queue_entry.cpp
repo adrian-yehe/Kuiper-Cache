@@ -1,9 +1,9 @@
 #include <cassert>
 #include <string>
-#include "include/write_queue_entry.h"
 #include "types.h"
-#include "../cache/include/cache_base.h"
-#include "../cache/include/cache_request.h"
+#include "include/write_queue_entry.h"
+#include "cache/include/cache_base.h"
+#include "cache/include/cache_request.h"
 
 namespace Kuiper {
 	namespace Cache {
@@ -95,6 +95,7 @@ namespace Kuiper {
             {
                 return targets.trySatisfyFunctional(pkt);
             }
+            return true;
         }
 
         bool
@@ -141,9 +142,10 @@ namespace Kuiper {
         std::string
         WriteQueueEntry::print() const
         {
-            std::ostringstream str;
-            // print(str);
-            return str.str();
+            return "abs";
+            // std::ostringstream str;
+            // // print(str);
+            // return str.str();
         }
     } // namespace Cache
 } // namespace Kuiper

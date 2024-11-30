@@ -91,7 +91,6 @@ namespace Kuiper {
             if(!(pkt->isRead()) || pkt->isWrite())
                 assert(0 && "Should only see read and writes at non-coherent cache\n");
 
-
             BaseCache::recvTimingReq(pkt);
         }
 
