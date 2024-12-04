@@ -8,19 +8,15 @@
 
 namespace Kuiper {
     namespace Cache {
-        BaseIndexingPolicy::BaseIndexingPolicy(const Params& p) :  
+        BaseIndexingPolicy::BaseIndexingPolicy(const Params& p):  
             assoc(p.assoc),
             numSets(p.size / (p.entry_size * assoc)),
             setShift(floorLog2(p.entry_size)), setMask(numSets - 1), sets(numSets),
-            tagShift(setShift + floorLog2(numSets))
-        {
-            // fatal_if(!isPowerOf2(numSets), "# of sets must be non-zero and a power " \
-            //     "of 2");
-            // fatal_if(assoc <= 0, "associativity must be greater than zero");
+            tagShift(setShift + floorLog2(numSets)) {
 
-            assert(!isPowerOf2(numSets) && "# of sets must be non-zero and a power " \
+            assert(isPowerOf2(numSets) && "# of sets must be non-zero and a power " \
                     "of 2");
-            assert(assoc <= 0 && "associativity must be greater than zero");
+            assert(assoc > 0 && "associativity must be greater than zero");
 
             // Make space for the entries
             for (uint32_t i = 0; i < numSets; ++i) {

@@ -8,6 +8,7 @@
 
 namespace Kuiper {
     namespace Cache {
+        class BaseSetAssoc;
         struct BaseTagsParams {
             public:
                 int block_size;
@@ -16,7 +17,9 @@ namespace Kuiper {
                 bool sequential_access;
                 uint64_t size;
                 Cycles tag_latency;
-                int warmup_percentage;
+                int warmup_percentage; 
+
+                Kuiper::Cache::BaseSetAssoc *tags;
         };
     } // namespace Cache
 } // namespace Kuiper

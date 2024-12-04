@@ -9,26 +9,21 @@ namespace Kuiper {
             allocAssoc(p.assoc), 
             blks(p.size / p.block_size),
             sequentialAccess(p.sequential_access),
-            replacementPolicy(p.replacement_policy)
-        {
+            replacementPolicy(p.replacement_policy) {
             // There must be a indexing policy
-            assert(!p.indexing_policy && "An indexing policy is required");
-            // fatal_if(!p.indexing_policy, "An indexing policy is required");
-
+            assert(p.indexing_policy && "An indexing policy is required");
+          
             // Check parameters
-            if (blkSize < 4 || !isPowerOf2(blkSize))
-            {
-                // fatal("Block size must be at least 4 and a power of 2");
-                assert(0 && "Block size must be at least 4 and a power of 2");
-            }
+            assert((blkSize < 4 || isPowerOf2(blkSize)) && 
+                    "Block size must be at least 4 and a power of 2");
+            
+            assert(p.replacement_policy);
         }
 
         void
-        BaseSetAssoc::tagsInit()
-        {
+        BaseSetAssoc::tagsInit() {
             // Initialize all blocks
-            for (unsigned blk_index = 0; blk_index < numBlocks; blk_index++)
-            {
+            for (unsigned blk_index = 0; blk_index < numBlocks; blk_index++) {
                 // Locate next cache block
                 CacheBlk *blk = &blks[blk_index];
 

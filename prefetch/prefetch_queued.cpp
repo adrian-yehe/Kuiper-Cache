@@ -29,28 +29,6 @@ namespace Kuiper {
                 tick = t;
             }
 
-            // void
-            // Queued::DeferredPacket::startTranslation(BaseMMU *mmu)
-            // {
-            //     assert(translationRequest != nullptr);
-            //     if (!ongoingTranslation)
-            //     {
-            //         ongoingTranslation = true;
-            //         // Prefetchers only operate in Timing mode
-            //         mmu->translateTiming(translationRequest, tc, this, BaseMMU::Read);
-            //     }
-            // }
-
-            // void
-            // Queued::DeferredPacket::finish(const Fault &fault,
-            //                                const RequestPtr &req, ThreadContext *tc, BaseMMU::Mode mode)
-            // {
-            //     assert(ongoingTranslation);
-            //     ongoingTranslation = false;
-            //     bool failed = (fault != NoFault);
-            //     owner->translationComplete(this, failed, *cache);
-            // }
-
             Queued::Queued(const QueuedPrefetcherParams &p)
                 : Base(p), queueSize(p.queue_size),
                   missingTranslationQueueSize(

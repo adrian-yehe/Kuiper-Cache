@@ -8,11 +8,14 @@ namespace Kuiper {
     namespace Cache {
         class SimObject {
             public:
-                void InitSimObject();
+                auto GetL0ParamsPtr(void) { return &simL0Params; };
+                auto GetL1ParamsPtr(void) { return &simL1Params; };
 
             private:
+                void InitSimObject();
                 void InitL0BaseCache();
                 void InitL0SetAssoc();
+                void InitL0Tags();
                 void InitL0Replacement();
                 void InitL0Tagged();
 
@@ -38,7 +41,7 @@ namespace Kuiper {
                 ProbeManager *getProbeManager() { return probeManager; };
 
             public:
-                SimObject() {};
+                SimObject() { InitSimObject(); };
         };
     }
 }

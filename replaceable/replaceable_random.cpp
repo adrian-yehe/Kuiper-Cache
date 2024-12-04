@@ -1,9 +1,7 @@
-#include "replacement/random_rp.hh"
-
 #include <cassert>
 #include <memory>
-
-#include "./include/replaceable_random.h"
+#include "random.h"
+#include "include/replaceable_random.h"
 //#include "params/RandomRP.h"
 
 namespace Kuiper {
@@ -37,7 +35,7 @@ namespace Kuiper {
                 assert(candidates.size() > 0);
 
                 // Choose one candidate at random
-                ReplaceableEntry *victim = candidates[random_mt.random<unsigned>(0,
+                ReplaceableEntry *victim = candidates[gem5::random_mt.random<unsigned>(0,
                                                                                  candidates.size() - 1)];
 
                 // Visit all candidates to search for an invalid entry. If one is found,

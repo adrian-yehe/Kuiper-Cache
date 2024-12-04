@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/adrian-yan/Workspace/Cache/tx82_cache
+CMAKE_SOURCE_DIR = /home/adrian-yan/Workspace/Github/Kuiper-Cache
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/adrian-yan/Workspace/Cache/tx82_cache/build
+CMAKE_BINARY_DIR = /home/adrian-yan/Workspace/Github/Kuiper-Cache/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrian-yan/Workspace/Cache/tx82_cache/build/CMakeFiles /home/adrian-yan/Workspace/Cache/tx82_cache/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles /home/adrian-yan/Workspace/Github/Kuiper-Cache/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrian-yan/Workspace/Cache/tx82_cache/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -141,6 +141,102 @@ dv_cache_case: cmake_check_build_system
 dv_cache_case/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dv_cache_case.dir/build.make CMakeFiles/dv_cache_case.dir/build
 .PHONY : dv_cache_case/fast
+
+base/bitfield.o: base/bitfield.cpp.o
+.PHONY : base/bitfield.o
+
+# target to build an object file
+base/bitfield.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/bitfield.cpp.o
+.PHONY : base/bitfield.cpp.o
+
+base/bitfield.i: base/bitfield.cpp.i
+.PHONY : base/bitfield.i
+
+# target to preprocess a source file
+base/bitfield.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/bitfield.cpp.i
+.PHONY : base/bitfield.cpp.i
+
+base/bitfield.s: base/bitfield.cpp.s
+.PHONY : base/bitfield.s
+
+# target to generate assembly for a file
+base/bitfield.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/bitfield.cpp.s
+.PHONY : base/bitfield.cpp.s
+
+base/probe.o: base/probe.cpp.o
+.PHONY : base/probe.o
+
+# target to build an object file
+base/probe.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/probe.cpp.o
+.PHONY : base/probe.cpp.o
+
+base/probe.i: base/probe.cpp.i
+.PHONY : base/probe.i
+
+# target to preprocess a source file
+base/probe.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/probe.cpp.i
+.PHONY : base/probe.cpp.i
+
+base/probe.s: base/probe.cpp.s
+.PHONY : base/probe.s
+
+# target to generate assembly for a file
+base/probe.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/probe.cpp.s
+.PHONY : base/probe.cpp.s
+
+base/random.o: base/random.cpp.o
+.PHONY : base/random.o
+
+# target to build an object file
+base/random.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/random.cpp.o
+.PHONY : base/random.cpp.o
+
+base/random.i: base/random.cpp.i
+.PHONY : base/random.i
+
+# target to preprocess a source file
+base/random.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/random.cpp.i
+.PHONY : base/random.cpp.i
+
+base/random.s: base/random.cpp.s
+.PHONY : base/random.s
+
+# target to generate assembly for a file
+base/random.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/random.cpp.s
+.PHONY : base/random.cpp.s
+
+base/types.o: base/types.cpp.o
+.PHONY : base/types.o
+
+# target to build an object file
+base/types.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/types.cpp.o
+.PHONY : base/types.cpp.o
+
+base/types.i: base/types.cpp.i
+.PHONY : base/types.i
+
+# target to preprocess a source file
+base/types.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/types.cpp.i
+.PHONY : base/types.cpp.i
+
+base/types.s: base/types.cpp.s
+.PHONY : base/types.s
+
+# target to generate assembly for a file
+base/types.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/base/types.cpp.s
+.PHONY : base/types.cpp.s
 
 cache/cache.o: cache/cache.cpp.o
 .PHONY : cache/cache.o
@@ -310,30 +406,6 @@ indexing/set_associative.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.s
 .PHONY : indexing/set_associative.cpp.s
 
-indexing/skewed_associative.o: indexing/skewed_associative.cpp.o
-.PHONY : indexing/skewed_associative.o
-
-# target to build an object file
-indexing/skewed_associative.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/indexing/skewed_associative.cpp.o
-.PHONY : indexing/skewed_associative.cpp.o
-
-indexing/skewed_associative.i: indexing/skewed_associative.cpp.i
-.PHONY : indexing/skewed_associative.i
-
-# target to preprocess a source file
-indexing/skewed_associative.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/indexing/skewed_associative.cpp.i
-.PHONY : indexing/skewed_associative.cpp.i
-
-indexing/skewed_associative.s: indexing/skewed_associative.cpp.s
-.PHONY : indexing/skewed_associative.s
-
-# target to generate assembly for a file
-indexing/skewed_associative.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/indexing/skewed_associative.cpp.s
-.PHONY : indexing/skewed_associative.cpp.s
-
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -406,6 +478,30 @@ mshr/mshr_queue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.s
 .PHONY : mshr/mshr_queue.cpp.s
 
+prefetch/prefetch_base.o: prefetch/prefetch_base.cpp.o
+.PHONY : prefetch/prefetch_base.o
+
+# target to build an object file
+prefetch/prefetch_base.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o
+.PHONY : prefetch/prefetch_base.cpp.o
+
+prefetch/prefetch_base.i: prefetch/prefetch_base.cpp.i
+.PHONY : prefetch/prefetch_base.i
+
+# target to preprocess a source file
+prefetch/prefetch_base.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.i
+.PHONY : prefetch/prefetch_base.cpp.i
+
+prefetch/prefetch_base.s: prefetch/prefetch_base.cpp.s
+.PHONY : prefetch/prefetch_base.s
+
+# target to generate assembly for a file
+prefetch/prefetch_base.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.s
+.PHONY : prefetch/prefetch_base.cpp.s
+
 prefetch/prefetch_queued.o: prefetch/prefetch_queued.cpp.o
 .PHONY : prefetch/prefetch_queued.o
 
@@ -453,6 +549,30 @@ prefetch/prefetch_tagged.s: prefetch/prefetch_tagged.cpp.s
 prefetch/prefetch_tagged.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.s
 .PHONY : prefetch/prefetch_tagged.cpp.s
+
+replaceable/replaceable_random.o: replaceable/replaceable_random.cpp.o
+.PHONY : replaceable/replaceable_random.o
+
+# target to build an object file
+replaceable/replaceable_random.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o
+.PHONY : replaceable/replaceable_random.cpp.o
+
+replaceable/replaceable_random.i: replaceable/replaceable_random.cpp.i
+.PHONY : replaceable/replaceable_random.i
+
+# target to preprocess a source file
+replaceable/replaceable_random.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.i
+.PHONY : replaceable/replaceable_random.cpp.i
+
+replaceable/replaceable_random.s: replaceable/replaceable_random.cpp.s
+.PHONY : replaceable/replaceable_random.s
+
+# target to generate assembly for a file
+replaceable/replaceable_random.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.s
+.PHONY : replaceable/replaceable_random.cpp.s
 
 tags/tag_base.o: tags/tag_base.cpp.o
 .PHONY : tags/tag_base.o
@@ -632,6 +752,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... dv_cache_case"
 	@echo "... tx82_npu_cache"
+	@echo "... base/bitfield.o"
+	@echo "... base/bitfield.i"
+	@echo "... base/bitfield.s"
+	@echo "... base/probe.o"
+	@echo "... base/probe.i"
+	@echo "... base/probe.s"
+	@echo "... base/random.o"
+	@echo "... base/random.i"
+	@echo "... base/random.s"
+	@echo "... base/types.o"
+	@echo "... base/types.i"
+	@echo "... base/types.s"
 	@echo "... cache/cache.o"
 	@echo "... cache/cache.i"
 	@echo "... cache/cache.s"
@@ -653,9 +785,6 @@ help:
 	@echo "... indexing/set_associative.o"
 	@echo "... indexing/set_associative.i"
 	@echo "... indexing/set_associative.s"
-	@echo "... indexing/skewed_associative.o"
-	@echo "... indexing/skewed_associative.i"
-	@echo "... indexing/skewed_associative.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -665,12 +794,18 @@ help:
 	@echo "... mshr/mshr_queue.o"
 	@echo "... mshr/mshr_queue.i"
 	@echo "... mshr/mshr_queue.s"
+	@echo "... prefetch/prefetch_base.o"
+	@echo "... prefetch/prefetch_base.i"
+	@echo "... prefetch/prefetch_base.s"
 	@echo "... prefetch/prefetch_queued.o"
 	@echo "... prefetch/prefetch_queued.i"
 	@echo "... prefetch/prefetch_queued.s"
 	@echo "... prefetch/prefetch_tagged.o"
 	@echo "... prefetch/prefetch_tagged.i"
 	@echo "... prefetch/prefetch_tagged.s"
+	@echo "... replaceable/replaceable_random.o"
+	@echo "... replaceable/replaceable_random.i"
+	@echo "... replaceable/replaceable_random.s"
 	@echo "... tags/tag_base.o"
 	@echo "... tags/tag_base.i"
 	@echo "... tags/tag_base.s"

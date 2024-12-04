@@ -58,7 +58,8 @@ namespace gem5
 
 class Checkpoint;
 
-class Random : public Serializable
+// class Random : public Serializable
+class Random
 {
 
   public:
@@ -116,8 +117,8 @@ class Random : public Serializable
         return dist(gen);
     }
 
-    void serialize(CheckpointOut &cp) const override;
-    void unserialize(CheckpointIn &cp) override;
+    // void serialize(CheckpointOut &cp) const override;
+    // void unserialize(CheckpointIn &cp) override;
 };
 
 /**

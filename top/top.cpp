@@ -1,7 +1,8 @@
-#include "cache/include/cache_packet.h"
-#include "include/top.h"
 #include "systemc.h"
 #include "spdlog/spdlog.h"
+#include "cache/include/cache_packet.h"
+#include "include/sim.h"
+#include "include/top.h"
 
 namespace Kuiper {
 	namespace Cache {
@@ -68,6 +69,8 @@ namespace Kuiper {
 
 void TestCache() {
 	spdlog::info("Start cache simulation");
-	// // Kuiper::Cache::Top cache("Cache");
-	// sc_core::sc_start(100, SC_SEC);
+	Kuiper::Cache::SimObject sim;
+
+	Kuiper::Cache::Top l0("Cache", *(sim.GetL0ParamsPtr()));
+	sc_core::sc_start(100, SC_SEC);
 }

@@ -77,13 +77,13 @@ MESSAGE(STATUS "CMAKE_INSTALL_PREFIX: " ${CMAKE_INSTALL_PREFIX})
 #ADD_SUBDIRECTORY(base)
 
 FILE(GLOB_RECURSE CACHE_SRC_FILES 
-    "base/.cpp"
+    "base/*.cpp"
     "cache/*.cpp"
     "indexing/*.cpp"
     "prefetch/*.cpp"
-    "replacement/*.cpp"
-    "tags/*.cpp"
     "mshr/*.cpp"
+    "replaceable/*.cpp"
+    "tags/*.cpp"
     "write/*.cpp"
     "top/*.cpp")
 
@@ -92,7 +92,7 @@ FILE(GLOB_RECURSE CACHE_INC_FILES
     "cache/*.h" 
     "indexing/*.h" 
     "prefetch/*.h" 
-    "replacementt/*.h" 
+    "replaceable/*.h" 
     "tags/*.h" 
     "mshr/*.h"
     "write/*.h"

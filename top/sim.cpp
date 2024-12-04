@@ -1,7 +1,11 @@
 #include "include/sim.h"
+#include "indexing/include/set_associative.h"
+#include "prefetch/include/prefetch_tagged.h"
+#include "tags/include/tag_set_assoc.h"
 
 namespace Kuiper {
     namespace Cache {
+        class SetAssociative;
         void SimObject::InitL0BaseCache() {
             simL0Params.BaseCacheParams::name = "l0";
             simL0Params.BaseCacheParams::size = 256 * 1024;
@@ -24,28 +28,44 @@ namespace Kuiper {
         }
 
         void SimObject::InitL0Replacement() {
-            simL0Params.RandomRPParams::random = new replacement_policy::Random();
+            simL0Params.RandomRPParams::random = new replacement_policy::Random;
         }
 
-        void SimObject::InitL0SetAssoc() { 
-            simL0Params.BaseSetAssocParams::assoc = simL0Params.BaseCacheParams::assoc;
-            
-            simL0Params.BaseSetAssocParams::replacement_policy = simL0Params.RandomRPParams::random;
+        void SimObject::InitL0Tags() { 
             simL0Params.BaseTagsParams::block_size = simL0Params.cacheline_size;
             simL0Params.BaseTagsParams::entry_size = simL0Params.cacheline_size;
-
             simL0Params.BaseTagsParams::sequential_access = true;
             simL0Params.BaseTagsParams::size = simL0Params.BaseCacheParams::size;
             // simL0Params.BaseTagsParams::tag_latency = Cycle(0);
             simL0Params.BaseTagsParams::warmup_percentage = 1;
+        }
 
-            simL0Params.SetAssociativeParams::set_assoc = new SetAssociative();
-            simL0Params.BaseTagsParams::indexing_policy = simL0Params.SetAssociativeParams::set_assoc;
+        void SimObject::InitL0SetAssoc() {
+            simL0Params.BaseSetAssocParams::assoc = simL0Params.BaseCacheParams::assoc;
+            simL0Params.BaseSetAssocParams::replacement_policy = 
+                        simL0Params.RandomRPParams::random;
+
+            simL0Params.SetAssociativeParams::assoc = simL0Params.BaseCacheParams::assoc;
+            simL0Params.SetAssociativeParams::entry_size = 
+                        simL0Params.BaseTagsParams::entry_size;
+            simL0Params.SetAssociativeParams::size = simL0Params.BaseCacheParams::size;
+
+
+            simL0Params.SetAssociativeParams::set_assoc = new SetAssociative(simL0Params);
+            simL0Params.BaseTagsParams::indexing_policy = 
+                        simL0Params.SetAssociativeParams::set_assoc;
+
+            simL0Params.BaseTagsParams::tags = new BaseSetAssoc(simL0Params);
+            simL0Params.BaseCacheParams::tags =  simL0Params.BaseTagsParams::tags;
+
+            simL0Params.BaseCacheParams::replacement_policy = 
+                        simL0Params.RandomRPParams::random;
         }
 
         void SimObject::InitL0Tagged() {
             /* Base prefetcher parasm */
-            simL0Params.BasePrefetcherParams::block_size = simL0Params.BaseCacheParams::cacheline_size;
+            simL0Params.BasePrefetcherParams::block_size = 
+                        simL0Params.BaseCacheParams::cacheline_size;
             simL0Params.BasePrefetcherParams::on_data = true;
             simL0Params.BasePrefetcherParams::on_inst = false;
             simL0Params.BasePrefetcherParams::on_miss = true;
@@ -68,14 +88,16 @@ namespace Kuiper {
 
             /* Tagged prefetch params */
             simL0Params.TaggedPrefetcherParams::degree = 1;
-            simL0Params.TaggedPrefetcherParams::tagged = new Tagged(simL0Params);
+            simL0Params.TaggedPrefetcherParams::tagged = 
+                                     new prefetch::Tagged(simL0Params);
         }
 
         void SimObject::InitSimObject() {
-            InitL0SetAssoc();
-            InitL0Replacement();
-            InitL0Tagged();
             InitL0BaseCache();
+            InitL0Replacement();
+            InitL0Tags();
+            InitL0SetAssoc();
+            InitL0Tagged();
         }
     }
 }

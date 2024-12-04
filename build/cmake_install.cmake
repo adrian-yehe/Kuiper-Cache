@@ -1,8 +1,8 @@
-# Install script for directory: /home/adrian-yan/Workspace/Cache/tx82_cache
+# Install script for directory: /home/adrian-yan/Workspace/Github/Kuiper-Cache
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/adrian-yan/Workspace/Cache/tx82_cache/build")
+  set(CMAKE_INSTALL_PREFIX "/home/adrian-yan/Workspace/Github/Kuiper-Cache/build")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/adrian-yan/Workspace/Cache/tx82_cache/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

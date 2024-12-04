@@ -10,7 +10,7 @@ namespace Kuiper {
 
         NoncoherentCache::NoncoherentCache(const NoncoherentCacheParams &p)
             : BaseCache(p, p.cacheline_size) {
-            assert(p.tags);
+            assert(p.BaseCacheParams::tags);
             assert(p.BaseCacheParams::replacement_policy);
         }
 

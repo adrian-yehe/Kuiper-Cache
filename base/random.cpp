@@ -39,11 +39,8 @@
  */
 
 #include "include/random.h"
-
 #include <sstream>
 
-#include "include/logging.h"
-// #include "sim/serialize.hh"
 
 namespace gem5
 {
@@ -69,32 +66,32 @@ Random::init(uint32_t s)
     gen.seed(s);
 }
 
-void
-Random::serialize(CheckpointOut &cp) const
-{
-    panic("Currently not used anywhere.\n");
+// void
+// Random::serialize(CheckpointOut &cp) const
+// {
+//     panic("Currently not used anywhere.\n");
 
-    // get the state from the generator
-    std::ostringstream oss;
-    oss << gen;
-    std::string state = oss.str();
-    paramOut(cp, "mt_state", state);
-}
+//     // get the state from the generator
+//     std::ostringstream oss;
+//     oss << gen;
+//     std::string state = oss.str();
+//     paramOut(cp, "mt_state", state);
+// }
 
-void
-Random::unserialize(CheckpointIn &cp)
-{
-    panic("Currently not used anywhere.\n");
+// void
+// Random::unserialize(CheckpointIn &cp)
+// {
+//     panic("Currently not used anywhere.\n");
 
-    // the random generator state did not use to be part of the
-    // checkpoint state, so be forgiving in the unserialization and
-    // keep on going if the parameter is not there
-    std::string state;
-    if (optParamIn(cp, "mt_state", state)) {
-        std::istringstream iss(state);
-        iss >> gen;
-    }
-}
+//     // the random generator state did not use to be part of the
+//     // checkpoint state, so be forgiving in the unserialization and
+//     // keep on going if the parameter is not there
+//     std::string state;
+//     if (optParamIn(cp, "mt_state", state)) {
+//         std::istringstream iss(state);
+//         iss >> gen;
+//     }
+// }
 
 Random random_mt;
 
