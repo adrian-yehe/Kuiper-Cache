@@ -5,7 +5,6 @@
 namespace Kuiper {
     namespace Cache {
         struct WriteAllocatorParams {
-           
             int block_size;
             unsigned coalesce_limit;
             unsigned delay_threshold;

@@ -8,7 +8,17 @@ namespace Kuiper {
     namespace Cache {
         class SimObject {
             public:
-                NoncoherentCacheParams  simParams;
+                void InitSimObject();
+
+            private:
+                void InitL0BaseCache();
+                void InitL0SetAssoc();
+                void InitL0Replacement();
+                void InitL0Tagged();
+
+            private:
+                NoncoherentCacheParams  simL0Params;
+                NoncoherentCacheParams  simL1Params;
 
             private:
                 /** Manager coordinates hooking up probe points with listeners. */

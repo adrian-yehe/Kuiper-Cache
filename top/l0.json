@@ -1,0 +1,27 @@
+{
+    "l0": {
+        "BaseCache":{
+            "Size":262144,   // L0 Capacity: "256KByte"
+            "CacheLineSize":512,
+            "Assoc":4,
+            "MSHR":12,
+            "WriteBuffers":12,
+            "ReplacementPolicy":"Random",
+            "Prefetcher": "TaggedPrefetcher"
+        }
+
+        "TaggedPrefetcher":{
+            "degree": 1,
+            "block_size": 512,
+            "on_data": 1,
+            "on_inst": 0,
+            "on_miss": 1,
+            "on_read": 1, 
+            "on_write": 1
+        }
+        "Random": {
+
+        }
+
+    }
+}

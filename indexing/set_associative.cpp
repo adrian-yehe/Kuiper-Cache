@@ -4,7 +4,7 @@
 namespace Kuiper {
     namespace Cache {
 
- /*       SetAssociative::SetAssociative(const Params& p)
+        SetAssociative::SetAssociative(const Params& p)
             : BaseIndexingPolicy(p)
         {
         }
@@ -26,6 +26,6 @@ namespace Kuiper {
             SetAssociative::getPossibleEntries(const Addr addr) const
         {
             return sets[extractSet(addr)];
-        }*/
+        }
     } // namespace Cache
 } // namespace Kuiper

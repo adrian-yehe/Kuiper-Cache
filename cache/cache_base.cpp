@@ -6,8 +6,6 @@
 
 namespace Kuiper {
     namespace Cache {
-        
-
         BaseCache::BaseCache(const BaseCacheParams &p, unsigned blk_size):
               accessor(*this),
               mshrQueue("MSHRs", p.mshrs, 0, p.demand_mshr_reserve, p.name),

@@ -6,16 +6,13 @@
 #include <utility>
 #include "types.h"
 #include "prefetch_base.h"
-#include "cache/include/cache_packet.h"
-#include "cache/include/cache_probe_arg.h"
-#include "params/BasePrefetcher.h"
+#include "params/QueuedPrefetcher.h"
 
 namespace Kuiper {
     namespace Cache {
-        struct QueuedPrefetcherParams;
+        namespace prefetch { class Base; }; 
 
         namespace prefetch {
-
             class Queued : public Base {
             protected:
                 struct DeferredPacket {

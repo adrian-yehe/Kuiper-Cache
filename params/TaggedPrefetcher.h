@@ -3,12 +3,16 @@
 
 #include <cstdint>
 #include "QueuedPrefetcher.h"
+#include "prefetch/include/prefetch_tagged.h"
 
 namespace Kuiper {
     namespace Cache {
-        struct TaggedPrefetcherParams
-            : public QueuedPrefetcherParams {
-            Kuiper::Cache::prefetch::Tagged *tagged;
+        namespace prefetch { 
+            class Tagged; 
+        };
+        struct TaggedPrefetcherParams: 
+            public QueuedPrefetcherParams {
+            prefetch::Tagged *tagged;
             int degree;
         };
     }

@@ -1,4 +1,3 @@
-
 #ifndef __MEM_CACHE_PREFETCH_BASE_HH__
 #define __MEM_CACHE_PREFETCH_BASE_HH__
 
@@ -8,7 +7,6 @@
 #include "cache/include/cache_packet.h"
 #include "cache/include/cache_request.h"
 #include "cache/include/cache_probe_arg.h"
-#include "top/include/sim.h"
 #include "params/BasePrefetcher.h"
 
 namespace Kuiper {
@@ -391,7 +389,7 @@ namespace Kuiper {
                  * @param obj The SimObject pointer to listen from
                  * @param name The probe name
                  */
-                void addEventProbe(SimObject *obj, const char *name);
+                // void addEventProbe(SimObject *obj, const char *name);
 
                 // /**
                 //  * Add a BaseMMU object to be used whenever a translation is needed.

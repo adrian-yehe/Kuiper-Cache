@@ -4,10 +4,10 @@
 #include <vector>
 #include <cstddef>
 
-// #include "cache/include/cache_base.h"
+#include "cache/include/cache_base.h"
 #include "cache/include/cache_port.h"
 #include "tags/include/tag_base.h"
-// #include "prefetch/include/prefetch_base.h"
+#include "prefetch/include/prefetch_base.h"
 #include "replaceable/include/replaceable_base.h"
 
 namespace Kuiper {
@@ -32,7 +32,7 @@ namespace Kuiper {
             Cycles response_latency;
             bool sequential_access;
             uint64_t size;
-            uint32_t cacheline_size;
+            int32_t cacheline_size;
             // gem5::System *system;
             Cycles tag_latency;
             Kuiper::Cache::BaseTags *tags;

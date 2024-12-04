@@ -5,7 +5,6 @@
 
 namespace Kuiper {
     namespace Cache {
-        struct RandomRPParams;
         namespace replacement_policy {
            class Random : public Base {
            protected:
@@ -24,8 +23,9 @@ namespace Kuiper {
                };
 
            public:
-               typedef RandomRPParams Params;
-               Random(const Params& p);
+            //    typedef RandomRPParams Params;
+            //    Random(const Params& p);
+               Random();
                ~Random() = default;
 
                /**

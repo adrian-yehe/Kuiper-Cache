@@ -2,7 +2,7 @@
 #include <string>
 #include "types.h"
 #include "include/mshr.h"
-#include "../cache/include/cache_base.h"
+#include "cache/include/cache_base.h"
 
 namespace Kuiper {
     namespace Cache {

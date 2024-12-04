@@ -1,8 +1,8 @@
 #ifndef __MEM_CACHE_PREFETCH_TAGGED_HH__
 #define __MEM_CACHE_PREFETCH_TAGGED_HH__
 
-#include "cache/include/cache_packet.h"
 #include "prefetch_queued.h"
+#include "cache/include/cache_packet.h"
 
 namespace Kuiper {
   namespace Cache{

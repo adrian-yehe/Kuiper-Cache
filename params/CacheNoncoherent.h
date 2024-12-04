@@ -2,16 +2,22 @@
 #define __PARAMS__NoncoherentCache__
 
 #include "BaseCache.h"
-
+#include "BasePrefetcher.h"
+#include "BaseSetAssoc.h"
+#include "RandomReplacement.h"
+#include "TaggedPrefetcher.h"
+#include "SetAssociative.h"
 
 namespace Kuiper {
     namespace Cache {
-        struct NoncoherentCacheParams
-            : public BaseCacheParams
-        {
-            
+        struct NoncoherentCacheParams: 
+            public BaseCacheParams, 
+            public BaseSetAssocParams, 
+            public TaggedPrefetcherParams,
+            public RandomRPParams,
+            public SetAssociativeParams {
+
         };
-        typedef struct NoncoherentCacheParams NoncoherentCacheParams;
     } // namespace Cache
 } // namespace Kuiper
 

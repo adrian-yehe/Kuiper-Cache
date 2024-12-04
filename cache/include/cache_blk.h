@@ -7,10 +7,12 @@
 #include <list>
 #include <string>
 #include <cassert>
+#include <cstdio>
+#include <string>
 
 #include "types.h"
 #include "cur_tick.h"
-#include "tags/include/tagged_entry.h"
+#include "prefetch/include/prefetch_tagged_entry.h"
 
 #include "cache_packet.h"
 #include "cache_request.h"
@@ -312,7 +314,7 @@ namespace Kuiper {
              *
              * @return string with basic state information
              */
-            std::string
+            const char* 
                 print() const override
             {
                 /**
@@ -350,11 +352,14 @@ namespace Kuiper {
                 case 0b000: s = 'I'; break;
                 default:    s = 'T'; break; // @TODO add other types
                 }
-                return ("abc");
-                // return gem5::csprintf("state: %x (%c) writable: %d readable: %d "
-                //     "dirty: %d prefetched: %d | %s", coherence, s,
-                //     isSet(WritableBit), isSet(ReadableBit), isSet(DirtyBit),
-                //     wasPrefetched(), TaggedEntry::print());
+                std::string info;
+                info.resize(100);
+
+                sprintf(&info[0], "state: %x (%c) writable: %d readable: %d "
+                    "dirty: %d prefetched: %d | %s", coherence, s,
+                    isSet(WritableBit), isSet(ReadableBit), isSet(DirtyBit),
+                    wasPrefetched(), TaggedEntry::print());
+                return (info.c_str());
             }
 
             /**

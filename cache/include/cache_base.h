@@ -88,7 +88,6 @@ namespace Kuiper {
                 {
                     return cache.coalesce();
                 }
-
             } accessor;
 
             /** Miss status registers */

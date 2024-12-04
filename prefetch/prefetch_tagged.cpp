@@ -4,11 +4,9 @@
 namespace Kuiper {
     namespace Cache {
         namespace prefetch {
-
             Tagged::Tagged(const TaggedPrefetcherParams &p)
                 : Queued(p), degree(p.degree)
-            {
-            }
+            {}
 
             void
             Tagged::calculatePrefetch(const PrefetchInfo &pfi,

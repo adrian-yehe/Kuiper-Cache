@@ -1,5 +1,4 @@
 #include <cassert>
-// #include "logging.h"
 #include "types.h"
 #include "include/cache_blk.h"
 #include "mshr/include/mshr.h"
@@ -12,7 +11,7 @@ namespace Kuiper {
         NoncoherentCache::NoncoherentCache(const NoncoherentCacheParams &p)
             : BaseCache(p, p.cacheline_size) {
             assert(p.tags);
-            assert(p.replacement_policy);
+            assert(p.BaseCacheParams::replacement_policy);
         }
 
         void

@@ -9,8 +9,7 @@
 namespace Kuiper {
     namespace Cache {
         namespace replacement_policy {
-            // Random::Random(const Params &p)
-            //     : Base(p) {}
+
             Random::Random() {};
 
             void

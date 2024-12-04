@@ -5,8 +5,6 @@
 #include <memory>
 #include <iostream>
 
-// #include "../base/cprintf.h"
-
 namespace Kuiper {
     namespace Cache {
         namespace replacement_policy {
@@ -82,9 +80,11 @@ namespace Kuiper {
              *
              * @return A string containg the contents of this entry.
              */
-            virtual std::string print() const {
-                return "abc";
-                // return csprintf("set: %#x way: %#x", getSet(), getWay());
+            virtual const char* print() const {
+                std::string info;
+                info.resize(100);
+                sprintf(&info[0], "set: %#x way: %#x", getSet(), getWay());
+                return (info.c_str());
             }
         };
     } // namespace Cache

@@ -9,13 +9,14 @@
 namespace Kuiper {
     namespace Cache {
         struct BaseTagsParams {
-            int block_size;
-            int entry_size;
-            Kuiper::Cache::BaseIndexingPolicy * indexing_policy;
-            bool sequential_access;
-            uint64_t size;
-            Cycles tag_latency;
-            int warmup_percentage;
+            public:
+                int block_size;
+                int entry_size;
+                Kuiper::Cache::BaseIndexingPolicy * indexing_policy;
+                bool sequential_access;
+                uint64_t size;
+                Cycles tag_latency;
+                int warmup_percentage;
         };
     } // namespace Cache
 } // namespace Kuiper

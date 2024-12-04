@@ -1,7 +1,7 @@
 #include <cassert>
-#include "include/base.h"
 #include "intmath.h"
-#include "cache_base.h"
+#include "include/base.h"
+#include "cache/include/cache_base.h"
 #include "params/BasePrefetcher.h"
 
 namespace Kuiper {
@@ -257,11 +257,11 @@ namespace Kuiper {
                 }
             }
 
-            void
-            Base::addEventProbe(SimObject *obj, const char *name) {
-                ProbeManager *pm(obj->getProbeManager());
-                listeners.push_back(new PrefetchListener(*this, pm, name));
-            }
+            // void
+            // Base::addEventProbe(SimObject *obj, const char *name) {
+            //     // ProbeManager *pm(obj->getProbeManager());
+            //     // listeners.push_back(new PrefetchListener(*this, pm, name));
+            // }
         } // namespace prefetch
     } // namespace Cache
 } // namespace Kuiper
