@@ -35,7 +35,8 @@ namespace Kuiper {
               blocked(0),
               order(0),
               noTargetMSHR(nullptr),
-              missCount(p.max_miss_count)
+              missCount(p.max_miss_count),
+              maxRequestors(~(1 << 16))
             //   addrRanges(p.addr_ranges.begin(), p.addr_ranges.end())
         {
             tempBlock = new TempCacheBlk(blkSize);
@@ -176,105 +177,105 @@ namespace Kuiper {
         BaseCache::handleTimingReqMiss(PacketPtr pkt, MSHR *mshr, CacheBlk *blk,
                                        Tick forward_time, Tick request_time)
         {
-            // if (writeAllocator &&
-            //     pkt && pkt->isWrite() && !pkt->req->isUncacheable())
-            // {
-            //     writeAllocator->updateMode(pkt->getAddr(), pkt->getSize(),
-            //                                pkt->getBlockAddr(blkSize));
-            // }
+            if (writeAllocator &&
+                pkt && pkt->isWrite() && !pkt->req->isUncacheable())
+            {
+                writeAllocator->updateMode(pkt->getAddr(), pkt->getSize(),
+                                           pkt->getBlockAddr(blkSize));
+            }
 
-            // if (mshr) {
-            //     /// MSHR hit
-            //     /// @note writebacks will be checked in getNextMSHR()
-            //     /// for any conflicting requests to the same block
+            if (mshr) {
+                /// MSHR hit
+                /// @note writebacks will be checked in getNextMSHR()
+                /// for any conflicting requests to the same block
 
-            //     //@todo remove hw_pf here
+                //@todo remove hw_pf here
 
-            //     // Coalesce unless it was a software prefetch (see above).
-            //     if (pkt) {
-            //         assert(!pkt->isWriteback());
-            //         // CleanEvicts corresponding to blocks which have
-            //         // outstanding requests in MSHRs are simply sunk here
-            //         if (pkt->cmd == MemCmd::CleanEvict) {
-            //             pendingDelete.reset(pkt);
-            //         }
-            //         else if (pkt->cmd == MemCmd::WriteClean) {
-            //             // A WriteClean should never coalesce with any
-            //             // outstanding cache maintenance requests.
+                // Coalesce unless it was a software prefetch (see above).
+                if (pkt) {
+                    assert(!pkt->isWriteback());
+                    // CleanEvicts corresponding to blocks which have
+                    // outstanding requests in MSHRs are simply sunk here
+                    if (pkt->cmd == MemCmd::CleanEvict) {
+                        pendingDelete.reset(pkt);
+                    }
+                    else if (pkt->cmd == MemCmd::WriteClean) {
+                        // A WriteClean should never coalesce with any
+                        // outstanding cache maintenance requests.
 
-            //             // We use forward_time here because there is an
-            //             // uncached memory write, forwarded to WriteBuffer.
-            //             allocateWriteBuffer(pkt, forward_time);
-            //         }
-            //         else
-            //         {
-            //             // DPRINTF(Cache, "%s coalescing MSHR for %s\n", __func__,
-            //             //         pkt->print());
+                        // We use forward_time here because there is an
+                        // uncached memory write, forwarded to WriteBuffer.
+                        allocateWriteBuffer(pkt, forward_time);
+                    }
+                    else
+                    {
+                        // DPRINTF(Cache, "%s coalescing MSHR for %s\n", __func__,
+                        //         pkt->print());
 
-            //             assert(pkt->req->requestorId() < maxRequestors);
-            //             // stats.cmdStats(pkt).mshrHits[pkt->req->requestorId()]++;
+                        assert(pkt->req->requestorId() < maxRequestors);
+                        // stats.cmdStats(pkt).mshrHits[pkt->req->requestorId()]++;
 
-            //             // We use forward_time here because it is the same
-            //             // considering new targets. We have multiple
-            //             // requests for the same address here. It
-            //             // specifies the latency to allocate an internal
-            //             // buffer and to schedule an event to the queued
-            //             // port and also takes into account the additional
-            //             // delay of the xbar.
-            //             mshr->allocateTarget(pkt, forward_time, order++,
-            //                                  allocOnFill(pkt->cmd));
-            //             if (mshr->getNumTargets() >= numTarget)
-            //             {
-            //                 noTargetMSHR = mshr;
-            //                 setBlocked(Blocked_NoTargets);
-            //                 // need to be careful with this... if this mshr isn't
-            //                 // ready yet (i.e. time > curTick()), we don't want to
-            //                 // move it ahead of mshrs that are ready
-            //                 // mshrQueue.moveToFront(mshr);
-            //             }
-            //         }
-            //     }
-            // }
-            // else {
-            //     // no MSHR
-            //     assert(pkt->req->requestorId() < maxRequestors);
-            //     // stats.cmdStats(pkt).mshrMisses[pkt->req->requestorId()]++;
-            //     if (prefetcher && pkt->isDemand())
-            //         prefetcher->incrDemandMhsrMisses();
+                        // We use forward_time here because it is the same
+                        // considering new targets. We have multiple
+                        // requests for the same address here. It
+                        // specifies the latency to allocate an internal
+                        // buffer and to schedule an event to the queued
+                        // port and also takes into account the additional
+                        // delay of the xbar.
+                        mshr->allocateTarget(pkt, forward_time, order++,
+                                             allocOnFill(pkt->cmd));
+                        if (mshr->getNumTargets() >= numTarget)
+                        {
+                            noTargetMSHR = mshr;
+                            setBlocked(Blocked_NoTargets);
+                            // need to be careful with this... if this mshr isn't
+                            // ready yet (i.e. time > curTick()), we don't want to
+                            // move it ahead of mshrs that are ready
+                            // mshrQueue.moveToFront(mshr);
+                        }
+                    }
+                }
+            }
+            else {
+                // no MSHR
+                assert(pkt->req->requestorId() < maxRequestors);
+                // stats.cmdStats(pkt).mshrMisses[pkt->req->requestorId()]++;
+                if (prefetcher && pkt->isDemand())
+                    prefetcher->incrDemandMhsrMisses();
 
-            //     if (pkt->isEviction()) {
-            //         // We use forward_time here because there is an
-            //         // writeback or writeclean, forwarded to WriteBuffer.
-            //         allocateWriteBuffer(pkt, forward_time);
-            //     }
-            //     else {
-            //         if (blk && blk->isValid()) {
-            //             // If we have a write miss to a valid block, we
-            //             // need to mark the block non-readable.  Otherwise
-            //             // if we allow reads while there's an outstanding
-            //             // write miss, the read could return stale data
-            //             // out of the cache block... a more aggressive
-            //             // system could detect the overlap (if any) and
-            //             // forward data out of the MSHRs, but we don't do
-            //             // that yet.  Note that we do need to leave the
-            //             // block valid so that it stays in the cache, in
-            //             // case we get an upgrade response (and hence no
-            //             // new data) when the write miss completes.
-            //             // As long as CPUs do proper store/load forwarding
-            //             // internally, and have a sufficiently weak memory
-            //             // model, this is probably unnecessary, but at some
-            //             // point it must have seemed like we needed it...
-            //             assert((pkt->needsWritable() &&
-            //                     !blk->isSet(CacheBlk::WritableBit)) ||
-            //                    pkt->req->isCacheMaintenance());
-            //             blk->clearCoherenceBits(CacheBlk::ReadableBit);
-            //         }
-            //         // Here we are using forward_time, modelling the latency of
-            //         // a miss (outbound) just as forwardLatency, neglecting the
-            //         // lookupLatency component.
-            //         allocateMissBuffer(pkt, forward_time);
-            //     }
-            // }
+                if (pkt->isEviction()) {
+                    // We use forward_time here because there is an
+                    // writeback or writeclean, forwarded to WriteBuffer.
+                    allocateWriteBuffer(pkt, forward_time);
+                }
+                else {
+                    if (blk && blk->isValid()) {
+                        // If we have a write miss to a valid block, we
+                        // need to mark the block non-readable.  Otherwise
+                        // if we allow reads while there's an outstanding
+                        // write miss, the read could return stale data
+                        // out of the cache block... a more aggressive
+                        // system could detect the overlap (if any) and
+                        // forward data out of the MSHRs, but we don't do
+                        // that yet.  Note that we do need to leave the
+                        // block valid so that it stays in the cache, in
+                        // case we get an upgrade response (and hence no
+                        // new data) when the write miss completes.
+                        // As long as CPUs do proper store/load forwarding
+                        // internally, and have a sufficiently weak memory
+                        // model, this is probably unnecessary, but at some
+                        // point it must have seemed like we needed it...
+                        assert((pkt->needsWritable() &&
+                                !blk->isSet(CacheBlk::WritableBit)) ||
+                               pkt->req->isCacheMaintenance());
+                        blk->clearCoherenceBits(CacheBlk::ReadableBit);
+                    }
+                    // Here we are using forward_time, modelling the latency of
+                    // a miss (outbound) just as forwardLatency, neglecting the
+                    // lookupLatency component.
+                    allocateMissBuffer(pkt, forward_time);
+                }
+            }
         }
 
         void

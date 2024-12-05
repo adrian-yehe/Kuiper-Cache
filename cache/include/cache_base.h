@@ -903,13 +903,11 @@ namespace Kuiper {
                                                 pkt, time, order++,
                                                 allocOnFill(pkt->cmd));
 
-                if (mshrQueue.isFull())
-                {
+                if (mshrQueue.isFull()) {
                     setBlocked((BlockedCause)MSHRQueue_MSHRs);
                 }
 
-                if (sched_send)
-                {
+                if (sched_send) {
                     // schedule the send
                     schedMemSideSendEvent(time);
                 }

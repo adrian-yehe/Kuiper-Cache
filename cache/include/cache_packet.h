@@ -530,26 +530,26 @@ namespace Kuiper {
                     !isMaskedWrite();
             }
 
-        //    //@{
-        //    /// Snoop flags
-        //    /**
-        //     * Set the cacheResponding flag. This is used by the caches to
-        //     * signal another cache that they are responding to a request. A
-        //     * cache will only respond to snoops if it has the line in either
-        //     * Modified or Owned state. Note that on snoop hits we always pass
-        //     * the line as Modified and never Owned. In the case of an Owned
-        //     * line we proceed to invalidate all other copies.
-        //     *
-        //     * On a cache fill (see Cache::handleFill), we check hasSharers
-        //     * first, ignoring the cacheResponding flag if hasSharers is set.
-        //     * A line is consequently allocated as:
-        //     *
-        //     * hasSharers cacheResponding state
-        //     * true       false           Shared
-        //     * true       true            Shared
-        //     * false      false           Exclusive
-        //     * false      true            Modified
-        //     */
+           //@{
+           /// Snoop flags
+           /**
+            * Set the cacheResponding flag. This is used by the caches to
+            * signal another cache that they are responding to a request. A
+            * cache will only respond to snoops if it has the line in either
+            * Modified or Owned state. Note that on snoop hits we always pass
+            * the line as Modified and never Owned. In the case of an Owned
+            * line we proceed to invalidate all other copies.
+            *
+            * On a cache fill (see Cache::handleFill), we check hasSharers
+            * first, ignoring the cacheResponding flag if hasSharers is set.
+            * A line is consequently allocated as:
+            *
+            * hasSharers cacheResponding state
+            * true       false           Shared
+            * true       true            Shared
+            * false      false           Exclusive
+            * false      true            Modified
+            */
             void setCacheResponding() {
                 assert(isRequest());
                 assert(!flags.isSet(CACHE_RESPONDING));

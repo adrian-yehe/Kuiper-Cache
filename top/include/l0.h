@@ -16,9 +16,9 @@ namespace Kuiper {
 			typedef struct NoncoherentCacheParams Params;
 			L0(sc_core::sc_module_name _name, const Params &_params):
 				NoncoherentCache(_params),
-				mLoad0("load0"),
-				mLoad1("load1"),
-				mStore("store"),
+				mLoad0("load0", this),
+				mLoad1("load1", this),
+				mStore("store", this),
 				// mMemPort("l0"),
 				mLoad0Fifo("load0_fifo", 16),
 				mLoad1Fifo("load1_fifo", 16),

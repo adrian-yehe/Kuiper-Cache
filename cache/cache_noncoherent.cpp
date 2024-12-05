@@ -25,12 +25,10 @@ namespace Kuiper {
 
         bool
         NoncoherentCache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
-                                 PacketList &writebacks)
-        {
+                                 PacketList &writebacks) {
             bool success = BaseCache::access(pkt, blk, lat, writebacks);
 
-            if (pkt->isWriteback() || pkt->cmd == MemCmd::WriteClean)
-            {
+            if (pkt->isWriteback() || pkt->cmd == MemCmd::WriteClean) {
                 assert(blk && blk->isValid());
                 // Writeback and WriteClean can allocate and fill even if the
                 // referenced block was not present or it was invalid. If that
@@ -83,12 +81,10 @@ namespace Kuiper {
 
         void
         NoncoherentCache::recvTimingReq(PacketPtr pkt) {
-            if(!pkt->cacheResponding())
-                assert(0 && "Should not see packets where cache "
-                                             "is responding");
-
-            if(!(pkt->isRead()) || pkt->isWrite())
-                assert(0 && "Should only see read and writes at non-coherent cache\n");
+            assert(!pkt->cacheResponding() && 
+                    "Should not see packets where cache is responding");
+            assert((pkt->isRead() || pkt->isWrite()) && 
+                    "Should only see read and writes at non-coherent cache\n");
 
             BaseCache::recvTimingReq(pkt);
         }
