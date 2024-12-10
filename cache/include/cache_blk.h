@@ -314,7 +314,7 @@ namespace Kuiper {
              *
              * @return string with basic state information
              */
-            const char* 
+            std::string  
                 print() const override
             {
                 /**
@@ -358,8 +358,8 @@ namespace Kuiper {
                 sprintf(&info[0], "state: %x (%c) writable: %d readable: %d "
                     "dirty: %d prefetched: %d | %s", coherence, s,
                     isSet(WritableBit), isSet(ReadableBit), isSet(DirtyBit),
-                    wasPrefetched(), TaggedEntry::print());
-                return (info.c_str());
+                    wasPrefetched(), TaggedEntry::print().c_str());
+                return info;
             }
 
             /**

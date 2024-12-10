@@ -85,7 +85,8 @@ FILE(GLOB_RECURSE CACHE_SRC_FILES
     "replaceable/*.cpp"
     "tags/*.cpp"
     "write/*.cpp"
-    "top/*.cpp")
+    "top/*.cpp"
+    "memory/*.cpp")
 
 FILE(GLOB_RECURSE CACHE_INC_FILES 
     "base/*.h" 
@@ -97,7 +98,8 @@ FILE(GLOB_RECURSE CACHE_INC_FILES
     "mshr/*.h"
     "write/*.h"
     "param/*.h"
-    "top/*.h")
+    "top/*.h"
+    "memory/*.h")
 
 # ---------------------------------------------------------------------------------------
 # Set the library information for compiling output.
@@ -122,6 +124,7 @@ INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/params/
     ${CMAKE_SOURCE_DIR}/cache/
     ${CMAKE_SOURCE_DIR}/indexing/
+     ${CMAKE_SOURCE_DIR}/memory/
     ${CMAKE_SOURCE_DIR}/prefetch/
     ${CMAKE_SOURCE_DIR}/replaceable/
     ${CMAKE_SOURCE_DIR}/tags/

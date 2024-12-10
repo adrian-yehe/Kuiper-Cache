@@ -1,14 +1,14 @@
 {
     "l0": {
         "BaseCache":{
-            "Size":262144,   // L0 Capacity: "256KByte"
+            "Size":262144,   /* L0 Capacity: "256KByte*/
             "CacheLineSize":512,
             "Assoc":4,
             "MSHR":12,
             "WriteBuffers":12,
             "ReplacementPolicy":"Random",
             "Prefetcher": "TaggedPrefetcher"
-        }
+        },
 
         "TaggedPrefetcher":{
             "degree": 1,
@@ -18,10 +18,28 @@
             "on_miss": 1,
             "on_read": 1, 
             "on_write": 1
-        }
-        "Random": {
+        },
 
-        }
+        "ReplacementPolicy": {
 
+
+
+        },
+
+        "Tags": {
+            "block_size":512,
+            "entry_size":
+            "sequential_access":
+            "size":
+            "tag_latency":
+            "warmup_percentage"
+        },
+
+        "WriteEviction": {
+            "block_size": 512,
+            "coalesce_limit": 3,
+            "delay_threshold": 0,
+            "no_allocate_limit": 0
+        }
     }
 }

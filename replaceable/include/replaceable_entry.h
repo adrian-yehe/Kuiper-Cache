@@ -80,11 +80,11 @@ namespace Kuiper {
              *
              * @return A string containg the contents of this entry.
              */
-            virtual const char* print() const {
+            virtual std::string print() const {
                 std::string info;
                 info.resize(100);
                 sprintf(&info[0], "set: %#x way: %#x", getSet(), getWay());
-                return (info.c_str());
+                return (info);
             }
         };
     } // namespace Cache

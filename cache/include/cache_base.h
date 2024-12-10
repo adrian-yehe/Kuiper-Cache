@@ -876,7 +876,7 @@ namespace Kuiper {
 
             /** Registers probes. */
             // void regProbePoints() override;
-            void regProbePoints();
+            // void regProbePoints();
 
         public:
             typedef struct BaseCacheParams BaseCacheParams;
@@ -902,7 +902,6 @@ namespace Kuiper {
                 MSHR *mshr = mshrQueue.allocate(pkt->getBlockAddr(blkSize), blkSize,
                                                 pkt, time, order++,
                                                 allocOnFill(pkt->cmd));
-
                 if (mshrQueue.isFull()) {
                     setBlocked((BlockedCause)MSHRQueue_MSHRs);
                 }

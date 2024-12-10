@@ -50,7 +50,6 @@ namespace Kuiper {
                         simL0Params.BaseTagsParams::entry_size;
             simL0Params.SetAssociativeParams::size = simL0Params.BaseCacheParams::size;
 
-
             simL0Params.SetAssociativeParams::set_assoc = new SetAssociative(simL0Params);
             simL0Params.BaseTagsParams::indexing_policy = 
                         simL0Params.SetAssociativeParams::set_assoc;
@@ -90,9 +89,19 @@ namespace Kuiper {
             simL0Params.TaggedPrefetcherParams::degree = 1;
             simL0Params.TaggedPrefetcherParams::tagged = 
                                      new prefetch::Tagged(simL0Params);
-        }
+        };
+
+        void SimObject::InitMemory() {
+            memParams.name = "G-Memory";
+            memParams.read_delay = 10;
+            memParams.write_delay = 20;
+            memParams.cap = 512 * 1024 * 1024; /* Golbal memory 512MB */
+            memParams.width = 1024;
+            memParams.id = 0;
+        };
 
         void SimObject::InitSimObject() {
+            InitMemory();
             InitL0BaseCache();
             InitL0Replacement();
             InitL0Tags();

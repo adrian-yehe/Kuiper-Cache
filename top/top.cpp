@@ -6,10 +6,14 @@
 
 namespace Kuiper {
 	namespace Cache {
-
-		Top::Top(sc_core::sc_module_name _name, const NoncoherentCacheParams &_params) :
+		Top::Top(sc_core::sc_module_name _name, const NoncoherentCacheParams &_params, 
+					const Params &_mem_params):
 			sc_module(_name),
-			l0("l0", _params)  {
+			l0("l0", _params), 
+			GlobalMemory("Memory",
+						_mem_params.id,
+						_mem_params.cap,
+						_mem_params.width) {
 			SC_HAS_PROCESS(Top);
 			SC_THREAD(Load0Thread);
 			// SC_THREAD(Load1Thread);
@@ -18,13 +22,15 @@ namespace Kuiper {
 			l0.BindLoad0(load0, mResSignal[0]);
 			l0.BindLoad1(load1, mResSignal[1]);
 			l0.BindStore(store, mResSignal[2]);
+
+			l0.mMemSidePort(GlobalMemory.mCpuSidePort);
 		};
 
-		auto Top::AllocateReqPacket(MemCmd _cmd) {
+		auto Top::AllocateReqPacket(MemCmd _cmd, std::uint32_t _req_id) {
 			std::uint32_t len = 128;
 			std::uint32_t addr = 0x00;
 			auto buf = new std::uint8_t[len] { 0 };
-			auto pkt = Package(addr,  buf, 0, len, _cmd);
+			auto pkt = this->Package(addr,  buf, len, 0, _cmd, _req_id);
 
 			return pkt;
 		}
@@ -35,11 +41,13 @@ namespace Kuiper {
 							__FUNCTION__);
 			std::uint32_t req_id = 0;
 			auto pkt = AllocateReqPacket(MemCmd::ReadReq);
+			sc_core::sc_time delay(1000, SC_SEC);
 
 			while (true) {
 				load0->write(pkt);
 				spdlog::info("{:s}.load0 write packet, request id: {:d}", 
 					sc_module::name(), req_id++);
+				wait(delay);;
 			}
 		}
 
@@ -64,6 +72,18 @@ namespace Kuiper {
 				// 	sc_module::name(), index++);
 			}
 		}
+
+		PacketPtr Top::Package(Addr _addr, std::uint8_t *_buf,std::size_t _len, 
+                                Request::Flags _flag, MemCmd _cmd, std::uint32_t _req_id) {
+			// Create a new request-packet pair
+			RequestPtr req = std::make_shared<Request>(
+				_addr, _len, _flag, 0);
+
+			PacketPtr pkt = new Packet(req, _cmd, _len, _req_id);
+			
+			pkt->dataDynamic(_buf);
+			return pkt;
+        }
 	}
 }
 
@@ -71,6 +91,7 @@ void TestCache() {
 	spdlog::info("Start cache simulation");
 	Kuiper::Cache::SimObject sim;
 
-	Kuiper::Cache::Top l0("Cache", *(sim.GetL0ParamsPtr()));
+	Kuiper::Cache::Top l0("Cache", *(sim.GetL0ParamsPtr()), 
+								*(sim.GetMemoryParamsPtr()));
 	sc_core::sc_start(100, SC_SEC);
 }

@@ -1,4 +1,5 @@
 #include <cassert>
+#include "spdlog/spdlog.h"
 #include "cache/include/cache_base.h"
 #include "mshr/include/mshr.h"
 
@@ -325,7 +326,7 @@ namespace Kuiper {
             if (satisfied) {
                 // notify before anything else as later handleTimingReqHit might turn
                 // the packet in a response
-                ppHit->notify(CacheAccessProbeArg(pkt, accessor));
+                // ppHit->notify(CacheAccessProbeArg(pkt, accessor));
 
                 if (prefetcher && blk && blk->wasPrefetched()) {
                     // DPRINTF(Cache, "Hit on prefetch for addr %#x (%s)\n",
@@ -338,7 +339,7 @@ namespace Kuiper {
             else {
                 handleTimingReqMiss(pkt, blk, forward_time, request_time);
 
-                ppMiss->notify(CacheAccessProbeArg(pkt, accessor));
+                // ppMiss->notify(CacheAccessProbeArg(pkt, accessor));
             }
 
             if (prefetcher) {
@@ -1153,6 +1154,11 @@ namespace Kuiper {
 
             // DPRINTF(Cache, "%s for %s %s\n", __func__, pkt->print(),
             //         blk ? "hit " + blk->print() : "miss");
+
+            spdlog::info("{:s} {:s} for {:s} {:s}", 
+                    sc_module::name(),
+                    __func__, pkt->print(),
+                    blk ? "hit " + blk->print() : "miss"); 
 
             // if (pkt->req->isCacheMaintenance())
             // {
@@ -2514,19 +2520,19 @@ namespace Kuiper {
 //             dataContractions.flags(nozero | nonan);
 //         }
 
-        void
-        BaseCache::regProbePoints()
-        {
-            // ppHit = new ProbePointArg<CacheAccessProbeArg>(
-            //     this->getProbeManager(), "Hit");
-            // ppMiss = new ProbePointArg<CacheAccessProbeArg>(
-            //     this->getProbeManager(), "Miss");
-            // ppFill = new ProbePointArg<CacheAccessProbeArg>(
-            //     this->getProbeManager(), "Fill");
-            // ppDataUpdate =
-            //     new ProbePointArg<CacheDataUpdateProbeArg>(
-            //         this->getProbeManager(), "Data Update");
-        }
+        // void
+        // BaseCache::regProbePoints()
+        // {
+        //     ppHit = new ProbePointArg<CacheAccessProbeArg>(
+        //         this->getProbeManager(), "Hit");
+        //     ppMiss = new ProbePointArg<CacheAccessProbeArg>(
+        //         this->getProbeManager(), "Miss");
+        //     ppFill = new ProbePointArg<CacheAccessProbeArg>(
+        //         this->getProbeManager(), "Fill");
+        //     ppDataUpdate =
+        //         new ProbePointArg<CacheDataUpdateProbeArg>(
+        //             this->getProbeManager(), "Data Update");
+        // }
 
         ///////////////
         //

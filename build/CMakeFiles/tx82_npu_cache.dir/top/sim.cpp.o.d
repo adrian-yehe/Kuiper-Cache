@@ -477,6 +477,7 @@ CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o: \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch/include/prefetch_base.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/QueuedPrefetcher.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/SetAssociative.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/Memrory.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/indexing/include/set_associative.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/indexing/include/indexing_base.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/SetAssociative.h \

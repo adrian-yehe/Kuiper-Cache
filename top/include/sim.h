@@ -2,6 +2,7 @@
 #define _SIM_OBJECT_H__
 #include <cstdint>
 #include "params/CacheNoncoherent.h"
+#include "params/Memrory.h"
 #include "probe.h"
 
 namespace Kuiper {
@@ -10,6 +11,7 @@ namespace Kuiper {
             public:
                 auto GetL0ParamsPtr(void) { return &simL0Params; };
                 auto GetL1ParamsPtr(void) { return &simL1Params; };
+                auto GetMemoryParamsPtr(void) { return &memParams; };
 
             private:
                 void InitSimObject();
@@ -18,10 +20,12 @@ namespace Kuiper {
                 void InitL0Tags();
                 void InitL0Replacement();
                 void InitL0Tagged();
+                void InitMemory();
 
             private:
                 NoncoherentCacheParams  simL0Params;
                 NoncoherentCacheParams  simL1Params;
+                MemoryParams memParams;
 
             private:
                 /** Manager coordinates hooking up probe points with listeners. */

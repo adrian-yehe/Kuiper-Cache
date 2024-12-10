@@ -75,14 +75,14 @@ namespace Kuiper {
                 clearSecure();
             }
 
-            const char * 
+            std::string 
                 print() const override
             {
                 std::string info;
                 info.resize(100);
                 sprintf(&info[0], "tag: %#lx secure: %d valid: %d | %s", getTag(),
-                    isSecure(), isValid(), ReplaceableEntry::print());
-                return (info.c_str());
+                    isSecure(), isValid(), ReplaceableEntry::print().c_str());
+                return (info);
             }
 
         protected:

@@ -430,6 +430,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dv_cache_case.dir/build.make CMakeFiles/dv_cache_case.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+memory/global_memory.o: memory/global_memory.cpp.o
+.PHONY : memory/global_memory.o
+
+# target to build an object file
+memory/global_memory.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o
+.PHONY : memory/global_memory.cpp.o
+
+memory/global_memory.i: memory/global_memory.cpp.i
+.PHONY : memory/global_memory.i
+
+# target to preprocess a source file
+memory/global_memory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.i
+.PHONY : memory/global_memory.cpp.i
+
+memory/global_memory.s: memory/global_memory.cpp.s
+.PHONY : memory/global_memory.s
+
+# target to generate assembly for a file
+memory/global_memory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.s
+.PHONY : memory/global_memory.cpp.s
+
 mshr/mshr.o: mshr/mshr.cpp.o
 .PHONY : mshr/mshr.o
 
@@ -622,6 +646,30 @@ tags/tag_set_assoc.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.s
 .PHONY : tags/tag_set_assoc.cpp.s
 
+top/l0.o: top/l0.cpp.o
+.PHONY : top/l0.o
+
+# target to build an object file
+top/l0.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o
+.PHONY : top/l0.cpp.o
+
+top/l0.i: top/l0.cpp.i
+.PHONY : top/l0.i
+
+# target to preprocess a source file
+top/l0.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.i
+.PHONY : top/l0.cpp.i
+
+top/l0.s: top/l0.cpp.s
+.PHONY : top/l0.s
+
+# target to generate assembly for a file
+top/l0.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.s
+.PHONY : top/l0.cpp.s
+
 top/l1.o: top/l1.cpp.o
 .PHONY : top/l1.o
 
@@ -788,6 +836,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... memory/global_memory.o"
+	@echo "... memory/global_memory.i"
+	@echo "... memory/global_memory.s"
 	@echo "... mshr/mshr.o"
 	@echo "... mshr/mshr.i"
 	@echo "... mshr/mshr.s"
@@ -812,6 +863,9 @@ help:
 	@echo "... tags/tag_set_assoc.o"
 	@echo "... tags/tag_set_assoc.i"
 	@echo "... tags/tag_set_assoc.s"
+	@echo "... top/l0.o"
+	@echo "... top/l0.i"
+	@echo "... top/l0.s"
 	@echo "... top/l1.o"
 	@echo "... top/l1.i"
 	@echo "... top/l1.s"

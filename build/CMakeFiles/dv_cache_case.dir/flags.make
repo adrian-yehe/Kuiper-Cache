@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/adrian-yan/Workspace/Github/Kuiper-Cache -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/spdlog/include -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/base/include -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/params -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/cache -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/indexing -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/replaceable -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/tags -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/top
+CXX_INCLUDES = -I/home/adrian-yan/Workspace/Github/Kuiper-Cache -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/spdlog/include -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/base/include -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/params -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/cache -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/indexing -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/memory -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/replaceable -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/tags -I/home/adrian-yan/Workspace/Github/Kuiper-Cache/top
 
 CXX_FLAGS = -std=c++17 -O2 -g -fpermissive -pthread -fPIC -m64
 

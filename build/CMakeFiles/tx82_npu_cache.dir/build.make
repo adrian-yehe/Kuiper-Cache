@@ -223,10 +223,24 @@ CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/adrian-yan/Workspace/Github/Kuiper-Cache/indexing/set_associative.cpp -o CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.s
 
+CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
+CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o: ../memory/global_memory.cpp
+CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/memory/global_memory.cpp
+
+CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/adrian-yan/Workspace/Github/Kuiper-Cache/memory/global_memory.cpp > CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.i
+
+CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/adrian-yan/Workspace/Github/Kuiper-Cache/memory/global_memory.cpp -o CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.s
+
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o: ../mshr/mshr.cpp
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/mshr/mshr.cpp
 
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.i: cmake_force
@@ -240,7 +254,7 @@ CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o: ../mshr/mshr_queue.cpp
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/mshr/mshr_queue.cpp
 
 CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.i: cmake_force
@@ -254,7 +268,7 @@ CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o: ../prefetch/prefetch_base.cpp
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch/prefetch_base.cpp
 
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.i: cmake_force
@@ -268,7 +282,7 @@ CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o: ../prefetch/prefetch_queued.cpp
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch/prefetch_queued.cpp
 
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.i: cmake_force
@@ -282,7 +296,7 @@ CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_queued.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o: ../prefetch/prefetch_tagged.cpp
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch/prefetch_tagged.cpp
 
 CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.i: cmake_force
@@ -296,7 +310,7 @@ CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o: ../replaceable/replaceable_random.cpp
 CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/replaceable/replaceable_random.cpp
 
 CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.i: cmake_force
@@ -310,7 +324,7 @@ CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o: ../tags/tag_base.cpp
 CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/tags/tag_base.cpp
 
 CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.i: cmake_force
@@ -324,7 +338,7 @@ CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o: ../tags/tag_set_assoc.cpp
 CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/tags/tag_set_assoc.cpp
 
 CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.i: cmake_force
@@ -335,10 +349,24 @@ CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/adrian-yan/Workspace/Github/Kuiper-Cache/tags/tag_set_assoc.cpp -o CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.s
 
+CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
+CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o: ../top/l0.cpp
+CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/l0.cpp
+
+CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/l0.cpp > CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.i
+
+CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/l0.cpp -o CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.s
+
 CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o: ../top/l1.cpp
 CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/l1.cpp
 
 CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.i: cmake_force
@@ -352,7 +380,7 @@ CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o: ../top/sim.cpp
 CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/sim.cpp
 
 CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.i: cmake_force
@@ -366,7 +394,7 @@ CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o: ../top/top.cpp
 CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/top.cpp
 
 CMakeFiles/tx82_npu_cache.dir/top/top.cpp.i: cmake_force
@@ -380,7 +408,7 @@ CMakeFiles/tx82_npu_cache.dir/top/top.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o: ../write/write_queue.cpp
 CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/write/write_queue.cpp
 
 CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.i: cmake_force
@@ -394,7 +422,7 @@ CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.s: cmake_force
 CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o: CMakeFiles/tx82_npu_cache.dir/flags.make
 CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o: ../write/write_queue_entry.cpp
 CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o: CMakeFiles/tx82_npu_cache.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o -MF CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o.d -o CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o -c /home/adrian-yan/Workspace/Github/Kuiper-Cache/write/write_queue_entry.cpp
 
 CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.i: cmake_force
@@ -418,6 +446,7 @@ tx82_npu_cache_OBJECTS = \
 "CMakeFiles/tx82_npu_cache.dir/cache/cache_packet.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/indexing/indexing_base.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.o" \
+"CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o" \
@@ -426,6 +455,7 @@ tx82_npu_cache_OBJECTS = \
 "CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o" \
+"CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o" \
 "CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o" \
@@ -446,6 +476,7 @@ lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/cache/cache_noncoherent.c
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/cache/cache_packet.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/indexing/indexing_base.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.o
+lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/memory/global_memory.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/mshr/mshr_queue.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_base.cpp.o
@@ -454,6 +485,7 @@ lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/prefetch/prefetch_tagged.
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/replaceable/replaceable_random.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/tags/tag_set_assoc.cpp.o
+lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/top/l0.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/top/l1.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/top/sim.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o
@@ -461,7 +493,7 @@ lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/write/write_queue_entry.cpp.o
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/build.make
 lib/libtx82_npu_cache.a: CMakeFiles/tx82_npu_cache.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX static library lib/libtx82_npu_cache.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/adrian-yan/Workspace/Github/Kuiper-Cache/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Linking CXX static library lib/libtx82_npu_cache.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/tx82_npu_cache.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tx82_npu_cache.dir/link.txt --verbose=$(VERBOSE)
 

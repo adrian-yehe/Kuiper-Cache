@@ -5,6 +5,7 @@
 #include<iostream>
 
 #include "tlm.h"
+#include <tlm_utils/simple_initiator_socket.h>
 #include "cache/include/cache_port.h"
 #include "cache/include/cache_noncoherent.h"
 #include "params/BaseCache.h"
@@ -14,41 +15,25 @@ namespace Kuiper {
 		class L0 : public NoncoherentCache {
 		public:
 			typedef struct NoncoherentCacheParams Params;
-			L0(sc_core::sc_module_name _name, const Params &_params):
-				NoncoherentCache(_params),
-				mLoad0("load0", this),
-				mLoad1("load1", this),
-				mStore("store", this),
-				// mMemPort("l0"),
-				mLoad0Fifo("load0_fifo", 16),
-				mLoad1Fifo("load1_fifo", 16),
-				mStoreFifo("store_fifo", 10) {
-				mLoad0.mReqPort(mLoad0Fifo);
-				mLoad1.mReqPort(mLoad1Fifo);
-				mStore.mReqPort(mStoreFifo);
-			};
+			L0(sc_core::sc_module_name _name, const Params &_params);
 
 		public:
-			void BindLoad0(ReqOutPort& _port, ResSignal&_res_signal) {
-				_port(mLoad0Fifo); 
-				mLoad0.mResPort(_res_signal);
-			};
-			void BindLoad1(ReqOutPort& _port, ResSignal& _res_signal) {
-				_port(mLoad1Fifo);
-				mLoad1.mResPort(_res_signal);
-			};
-			void BindStore(ReqOutPort& _port, ResSignal& _res_signal) {
-				_port(mStoreFifo);
-				mStore.mResPort(_res_signal);
-			};
+			void BindLoad0(ReqOutPort& _port, ResSignal&_res_signal); 
+			void BindLoad1(ReqOutPort& _port, ResSignal& _res_signal);
+			void BindStore(ReqOutPort& _port, ResSignal& _res_signal);
 
 		private:
-			CpuSidePort<NoncoherentCache> mLoad0;
-			CpuSidePort<NoncoherentCache> mLoad1;
-			CpuSidePort<NoncoherentCache> mStore;
+			CpuSidePort<L0> mLoad0;
+			CpuSidePort<L0> mLoad1;
+			CpuSidePort<L0> mStore;
 
 			// MemSidePort<NoncoherentCache> mMemPort;
-	//		tlm::tlm_initiator_socket< > mInitiatorSocket;
+		public:
+			tlm_utils::simple_initiator_socket<L0> mMemSidePort;
+
+		public:
+			auto Read(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf);
+			auto Write(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf);
 
 		private:
 			sc_core::sc_fifo<PacketPtr> mLoad0Fifo;

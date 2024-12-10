@@ -477,8 +477,9 @@ CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o: \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch/include/prefetch_base.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/QueuedPrefetcher.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/SetAssociative.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/Memrory.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/include/top.h \
- /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/include/l0.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/memory/include/global_memory.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/systemc \
@@ -522,6 +523,17 @@ CMakeFiles/tx82_npu_cache.dir/top/top.cpp.o: \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_core/tlm_2/tlm_sockets/tlm_target_socket.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_core/tlm_2/tlm_quantum/tlm_quantum.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_core/tlm_2/tlm_quantum/tlm_global_quantum.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_utils/simple_target_socket.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/sysc/kernel/sc_dynamic_processes.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/sysc/kernel/sc_except.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/sysc/kernel/sc_spawn.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/sysc/kernel/sc_spawn_options.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/sysc/kernel/sc_join.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_utils/convenience_socket_bases.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_utils/peq_with_get.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/include/l0.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/systemc/include/tlm_utils/simple_initiator_socket.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/cache/include/cache_noncoherent.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/cache/include/cache_base.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/top/include/l1.h

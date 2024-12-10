@@ -254,26 +254,22 @@ namespace Kuiper {
             return sender_state;
         }
 
-       /* void
-            Packet::print(std::ostream& o, const int verbosity,
+        std::string
+            Packet::print( const int verbosity,
                 const std::string& prefix) const
         {
-            ccprintf(o, "%s%s [%x:%x]%s%s%s%s%s%s", prefix, cmdString(),
-                getAddr(), getAddr() + getSize() - 1,
-                req->isSecure() ? " (s)" : "",
-                req->isInstFetch() ? " IF" : "",
-                req->isUncacheable() ? " UC" : "",
-                isExpressSnoop() ? " ES" : "",
-                req->isToPOC() ? " PoC" : "",
-                req->isToPOU() ? " PoU" : "");
+            std::string info;
+            info.resize(100);
+
+            sprintf(&info[0], "%s%s [%lx:%lx]", prefix.c_str(), cmdString().c_str(),
+                getAddr(), getAddr() + getSize() - 1);
+            return info;
         }
 
         std::string
             Packet::print() const {
-            std::ostringstream str;
-            print(str);
-            return str.str();
-        }*/
+            return print(0);
+        }
 
         bool Packet::matchBlockAddr(const Addr addr, const bool is_secure,
                 const int blk_size) const {

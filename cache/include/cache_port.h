@@ -46,11 +46,13 @@ namespace Kuiper {
 
         public:
             void ReqMonitor(void) {
+                std::uint8_t buf[512] = { 0 };
                 while (true) {
                     auto pkt = RecvPacket();
                     spdlog::info("{:s}.recive packet ",
                         sc_module::name());
 
+                    // mBaseCache->Read(0x00, 512, buf); 
                     mBaseCache->recvTimingReq(pkt); 
                 }
             }

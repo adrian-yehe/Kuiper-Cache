@@ -1,0 +1,10 @@
+{
+    "Memory": {
+        "name":262144,   
+        "read_delay":512,
+        "write_delay":4,
+        "cap":12,
+        "width":12,
+        "id":"Random"
+    }
+}

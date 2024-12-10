@@ -1190,17 +1190,16 @@ namespace Kuiper {
         //        trySatisfyFunctional(Printable* obj, Addr base, bool is_secure, int size,
         //            uint8_t* _data);
 
-        //    void print(std::ostream& o, int verbosity = 0,
-        //        const std::string& prefix = "") const;
+           std::string print(int verbosity,
+               const std::string& prefix = "") const;
 
-        //    /**
-        //     * A no-args wrapper of print(std::ostream...)
-        //     * meant to be invoked from DPRINTFs
-        //     * avoiding string overheads in fast mode
-        //     * @return string with the request's type and start<->end addresses
-        //     */
-        //    std::string print() const;
-
+           /**
+            * A no-args wrapper of print(std::ostream...)
+            * meant to be invoked from DPRINTFs
+            * avoiding string overheads in fast mode
+            * @return string with the request's type and start<->end addresses
+            */
+           std::string print() const;
         };
     } /* namespace Cache */
 } /* namespace Kuiper */
