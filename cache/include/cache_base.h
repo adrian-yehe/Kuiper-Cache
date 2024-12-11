@@ -20,6 +20,7 @@
 #include "cache/include/cache_packet.h"
 #include "cache/include/cache_blk.h"
 #include "cache/include/cache_port.h"
+#include "cache/include/cache_packet_queue.h"
 #include "params/BaseCache.h"
 #include "params/WriteAllocator.h"
 
@@ -54,6 +55,30 @@ namespace Kuiper {
                 Blocked_NoWBBuffers = MSHRQueue_WriteBuffer,
                 Blocked_NoTargets,
                 NUM_BLOCKED_CAUSES
+            };
+
+            /**
+             * Override the default behaviour of sendDeferredPacket to enable
+             * the memory-side cache port to also send requests based on the
+             * current MSHR status. This queue has a pointer to our specific
+             * cache implementation and is used by the MemSidePort.
+             */
+            class CacheReqPacketQueue : public ReqPacketQueue {
+            protected:
+                BaseCache &cache;
+
+            public:
+                CacheReqPacketQueue(const std::string &_name, 
+                                    BaseCache &cache) : 
+                                    ReqPacketQueue(_name), 
+                                    cache(cache) {};
+
+                /**
+                 * Override the normal sendDeferredPacket and do not only
+                 * consider the transmit list (used for responses), but also
+                 * requests.
+                 */
+                virtual void sendDeferredPacket();
             };
 
         public: 
@@ -101,6 +126,9 @@ namespace Kuiper {
 
             /** Prefetcher */
             prefetch::Base *prefetcher;
+
+            /** Request packet queue */
+            CacheReqPacketQueue reqPacketQueue;
 
             /** To probe when a cache hit occurs */
             ProbePointArg<CacheAccessProbeArg> *ppHit;
@@ -1004,7 +1032,8 @@ namespace Kuiper {
              */
             void schedMemSideSendEvent(Tick time)
             {
-                // memSidePort.schedSendEvent(time);
+                spdlog::info("{:s} trigger packet request queue", __FUNCTION__);
+                reqPacketQueue.schedSendEvent(time);
             }
 
             bool inCache(Addr addr, bool is_secure) const

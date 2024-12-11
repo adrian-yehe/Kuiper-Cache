@@ -6,7 +6,7 @@
 
 namespace Kuiper {
 	namespace Cache {
-		Top::Top(sc_core::sc_module_name _name, const NoncoherentCacheParams &_params, 
+		Top::Top(const std::string &_name, const NoncoherentCacheParams &_params, 
 					const Params &_mem_params):
 			sc_module(_name),
 			l0("l0", _params), 
@@ -41,7 +41,7 @@ namespace Kuiper {
 							__FUNCTION__);
 			std::uint32_t req_id = 0;
 			auto pkt = AllocateReqPacket(MemCmd::ReadReq);
-			sc_core::sc_time delay(1000, SC_SEC);
+			sc_core::sc_time delay(1, SC_SEC);
 
 			while (true) {
 				load0->write(pkt);

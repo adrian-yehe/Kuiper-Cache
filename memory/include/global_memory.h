@@ -2,16 +2,18 @@
 #define __GLOBAL_MEMORY_H__
 
 #include "tlm.h" 
-#include "tlm_utils/simple_target_socket.h"
+#include "cache/include/cache_port.h"
+#include "cache/include/cache_interface.h"
 
 namespace Kuiper {
 	namespace Cache {
-        class Memory: public sc_core::sc_module {
+        class Memory: public Target  {
+
             Memory(const Memory&) /* = delete*/;
             Memory& operator=(const Memory&) /* = delete */;
 
         public:
-            Memory (sc_core::sc_module_name _name,
+            Memory (const std::string  &_name,
                 const std::uint32_t _ID                  // Target ID
                 , std::uint64_t      _memory_size         // memory size (bytes)
                 , std::uint32_t      _memory_width        // memory width (bytes)
@@ -19,11 +21,7 @@ namespace Kuiper {
             void b_transport( tlm::tlm_generic_payload& gp, sc_core::sc_time& delay_time);
             std::uint8_t* get_mem_ptr(void);
 
-        public:
-            tlm_utils::simple_target_socket<Memory> mCpuSidePort;
-
         private:
-
             /// Check the address vs. range passed at construction
             tlm::tlm_response_status check_address(tlm::tlm_generic_payload& gp);
 

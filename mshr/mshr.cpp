@@ -727,41 +727,40 @@ namespace Kuiper {
             return cache.sendMSHRQueuePacket(this);
         }
 
-        // void
-        // MSHR::print(std::ostream &os, int verbosity, const std::string &prefix) const
-        // {
-        //     ccprintf(os, "%s[%#llx:%#llx](%s) %s %s %s state: %s %s %s %s %s %s\n",
-        //              prefix, blkAddr, blkAddr + blkSize - 1,
-        //              isSecure ? "s" : "ns",
-        //              isForward ? "Forward" : "",
-        //              allocOnFill() ? "AllocOnFill" : "",
-        //              needsWritable() ? "Wrtbl" : "",
-        //              _isUncacheable ? "Unc" : "",
-        //              inService ? "InSvc" : "",
-        //              downstreamPending ? "DwnPend" : "",
-        //              postInvalidate ? "PostInv" : "",
-        //              postDowngrade ? "PostDowngr" : "",
-        //              hasFromCache() ? "HasFromCache" : "");
+        std::string 
+        MSHR::print(int verbosity, const std::string &prefix) const
+        {
+            std::string info;
+            info.resize(100);
 
-        //     if (!targets.empty())
-        //     {
-        //         ccprintf(os, "%s      Targets:\n", prefix);
-        //         targets.print(os, verbosity, prefix + "        ");
-        //     }
-        //     if (!deferredTargets.empty())
-        //     {
-        //         ccprintf(os, "%s      Deferred Targets:\n", prefix);
-        //         deferredTargets.print(os, verbosity, prefix + "        ");
-        //     }
-        // }
+            std::string sec = isSecure ? "s" : "ns";
+            std::string f =  isForward ? "Forward" : "";
+            std::string a =  allocOnFill() ? "AllocOnFill" : "";
 
-        // std::string
-        // MSHR::print() const
-        // {
-        //     std::ostringstream str;
-        //     print(str);
-        //     return str.str();
-        // }
+            sprintf(&info[0], "%s[%#lx:%#lx](%s) %s %s  state",
+                     prefix.c_str(), blkAddr, blkAddr + blkSize - 1,
+                     sec.c_str(),
+                     f.c_str(),
+                     a.c_str());
+            return info;
+
+            // if (!targets.empty())
+            // {
+            //     ccprintf(os, "%s      Targets:\n", prefix);
+            //     targets.print(os, verbosity, prefix + "        ");
+            // }
+            // if (!deferredTargets.empty())
+            // {
+            //     ccprintf(os, "%s      Deferred Targets:\n", prefix);
+            //     deferredTargets.print(os, verbosity, prefix + "        ");
+            // }
+        }
+
+        std::string
+        MSHR::print() const
+        {
+            return this->print(0);
+        }
 
         bool
         MSHR::matchBlockAddr(const Addr addr, const bool is_secure) const

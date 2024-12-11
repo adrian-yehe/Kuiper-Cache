@@ -455,6 +455,7 @@ CMakeFiles/tx82_npu_cache.dir/mshr/mshr.cpp.o: \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/spdlog/include/spdlog/details/synchronous_factory.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/spdlog/include/spdlog/version.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/lib/spdlog/include/spdlog/spdlog-inl.h \
+ /home/adrian-yan/Workspace/Github/Kuiper-Cache/cache/include/cache_packet_queue.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/BaseCache.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/replaceable/include/replaceable_base.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/replaceable/include/replaceable_entry.h \

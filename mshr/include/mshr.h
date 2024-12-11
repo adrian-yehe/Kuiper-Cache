@@ -476,12 +476,11 @@ namespace Kuiper {
                 readyTime = curTick() + delay_ticks;
             }
 
-            // /**
-            //  * Prints the contents of this MSHR for debugging.
-            //  */
-            // void print(std::ostream &os,
-            //            int verbosity = 0,
-            //            const std::string &prefix = "") const override;
+            /**
+             * Prints the contents of this MSHR for debugging.
+             */
+            std::string print(int verbosity = 0,
+                       const std::string &prefix = "") const;
             /**
              * A no-args wrapper of print(std::ostream...)  meant to be
              * invoked from DPRINTFs avoiding string overheads in fast mode

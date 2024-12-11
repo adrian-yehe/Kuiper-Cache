@@ -8,18 +8,16 @@
 namespace Kuiper {
     namespace Cache {
         BaseCache::BaseCache(const BaseCacheParams &p, unsigned blk_size):
+            sc_module(p.name.c_str()),
               accessor(*this),
               mshrQueue("MSHRs", p.mshrs, 0, p.demand_mshr_reserve, p.name),
               writeBuffer("write buffer", p.write_buffers, p.mshrs, p.name),
               tags(p.tags),
               prefetcher(p.prefetcher),
+              reqPacketQueue("reqPacketQueue", *this),
             //   writeAllocator(p.write_allocator),
               writebackClean(p.writeback_clean),
               tempBlockWriteback(nullptr),
-            //   writebackTempBlockAtomicEvent([this]
-            //                                 { writebackTempBlockAtomic(); },
-            //                                 name(), false,
-            //                                 EventBase::Delayed_Writeback_Pri),
               blkSize(blk_size),
               lookupLatency(p.tag_latency),
               dataLatency(p.data_latency),
@@ -29,7 +27,7 @@ namespace Kuiper {
               sequentialAccess(p.sequential_access),
               numTarget(p.tgts_per_mshr),
               forwardSnoops(true),
-            //   clusivity(p.clusivity),
+
               isReadOnly(p.is_read_only),
               replaceExpansions(p.replace_expansions),
               moveContractions(p.move_contractions),
@@ -59,10 +57,6 @@ namespace Kuiper {
         BaseCache::~BaseCache() {
             delete tempBlock;
         }
-
-        // ProbeManager *getProbeManager(){
-        //     return probeManager;
-        // }
 
         Addr
         BaseCache::regenerateBlkAddr(CacheBlk *blk)
@@ -685,109 +679,94 @@ namespace Kuiper {
         }
 
         QueueEntry *
-        BaseCache::getNextQueueEntry()
-        {
-            // // Check both MSHR queue and write buffer for potential requests,
-            // // note that null does not mean there is no request, it could
-            // // simply be that it is not ready
-            // MSHR *miss_mshr = mshrQueue.getNext();
-            // WriteQueueEntry *wq_entry = writeBuffer.getNext();
+        BaseCache::getNextQueueEntry() {
+            // Check both MSHR queue and write buffer for potential requests,
+            // note that null does not mean there is no request, it could
+            // simply be that it is not ready
+            MSHR *miss_mshr = mshrQueue.getNext();
+            WriteQueueEntry *wq_entry = writeBuffer.getNext();
 
-            // // If we got a write buffer request ready, first priority is a
-            // // full write buffer, otherwise we favour the miss requests
-            // if (wq_entry && (writeBuffer.isFull() || !miss_mshr))
-            // {
-            //     // need to search MSHR queue for conflicting earlier miss.
-            //     MSHR *conflict_mshr = mshrQueue.findPending(wq_entry);
+            // If we got a write buffer request ready, first priority is a
+            // full write buffer, otherwise we favour the miss requests
+            if (wq_entry && (writeBuffer.isFull() || !miss_mshr))
+            {
+                // need to search MSHR queue for conflicting earlier miss.
+                MSHR *conflict_mshr = mshrQueue.findPending(wq_entry);
 
-            //     if (conflict_mshr && conflict_mshr->order < wq_entry->order)
-            //     {
-            //         // Service misses in order until conflict is cleared.
-            //         return conflict_mshr;
+                if (conflict_mshr && conflict_mshr->order < wq_entry->order)
+                {
+                    // Service misses in order until conflict is cleared.
+                    return conflict_mshr;
 
-            //         // @todo Note that we ignore the ready time of the conflict here
-            //     }
+                    // @todo Note that we ignore the ready time of the conflict here
+                }
 
-            //     // No conflicts; issue write
-            //     return wq_entry;
-            // }
-            // else if (miss_mshr)
-            // {
-            //     // need to check for conflicting earlier writeback
-            //     WriteQueueEntry *conflict_mshr = writeBuffer.findPending(miss_mshr);
-            //     if (conflict_mshr)
-            //     {
-            //         // not sure why we don't check order here... it was in the
-            //         // original code but commented out.
+                // No conflicts; issue write
+                return wq_entry;
+            }
+            else if (miss_mshr)
+            {
+                // need to check for conflicting earlier writeback
+                WriteQueueEntry *conflict_mshr = writeBuffer.findPending(miss_mshr);
+                if (conflict_mshr)
+                {
+                    return conflict_mshr;
+                }
 
-            //         // The only way this happens is if we are
-            //         // doing a write and we didn't have permissions
-            //         // then subsequently saw a writeback (owned got evicted)
-            //         // We need to make sure to perform the writeback first
-            //         // To preserve the dirty data, then we can issue the write
+                // No conflicts; issue read
+                return miss_mshr;
+            }
 
-            //         // should we return wq_entry here instead?  I.e. do we
-            //         // have to flush writes in order?  I don't think so... not
-            //         // for Alpha anyway.  Maybe for x86?
-            //         return conflict_mshr;
+            // fall through... no pending requests.  Try a prefetch.
+            assert(!miss_mshr && !wq_entry);
+            if (prefetcher && mshrQueue.canPrefetch() && !isBlocked())
+            {
+                // If we have a miss queue slot, we can try a prefetch
+                PacketPtr pkt = prefetcher->getPacket();
+                if (pkt)
+                {
+                    Addr pf_addr = pkt->getBlockAddr(blkSize);
+                    if (tags->findBlock(pf_addr, pkt->isSecure()))
+                    {
+                        // DPRINTF(HWPrefetch, "Prefetch %#x has hit in cache, "
+                        //                     "dropped.\n",
+                                // pf_addr);
+                        prefetcher->pfHitInCache();
+                        // free the request and packet
+                        delete pkt;
+                    }
+                    else if (mshrQueue.findMatch(pf_addr, pkt->isSecure()))
+                    {
+                        // DPRINTF(HWPrefetch, "Prefetch %#x has hit in a MSHR, "
+                        //                     "dropped.\n",
+                                // pf_addr);
+                        prefetcher->pfHitInMSHR();
+                        // free the request and packet
+                        delete pkt;
+                    }
+                    else if (writeBuffer.findMatch(pf_addr, pkt->isSecure()))
+                    {
+                        // DPRINTF(HWPrefetch, "Prefetch %#x has hit in the "
+                        //                     "Write Buffer, dropped.\n",
+                        //         pf_addr);
+                        prefetcher->pfHitInWB();
+                        // free the request and packet
+                        delete pkt;
+                    }
+                    else
+                    {
+                        // Update statistic on number of prefetches issued
+                        // (hwpf_mshr_misses)
+                        assert(pkt->req->requestorId() < maxRequestors);
+                        // stats.cmdStats(pkt).mshrMisses[pkt->req->requestorId()]++;
 
-            //         // @todo Note that we ignore the ready time of the conflict here
-            //     }
-
-            //     // No conflicts; issue read
-            //     return miss_mshr;
-            // }
-
-            // // fall through... no pending requests.  Try a prefetch.
-            // assert(!miss_mshr && !wq_entry);
-            // if (prefetcher && mshrQueue.canPrefetch() && !isBlocked())
-            // {
-            //     // If we have a miss queue slot, we can try a prefetch
-            //     PacketPtr pkt = prefetcher->getPacket();
-            //     if (pkt)
-            //     {
-            //         Addr pf_addr = pkt->getBlockAddr(blkSize);
-            //         if (tags->findBlock(pf_addr, pkt->isSecure()))
-            //         {
-            //             // DPRINTF(HWPrefetch, "Prefetch %#x has hit in cache, "
-            //             //                     "dropped.\n",
-            //                     // pf_addr);
-            //             prefetcher->pfHitInCache();
-            //             // free the request and packet
-            //             delete pkt;
-            //         }
-            //         else if (mshrQueue.findMatch(pf_addr, pkt->isSecure()))
-            //         {
-            //             // DPRINTF(HWPrefetch, "Prefetch %#x has hit in a MSHR, "
-            //             //                     "dropped.\n",
-            //                     // pf_addr);
-            //             prefetcher->pfHitInMSHR();
-            //             // free the request and packet
-            //             delete pkt;
-            //         }
-            //         else if (writeBuffer.findMatch(pf_addr, pkt->isSecure()))
-            //         {
-            //             // DPRINTF(HWPrefetch, "Prefetch %#x has hit in the "
-            //             //                     "Write Buffer, dropped.\n",
-            //             //         pf_addr);
-            //             prefetcher->pfHitInWB();
-            //             // free the request and packet
-            //             delete pkt;
-            //         }
-            //         else
-            //         {
-            //             // Update statistic on number of prefetches issued
-            //             // (hwpf_mshr_misses)
-            //             assert(pkt->req->requestorId() < maxRequestors);
-            //             // stats.cmdStats(pkt).mshrMisses[pkt->req->requestorId()]++;
-
-            //             // allocate an MSHR and return it, note
-            //             // that we send the packet straight away, so do not
-            //             // schedule the send
-            //             return allocateMissBuffer(pkt, curTick(), false);
-            //         }
-            //     }
-            // }
+                        // allocate an MSHR and return it, note
+                        // that we send the packet straight away, so do not
+                        // schedule the send
+                        return allocateMissBuffer(pkt, curTick(), false);
+                    }
+                }
+            }
 
             return nullptr;
         }
@@ -2677,46 +2656,39 @@ namespace Kuiper {
         //     cache->functionalAccess(pkt, false);
         // }
 
-        // void
-        // BaseCache::CacheReqPacketQueue::sendDeferredPacket()
-        // {
-        //     // // sanity check
-        //     // assert(!waitingOnRetry);
+        void
+        BaseCache::CacheReqPacketQueue::sendDeferredPacket()
+        {
+            // sanity check
+            assert(!waitingOnRetry);
 
-        //     // // there should never be any deferred request packets in the
-        //     // // queue, instead we resly on the cache to provide the packets
-        //     // // from the MSHR queue or write queue
-        //     // // assert(deferredPacketReadyTime() == MaxTick);
+            // there should never be any deferred request packets in the
+            // queue, instead we resly on the cache to provide the packets
+            // from the MSHR queue or write queue
+            // assert(deferredPacketReadyTime() == MaxTick);
 
-        //     // // check for request packets (requests & writebacks)
-        //     // QueueEntry *entry = cache.getNextQueueEntry();
+            // check for request packets (requests & writebacks)
+            QueueEntry *entry = cache.getNextQueueEntry();
+            if (!entry)
+            {
+                // can happen if e.g. we attempt a writeback and fail, but
+                // before the retry, the writeback is eliminated because
+                // we snoop another cache's ReadEx.
+            }
+            else
+            {
+                waitingOnRetry = entry->sendPacket(cache);
+            }
 
-        //     // if (!entry)
-        //     // {
-        //     //     // can happen if e.g. we attempt a writeback and fail, but
-        //     //     // before the retry, the writeback is eliminated because
-        //     //     // we snoop another cache's ReadEx.
-        //     // }
-        //     // else
-        //     // {
-        //     //     // let our snoop responses go first if there are responses to
-        //     //     // the same addresses
-        //     //     if (checkConflictingSnoop(entry->getTarget()->pkt))
-        //     //     {
-        //     //         return;
-        //     //     }
-        //     //     waitingOnRetry = entry->sendPacket(cache);
-        //     // }
-
-        //     // // if we succeeded and are not waiting for a retry, schedule the
-        //     // // next send considering when the next queue is ready, note that
-        //     // // snoop responses have their own packet queue and thus schedule
-        //     // // their own events
-        //     // if (!waitingOnRetry)
-        //     // {
-        //     //     // schedSendEvent(cache.nextQueueReadyTime());
-        //     // }
-        // }
+            // if we succeeded and are not waiting for a retry, schedule the
+            // next send considering when the next queue is ready, note that
+            // snoop responses have their own packet queue and thus schedule
+            // their own events
+            if (!waitingOnRetry)
+            {
+                schedSendEvent(cache.nextQueueReadyTime());
+            }
+        }
 
         // BaseCache::MemSidePort::MemSidePort(const std::string &_name,
         //                                     BaseCache *_cache,

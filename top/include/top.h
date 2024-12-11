@@ -12,7 +12,7 @@ namespace Kuiper {
 		class Top: public sc_core::sc_module {
 		public:
 			typedef MemoryParams Params;
-			Top(sc_core::sc_module_name _name, const NoncoherentCacheParams &_params, 
+			Top(const std::string &_name, const NoncoherentCacheParams &_params, 
 					const Params &_mem_params);
 
 		private:

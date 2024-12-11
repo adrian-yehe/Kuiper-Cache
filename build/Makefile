@@ -358,6 +358,30 @@ cache/cache_packet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/cache/cache_packet.cpp.s
 .PHONY : cache/cache_packet.cpp.s
 
+cache/cache_packet_queue.o: cache/cache_packet_queue.cpp.o
+.PHONY : cache/cache_packet_queue.o
+
+# target to build an object file
+cache/cache_packet_queue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/cache/cache_packet_queue.cpp.o
+.PHONY : cache/cache_packet_queue.cpp.o
+
+cache/cache_packet_queue.i: cache/cache_packet_queue.cpp.i
+.PHONY : cache/cache_packet_queue.i
+
+# target to preprocess a source file
+cache/cache_packet_queue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/cache/cache_packet_queue.cpp.i
+.PHONY : cache/cache_packet_queue.cpp.i
+
+cache/cache_packet_queue.s: cache/cache_packet_queue.cpp.s
+.PHONY : cache/cache_packet_queue.s
+
+# target to generate assembly for a file
+cache/cache_packet_queue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tx82_npu_cache.dir/build.make CMakeFiles/tx82_npu_cache.dir/cache/cache_packet_queue.cpp.s
+.PHONY : cache/cache_packet_queue.cpp.s
+
 indexing/indexing_base.o: indexing/indexing_base.cpp.o
 .PHONY : indexing/indexing_base.o
 
@@ -827,6 +851,9 @@ help:
 	@echo "... cache/cache_packet.o"
 	@echo "... cache/cache_packet.i"
 	@echo "... cache/cache_packet.s"
+	@echo "... cache/cache_packet_queue.o"
+	@echo "... cache/cache_packet_queue.i"
+	@echo "... cache/cache_packet_queue.s"
 	@echo "... indexing/indexing_base.o"
 	@echo "... indexing/indexing_base.i"
 	@echo "... indexing/indexing_base.s"

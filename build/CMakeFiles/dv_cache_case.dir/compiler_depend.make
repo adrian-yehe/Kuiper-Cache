@@ -410,23 +410,11 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
   ../lib/systemc/include/tlm_core/tlm_2/tlm_sockets/tlm_target_socket.h \
   ../lib/systemc/include/tlm_core/tlm_2/tlm_quantum/tlm_quantum.h \
   ../lib/systemc/include/tlm_core/tlm_2/tlm_quantum/tlm_global_quantum.h \
-  ../lib/systemc/include/tlm_utils/simple_target_socket.h \
-  ../lib/systemc/include/sysc/kernel/sc_dynamic_processes.h \
-  ../lib/systemc/include/sysc/kernel/sc_except.h \
-  ../lib/systemc/include/sysc/kernel/sc_spawn.h \
-  ../lib/systemc/include/sysc/kernel/sc_spawn_options.h \
-  ../lib/systemc/include/sysc/kernel/sc_join.h \
-  ../lib/systemc/include/tlm \
-  ../lib/systemc/include/tlm_utils/convenience_socket_bases.h \
-  ../lib/systemc/include/tlm_utils/peq_with_get.h \
+  ../cache/include/cache_port.h \
   /usr/include/c++/11/map \
   /usr/include/c++/11/bits/stl_tree.h \
   /usr/include/c++/11/bits/stl_map.h \
   /usr/include/c++/11/bits/stl_multimap.h \
-  ../params/Memrory.h \
-  ../top/include/l0.h \
-  ../lib/systemc/include/tlm_utils/simple_initiator_socket.h \
-  ../cache/include/cache_port.h \
   /usr/include/c++/11/list \
   /usr/include/c++/11/bits/stl_list.h \
   /usr/include/c++/11/bits/allocated_ptr.h \
@@ -555,6 +543,19 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
   /usr/include/inttypes.h \
   ../base/include/extensible.h \
   ../base/include/inst_seq.h \
+  ../cache/include/cache_interface.h \
+  ../lib/systemc/include/tlm_utils/simple_initiator_socket.h \
+  ../lib/systemc/include/tlm \
+  ../lib/systemc/include/tlm_utils/convenience_socket_bases.h \
+  ../lib/systemc/include/tlm_utils/simple_target_socket.h \
+  ../lib/systemc/include/sysc/kernel/sc_dynamic_processes.h \
+  ../lib/systemc/include/sysc/kernel/sc_except.h \
+  ../lib/systemc/include/sysc/kernel/sc_spawn.h \
+  ../lib/systemc/include/sysc/kernel/sc_spawn_options.h \
+  ../lib/systemc/include/sysc/kernel/sc_join.h \
+  ../lib/systemc/include/tlm_utils/peq_with_get.h \
+  ../params/Memrory.h \
+  ../top/include/l0.h \
   ../cache/include/cache_noncoherent.h \
   ../cache/include/cache_base.h \
   ../tags/include/tag_base.h \
@@ -584,6 +585,7 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
   ../write/include/write_queue_entry.h \
   ../cache/include/cache_queue.h \
   ../cache/include/cache_packet.h \
+  ../cache/include/cache_packet_queue.h \
   ../params/BaseCache.h \
   ../cache/include/cache_base.h \
   ../replaceable/include/replaceable_base.h \
@@ -619,6 +621,8 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
 ../params/BaseIndexingPolicy.h:
 
 ../replaceable/include/replaceable_entry.h:
+
+../base/include/cur_tick.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
@@ -907,8 +911,6 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
 ../lib/systemc/include/sysc/datatypes/int/sc_unsigned.h:
-
-../base/include/cur_tick.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
@@ -1338,6 +1340,8 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
 
 ../lib/systemc/include/sysc/datatypes/bit/sc_bit_proxies.h:
 
+../cache/include/cache_packet_queue.h:
+
 ../lib/systemc/include/sysc/datatypes/bit/sc_proxy.h:
 
 ../lib/systemc/include/sysc/datatypes/misc/sc_value_base.h:
@@ -1496,35 +1500,17 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
 
 ../lib/spdlog/include/spdlog/pattern_formatter-inl.h:
 
-../lib/systemc/include/sysc/kernel/sc_dynamic_processes.h:
+../prefetch/include/prefetch_tagged_entry.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
+../cache/include/cache_port.h:
 
-../lib/systemc/include/sysc/kernel/sc_spawn.h:
-
-/usr/include/linux/stddef.h:
-
-../lib/systemc/include/tlm_utils/convenience_socket_bases.h:
-
-../lib/systemc/include/sysc/kernel/sc_constants.h:
-
-../lib/systemc/include/tlm_utils/peq_with_get.h:
+../lib/spdlog/include/spdlog/details/os.h:
 
 /usr/include/c++/11/map:
 
 /usr/include/c++/11/bits/stl_map.h:
 
 ../base/include/callback.h:
-
-../params/Memrory.h:
-
-../lib/systemc/include/tlm_utils/simple_initiator_socket.h:
-
-../prefetch/include/prefetch_tagged_entry.h:
-
-../cache/include/cache_port.h:
-
-../lib/spdlog/include/spdlog/details/os.h:
 
 ../lib/spdlog/include/spdlog/details/backtracer-inl.h:
 
@@ -1702,6 +1688,8 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
 
 ../lib/spdlog/include/spdlog/spdlog-inl.h:
 
+../cache/include/cache_interface.h:
+
 ../base/include/flags.h:
 
 /usr/include/c++/11/bits/stl_vector.h:
@@ -1711,5 +1699,23 @@ CMakeFiles/dv_cache_case.dir/main.cpp.o: ../main.cpp \
 ../base/include/types.h:
 
 /usr/include/inttypes.h:
+
+/usr/include/linux/stddef.h:
+
+../lib/systemc/include/tlm_utils/convenience_socket_bases.h:
+
+../lib/systemc/include/sysc/kernel/sc_dynamic_processes.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
+
+../lib/systemc/include/sysc/kernel/sc_spawn.h:
+
+../lib/systemc/include/sysc/kernel/sc_constants.h:
+
+../lib/systemc/include/tlm_utils/peq_with_get.h:
+
+../lib/systemc/include/tlm_utils/simple_initiator_socket.h:
+
+../params/Memrory.h:
 
 ../tags/include/tag_base.h:

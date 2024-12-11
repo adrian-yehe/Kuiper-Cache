@@ -5,17 +5,17 @@
 #include<iostream>
 
 #include "tlm.h"
-#include <tlm_utils/simple_initiator_socket.h>
 #include "cache/include/cache_port.h"
 #include "cache/include/cache_noncoherent.h"
+#include "cache/include/cache_interface.h"
 #include "params/BaseCache.h"
 
 namespace Kuiper {
 	namespace Cache {
-		class L0 : public NoncoherentCache {
+		class L0 : public NoncoherentCache, public Initiator {
 		public:
 			typedef struct NoncoherentCacheParams Params;
-			L0(sc_core::sc_module_name _name, const Params &_params);
+			L0(const std::string &_name, const Params &_params);
 
 		public:
 			void BindLoad0(ReqOutPort& _port, ResSignal&_res_signal); 
@@ -28,12 +28,6 @@ namespace Kuiper {
 			CpuSidePort<L0> mStore;
 
 			// MemSidePort<NoncoherentCache> mMemPort;
-		public:
-			tlm_utils::simple_initiator_socket<L0> mMemSidePort;
-
-		public:
-			auto Read(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf);
-			auto Write(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf);
 
 		private:
 			sc_core::sc_fifo<PacketPtr> mLoad0Fifo;

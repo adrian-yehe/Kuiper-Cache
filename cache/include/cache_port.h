@@ -31,8 +31,8 @@ namespace Kuiper {
         template <typename CacheType>
         class CpuSidePort : public sc_core::sc_module {
         public:
-            CpuSidePort(sc_core::sc_module_name _name, CacheType* _cache) :
-                sc_module(_name),
+            CpuSidePort(const std::string &_name, CacheType* _cache) :
+                sc_module(_name.c_str()),
                 mBaseCache(_cache) {
                 SC_HAS_PROCESS(CpuSidePort);
                 SC_THREAD(ReqMonitor);
@@ -76,8 +76,8 @@ namespace Kuiper {
         template <typename CacheType>
         class MemSidePort : public sc_core::sc_module {
         public:
-            MemSidePort(sc_core::sc_module_name _name, CacheType* _cache):
-                sc_module(_name),
+            MemSidePort(const std::string &_name, CacheType* _cache):
+                sc_module(_name.c_str()),
                  mBaseCache(_cache) {
                 //SC_HAS_PROCESS(MemSidePort);
                 //SC_THREAD(ResMonitor);
@@ -108,7 +108,7 @@ namespace Kuiper {
         private:
             CacheType* mBaseCache;
         };
-	} /* namespace Cache */
+    } /* namespace Cache */
 } /* namespace Kuiper */
 
 #endif // ! _CACHE_PORT_H__

@@ -3,18 +3,17 @@
 
 namespace Kuiper {
     namespace Cache {
-        Memory::Memory (
-            sc_core::sc_module_name _name,
-            const std::uint32_t _ID                  // Target ID
-            , std::uint64_t      _memory_size         // memory size (bytes)
-            , std::uint32_t       _memory_width        // memory width (bytes)
-        ): 
-            sc_module(_name), 
+        Memory::Memory (const std::string &_name,
+            const std::uint32_t _ID               
+            , std::uint64_t      _memory_size         
+            , std::uint32_t       _memory_width): 
             m_ID(_ID),
             m_memory_size(_memory_size),
             m_memory_width(_memory_width),
             m_previous_warning(false),
-            mCpuSidePort("CpuSideSocket") {
+            Target("CpuSideSocket", 
+                    [this](tlm::tlm_generic_payload& _gp, sc_core::sc_time& _delay_time) 
+                    { this->b_transport(_gp, _delay_time);}) {
             /// Allocate and initalize an array for the target's memory
             m_memory = new unsigned char[size_t(m_memory_size)];
 
@@ -26,8 +25,6 @@ namespace Kuiper {
 
             if (m_memory_width > m_memory_size)
                 assert(0);
-
-            mCpuSidePort.register_b_transport(this, &Memory::b_transport);
         } // end Constructor
 
         void Memory::b_transport(tlm::tlm_generic_payload& gp, sc_core::sc_time& delay_time) {
@@ -36,8 +33,6 @@ namespace Kuiper {
             tlm::tlm_command command = gp.get_command();     // memory command
             unsigned char* data = gp.get_data_ptr();    // data pointer
             unsigned  int     length = gp.get_data_length(); // data length
-
-
 
             tlm::tlm_response_status response_status = check_address(gp);
 

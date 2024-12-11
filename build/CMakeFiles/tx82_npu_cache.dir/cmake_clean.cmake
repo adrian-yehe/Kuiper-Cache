@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/tx82_npu_cache.dir/cache/cache_noncoherent.cpp.o.d"
   "CMakeFiles/tx82_npu_cache.dir/cache/cache_packet.cpp.o"
   "CMakeFiles/tx82_npu_cache.dir/cache/cache_packet.cpp.o.d"
+  "CMakeFiles/tx82_npu_cache.dir/cache/cache_packet_queue.cpp.o"
+  "CMakeFiles/tx82_npu_cache.dir/cache/cache_packet_queue.cpp.o.d"
   "CMakeFiles/tx82_npu_cache.dir/indexing/indexing_base.cpp.o"
   "CMakeFiles/tx82_npu_cache.dir/indexing/indexing_base.cpp.o.d"
   "CMakeFiles/tx82_npu_cache.dir/indexing/set_associative.cpp.o"
