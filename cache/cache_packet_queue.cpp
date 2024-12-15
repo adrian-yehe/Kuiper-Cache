@@ -6,9 +6,10 @@ namespace Kuiper {
         PacketQueue::PacketQueue(const std::string &_name,
                                  bool force_order,
                                  bool disable_sanity_check) : sc_module(_name.c_str()),
-                                                              _disableSanityCheck(disable_sanity_check),
-                                                              forceOrder(force_order),
-                                                              waitingOnRetry(false)
+                                                            sendEvent("sendEvent"),
+                                                            _disableSanityCheck(disable_sanity_check),
+                                                            forceOrder(force_order),
+                                                            waitingOnRetry(false)
         {
             SC_HAS_PROCESS(PacketQueue);
             SC_THREAD(pktQueueProcess);
@@ -19,6 +20,9 @@ namespace Kuiper {
         void PacketQueue::pktQueueProcess(void) {
             while (true) {
                 wait(sendEvent);
+                spdlog::info("{:s} {:s} triggered", 
+                                sc_module::name(), 
+                                __FUNCTION__);
                 processSendEvent();
             }
         }
@@ -44,6 +48,8 @@ namespace Kuiper {
             }
             return false;
         }
+        
+
 
         void
         PacketQueue::schedSendTiming(PacketPtr pkt, Tick when) {

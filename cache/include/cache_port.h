@@ -51,8 +51,6 @@ namespace Kuiper {
                     auto pkt = RecvPacket();
                     spdlog::info("{:s}.recive packet ",
                         sc_module::name());
-
-                    // mBaseCache->Read(0x00, 512, buf); 
                     mBaseCache->recvTimingReq(pkt); 
                 }
             }
@@ -98,7 +96,8 @@ namespace Kuiper {
             }
 
         public:
-            void SendPacket(PacketPtr &_pkt) { return mReqPort->write(_pkt); };
+            void SendPacket(PacketPtr &_pkt) {  mReqPort->write(_pkt); };
+            bool sendTimingReq(PacketPtr _pkt) { return mReqPort->nb_write(_pkt); };
             PacketPtr RecvPacket(void) { return mResPort->read(); };
 
         public:

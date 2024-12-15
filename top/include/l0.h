@@ -29,6 +29,9 @@ namespace Kuiper {
 
 			// MemSidePort<NoncoherentCache> mMemPort;
 
+		public:
+			bool sendTimingReq(PacketPtr _pkt) override { return Initiator::sendTimingReq(_pkt); };
+
 		private:
 			sc_core::sc_fifo<PacketPtr> mLoad0Fifo;
 			sc_core::sc_fifo<PacketPtr> mLoad1Fifo;

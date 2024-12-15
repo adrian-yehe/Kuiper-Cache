@@ -22,8 +22,11 @@ namespace Kuiper {
             void handleTimingReqMiss(PacketPtr pkt, CacheBlk *blk,
                                      Tick forward_time,
                                      Tick request_time) override;
+            void handleTimingRes(PacketPtr pkt) override;
 
             void recvTimingReq(PacketPtr pkt) override;
+
+            virtual bool sendTimingReq(PacketPtr pkt) { return sendTimingReq(pkt); };
 
             // void doWritebacks(PacketList &writebacks,
             //                   Tick forward_time) override;
@@ -34,26 +37,6 @@ namespace Kuiper {
                                     CacheBlk *blk) override;
 
             void recvTimingResp(PacketPtr pkt) override;
-
-            // void recvTimingSnoopReq(PacketPtr pkt) override
-            // {
-            //     panic("Unexpected timing snoop request %s", pkt->print());
-            // }
-
-            // void recvTimingSnoopResp(PacketPtr pkt) override
-            // {
-            //     panic("Unexpected timing snoop response %s", pkt->print());
-            // }
-
-            // Cycles handleAtomicReqMiss(PacketPtr pkt, CacheBlk *&blk,
-            //                            PacketList &writebacks) override;
-
-            // Tick recvAtomic(PacketPtr pkt) override;
-
-            // Tick recvAtomicSnoop(PacketPtr pkt) override
-            // {
-            //     panic("Unexpected atomic snoop request %s", pkt->print());
-            // }
 
             void functionalAccess(PacketPtr pkt, bool from_cpu_side) override;
 

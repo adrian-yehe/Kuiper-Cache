@@ -10,144 +10,210 @@ namespace Kuiper {
     namespace Cache {
         const MemCmd::CommandInfo
             MemCmd::commandInfo[] = {
-            /* InvalidCmd */
-            { {}, InvalidCmd, "InvalidCmd" },
-            /* ReadReq - Read issued by a non-caching agent such as a CPU or
-             * device, with no restrictions on alignment. */
-            { {IsRead, IsRequest, NeedsResponse}, ReadResp, "ReadReq" },
-            /* ReadResp */
-            { {IsRead, IsResponse, HasData}, InvalidCmd, "ReadResp" },
-            /* ReadRespWithInvalidate */
-            { {IsRead, IsResponse, HasData, IsInvalidate}, InvalidCmd, "ReadRespWithInvalidate" },
-            /* WriteReq */
-            { {IsWrite, NeedsWritable, IsRequest, NeedsResponse, HasData}, WriteResp, "WriteReq" },
-            /* WriteResp */
-            { {IsWrite, IsResponse}, InvalidCmd, "WriteResp" },
-            /* WriteCompleteResp - The WriteCompleteResp command is needed
-            * because in the GPU memory model we use a WriteResp to indicate
-            * that a write has reached the cache controller so we can free
-            * resources at the coalescer. Later, when the write succesfully
-            * completes we send a WriteCompleteResp to the CU so its wait
-            * counters can be updated. Wait counters in the CU is how memory
-            * dependences are handled in the GPU ISA. */
-            { {IsWrite, IsResponse}, InvalidCmd, "WriteCompleteResp" },
-            /* WritebackDirty */
-            { {IsWrite, IsRequest, IsEviction, HasData, FromCache}, InvalidCmd, "WritebackDirty" },
-            /* WritebackClean - This allows the upstream cache to writeback a
-            * line to the downstream cache without it being considered
-            * dirty. */
-            { {IsWrite, IsRequest, IsEviction, HasData, FromCache}, InvalidCmd, "WritebackClean" },
-            /* WriteClean - This allows a cache to write a dirty block to a memory
-            below without evicting its copy. */
-            { {IsWrite, IsRequest, HasData, FromCache}, InvalidCmd, "WriteClean" },
-            /* CleanEvict */
-            { {IsRequest, IsEviction, FromCache}, InvalidCmd, "CleanEvict" },
-            /* HardPFReq */
-            { {IsRead, IsRequest, IsHWPrefetch, NeedsResponse, FromCache}, HardPFResp, "HardPFReq" },
-            /* HardPFResp */
-            { {IsRead, IsResponse, IsHWPrefetch, HasData}, InvalidCmd, "HardPFResp" },
-            /* WriteLineReq */
-            { {IsWrite, NeedsWritable, IsRequest, NeedsResponse, HasData}, WriteResp, "WriteLineReq" },
-            /* UpgradeReq */
-            { {IsInvalidate, NeedsWritable, IsUpgrade, IsRequest, NeedsResponse, FromCache}, UpgradeResp, "UpgradeReq" },
-            /* SCUpgradeReq: response could be UpgradeResp or UpgradeFailResp */
-            { {IsInvalidate, NeedsWritable, IsUpgrade, IsLlsc, IsRequest, NeedsResponse, FromCache}, UpgradeResp, "SCUpgradeReq" },
-            /* UpgradeResp */
-            { {IsUpgrade, IsResponse}, InvalidCmd, "UpgradeResp" },
-            /* SCUpgradeFailReq: generates UpgradeFailResp but still gets the data */
-            { {IsRead, NeedsWritable, IsInvalidate, IsLlsc, IsRequest, NeedsResponse, FromCache}, UpgradeFailResp, "SCUpgradeFailReq" },
-            /* UpgradeFailResp - Behaves like a ReadExReq, but notifies an SC
-            * that it has failed, acquires line as Dirty*/
-            { {IsRead, IsResponse, HasData}, InvalidCmd, "UpgradeFailResp" },
-            /* ReadExReq - Read issues by a cache, always cache-line aligned,
-            * and the response is guaranteed to be writeable (exclusive or
-            * even modified} */
-            { {IsRead, NeedsWritable, IsInvalidate, IsRequest, NeedsResponse, FromCache}, ReadExResp, "ReadExReq" },
-            /* ReadExResp - Response matching a read exclusive, as we check
-            * the need for exclusive also on responses */
-            { {IsRead, IsResponse, HasData}, InvalidCmd, "ReadExResp" },
-            /* ReadCleanReq - Read issued by a cache, always cache-line
-            * aligned, and the response is guaranteed to not contain dirty data
-            * (exclusive or shared}.*/
-            { {IsRead, IsRequest, NeedsResponse, FromCache}, ReadResp, "ReadCleanReq" },
-            /* ReadSharedReq - Read issued by a cache, always cache-line
-            * aligned, response is shared, possibly exclusive, owned or even
-            * modified. */
-            { {IsRead, IsRequest, NeedsResponse, FromCache}, ReadResp, "ReadSharedReq" },
-            /* LoadLockedReq: note that we use plain ReadResp as response, so that
-            *                we can also use ReadRespWithInvalidate when needed */
-            { {IsRead, IsLlsc, IsRequest, NeedsResponse}, ReadResp, "LoadLockedReq" },
-            /* StoreCondReq */
-            { {IsWrite, NeedsWritable, IsLlsc, IsRequest, NeedsResponse, HasData}, StoreCondResp, "StoreCondReq" },
-            /* StoreCondFailReq: generates failing StoreCondResp */
-            { {IsWrite, NeedsWritable, IsLlsc, IsRequest, NeedsResponse, HasData}, StoreCondResp, "StoreCondFailReq" },
-            /* StoreCondResp */
-            { {IsWrite, IsLlsc, IsResponse}, InvalidCmd, "StoreCondResp" },
-            /* LockedRMWReadReq */
-            { {IsRead, IsLockedRMW, NeedsWritable, IsRequest, NeedsResponse}, LockedRMWReadResp, "LockedRMWReadReq" },
-            /* LockedRMWReadResp */
-            { {IsRead, IsLockedRMW, NeedsWritable, IsResponse, HasData}, InvalidCmd, "LockedRMWReadResp" },
-            /* LockedRMWWriteReq */
-            { {IsWrite, IsLockedRMW, NeedsWritable, IsRequest, NeedsResponse,
-            HasData}, LockedRMWWriteResp, "LockedRMWWriteReq" },
-            /* LockedRMWWriteResp */
-            { {IsWrite, IsLockedRMW, NeedsWritable, IsResponse},
-            InvalidCmd, "LockedRMWWriteResp" },
-            /* SwapReq -- for Swap ldstub type operations */
-            { {IsRead, IsWrite, NeedsWritable, IsRequest, HasData, NeedsResponse},
-            SwapResp, "SwapReq" },
-            /* SwapResp -- for Swap ldstub type operations */
-            { {IsRead, IsWrite, IsResponse, HasData}, InvalidCmd, "SwapResp" },
-            { {}, InvalidCmd, "Deprecated_MessageReq" },
-            { {}, InvalidCmd, "Deprecated_MessageResp" },
-            /* MemFenceReq -- for synchronization requests */
-            {{IsRequest, NeedsResponse}, MemFenceResp, "MemFenceReq"},
-            /* MemSyncReq */
-            {{IsRequest, NeedsResponse}, MemSyncResp, "MemSyncReq"},
-            /* MemSyncResp */
-            {{IsResponse}, InvalidCmd, "MemSyncResp"},
-            /* MemFenceResp -- for synchronization responses */
-            {{IsResponse}, InvalidCmd, "MemFenceResp"},
-            /* Cache Clean Request -- Update with the latest data all existing
-            copies of the block down to the point indicated by the
-            request */
-            { {IsRequest, IsClean, NeedsResponse, FromCache}, CleanSharedResp, "CleanSharedReq" },
-            /* Cache Clean Response - Indicates that all caches up to the
-            specified point of reference have a up-to-date copy of the
-            cache block or no copy at all */
-            { {IsResponse, IsClean}, InvalidCmd, "CleanSharedResp" },
-            /* Cache Clean and Invalidate Request -- Invalidate all existing
-            copies down to the point indicated by the request */
-            { {IsRequest, IsInvalidate, IsClean, NeedsResponse, FromCache}, CleanInvalidResp, "CleanInvalidReq" },
-            /* Cache Clean and Invalidate Respose -- Indicates that no cache
-            above the specified point holds the block and that the block
-            was written to a memory below the specified point. */
-            { {IsResponse, IsInvalidate, IsClean}, InvalidCmd, "CleanInvalidResp" },
-            /* InvalidDestError  -- packet dest field invalid */
-            { {IsResponse, IsError}, InvalidCmd, "InvalidDestError" },
-            /* BadAddressError   -- memory address invalid */
-            { {IsResponse, IsError}, InvalidCmd, "BadAddressError" },
-            /* ReadError -- packet dest unable to fulfill read command */
-            { {IsRead, IsResponse, IsError}, InvalidCmd, "ReadError" },
-            /* WriteError -- packet dest unable to fulfill write command */
-            { {IsWrite, IsResponse, IsError}, InvalidCmd, "WriteError" },
-            /* FunctionalReadError */
-            { {IsRead, IsResponse, IsError}, InvalidCmd, "FunctionalReadError" },
-            /* FunctionalWriteError */
-            { {IsWrite, IsResponse, IsError}, InvalidCmd, "FunctionalWriteError" },
-            /* PrintReq */
-            { {IsRequest, IsPrint}, InvalidCmd, "PrintReq" },
-            /* Flush Request */
-            { {IsRequest, IsFlush, NeedsWritable}, InvalidCmd, "FlushReq" },
-            /* Invalidation Request */
-            { {IsInvalidate, IsRequest, NeedsWritable, NeedsResponse, FromCache},
-            InvalidateResp, "InvalidateReq" },
-            /* Invalidation Response */
-            { {IsInvalidate, IsResponse}, InvalidCmd, "InvalidateResp" },
-            // hardware transactional memory
-        { {IsRead, IsRequest, NeedsResponse}, HTMReqResp, "HTMReq" },
-        { {IsRead, IsResponse}, InvalidCmd, "HTMReqResp" },
-        { {IsRead, IsRequest}, InvalidCmd, "HTMAbort" },
+                /* InvalidCmd */
+                {{}, InvalidCmd, "InvalidCmd"},
+                /* ReadReq - Read issued by a non-caching agent such as a CPU or
+                 * device, with no restrictions on alignment. */
+                {{IsRead, IsRequest, NeedsResponse}, ReadResp, "ReadReq"},
+                /* ReadResp */
+                {{IsRead, IsResponse, HasData}, InvalidCmd, "ReadResp"},
+                /* ReadRespWithInvalidate */
+                {{IsRead, IsResponse, HasData, IsInvalidate},
+                 InvalidCmd,
+                 "ReadRespWithInvalidate"},
+                /* WriteReq */
+                {{IsWrite, NeedsWritable, IsRequest, NeedsResponse, HasData},
+                 WriteResp,
+                 "WriteReq"},
+                /* WriteResp */
+                {{IsWrite, IsResponse}, InvalidCmd, "WriteResp"},
+                /* WriteCompleteResp - The WriteCompleteResp command is needed
+                 * because in the GPU memory model we use a WriteResp to indicate
+                 * that a write has reached the cache controller so we can free
+                 * resources at the coalescer. Later, when the write succesfully
+                 * completes we send a WriteCompleteResp to the CU so its wait
+                 * counters can be updated. Wait counters in the CU is how memory
+                 * dependences are handled in the GPU ISA. */
+                {{IsWrite, IsResponse}, InvalidCmd, "WriteCompleteResp"},
+                /* WritebackDirty */
+                {{IsWrite, IsRequest, IsEviction, HasData, FromCache},
+                 InvalidCmd,
+                 "WritebackDirty"},
+                /* WritebackClean - This allows the upstream cache to writeback a
+                 * line to the downstream cache without it being considered
+                 * dirty. */
+                {{IsWrite, IsRequest, IsEviction, HasData, FromCache},
+                 InvalidCmd,
+                 "WritebackClean"},
+                /* WriteClean - This allows a cache to write a dirty block to a memory
+                   below without evicting its copy. */
+                {{IsWrite, IsRequest, HasData, FromCache}, InvalidCmd, "WriteClean"},
+                /* CleanEvict */
+                {{IsRequest, IsEviction, FromCache}, InvalidCmd, "CleanEvict"},
+                /* SoftPFReq */
+                {{IsRead, IsRequest, IsSWPrefetch, NeedsResponse},
+                 SoftPFResp,
+                 "SoftPFReq"},
+                /* SoftPFExReq */
+                {{IsRead, NeedsWritable, IsInvalidate, IsRequest,
+                  IsSWPrefetch, NeedsResponse},
+                 SoftPFResp,
+                 "SoftPFExReq"},
+                /* HardPFReq */
+                {{IsRead, IsRequest, IsHWPrefetch, NeedsResponse, FromCache},
+                 HardPFResp,
+                 "HardPFReq"},
+                /* SoftPFResp */
+                {{IsRead, IsResponse, IsSWPrefetch, HasData}, InvalidCmd, "SoftPFResp"},
+                /* HardPFResp */
+                {{IsRead, IsResponse, IsHWPrefetch, HasData}, InvalidCmd, "HardPFResp"},
+                /* WriteLineReq */
+                {{IsWrite, NeedsWritable, IsRequest, NeedsResponse, HasData},
+                 WriteResp,
+                 "WriteLineReq"},
+                /* UpgradeReq */
+                {{IsInvalidate, NeedsWritable, IsUpgrade, IsRequest, NeedsResponse,
+                  FromCache},
+                 UpgradeResp,
+                 "UpgradeReq"},
+                /* SCUpgradeReq: response could be UpgradeResp or UpgradeFailResp */
+                {{IsInvalidate, NeedsWritable, IsUpgrade, IsLlsc,
+                  IsRequest, NeedsResponse, FromCache},
+                 UpgradeResp,
+                 "SCUpgradeReq"},
+                /* UpgradeResp */
+                {{IsUpgrade, IsResponse}, InvalidCmd, "UpgradeResp"},
+                /* SCUpgradeFailReq: generates UpgradeFailResp but still gets the data */
+                {{IsRead, NeedsWritable, IsInvalidate,
+                  IsLlsc, IsRequest, NeedsResponse, FromCache},
+                 UpgradeFailResp,
+                 "SCUpgradeFailReq"},
+                /* UpgradeFailResp - Behaves like a ReadExReq, but notifies an SC
+                 * that it has failed, acquires line as Dirty*/
+                {{IsRead, IsResponse, HasData}, InvalidCmd, "UpgradeFailResp"},
+                /* ReadExReq - Read issues by a cache, always cache-line aligned,
+                 * and the response is guaranteed to be writeable (exclusive or
+                 * even modified} */
+                {{IsRead, NeedsWritable, IsInvalidate, IsRequest, NeedsResponse,
+                  FromCache},
+                 ReadExResp,
+                 "ReadExReq"},
+                /* ReadExResp - Response matching a read exclusive, as we check
+                 * the need for exclusive also on responses */
+                {{IsRead, IsResponse, HasData}, InvalidCmd, "ReadExResp"},
+                /* ReadCleanReq - Read issued by a cache, always cache-line
+                 * aligned, and the response is guaranteed to not contain dirty data
+                 * (exclusive or shared}.*/
+                {{IsRead, IsRequest, NeedsResponse, FromCache},
+                 ReadResp,
+                 "ReadCleanReq"},
+                /* ReadSharedReq - Read issued by a cache, always cache-line
+                 * aligned, response is shared, possibly exclusive, owned or even
+                 * modified. */
+                {{IsRead, IsRequest, NeedsResponse, FromCache},
+                 ReadResp,
+                 "ReadSharedReq"},
+                /* LoadLockedReq: note that we use plain ReadResp as response, so that
+                 *                we can also use ReadRespWithInvalidate when needed */
+                {{IsRead, IsLlsc, IsRequest, NeedsResponse},
+                 ReadResp,
+                 "LoadLockedReq"},
+                /* StoreCondReq */
+                {{IsWrite, NeedsWritable, IsLlsc,
+                  IsRequest, NeedsResponse, HasData},
+                 StoreCondResp,
+                 "StoreCondReq"},
+                /* StoreCondFailReq: generates failing StoreCondResp */
+                {{IsWrite, NeedsWritable, IsLlsc, IsRequest, NeedsResponse, HasData},
+                 StoreCondResp,
+                 "StoreCondFailReq"},
+                /* StoreCondResp */
+                {{IsWrite, IsLlsc, IsResponse},
+                 InvalidCmd,
+                 "StoreCondResp"},
+                /* LockedRMWReadReq */
+                {{IsRead, IsLockedRMW, NeedsWritable, IsRequest, NeedsResponse},
+                 LockedRMWReadResp,
+                 "LockedRMWReadReq"},
+                /* LockedRMWReadResp */
+                {{IsRead, IsLockedRMW, NeedsWritable, IsResponse, HasData},
+                 InvalidCmd,
+                 "LockedRMWReadResp"},
+                /* LockedRMWWriteReq */
+                {{IsWrite, IsLockedRMW, NeedsWritable, IsRequest, NeedsResponse,
+                  HasData},
+                 LockedRMWWriteResp,
+                 "LockedRMWWriteReq"},
+                /* LockedRMWWriteResp */
+                {{IsWrite, IsLockedRMW, NeedsWritable, IsResponse},
+                 InvalidCmd,
+                 "LockedRMWWriteResp"},
+                /* SwapReq -- for Swap ldstub type operations */
+                {{IsRead, IsWrite, NeedsWritable, IsRequest, HasData, NeedsResponse},
+                 SwapResp,
+                 "SwapReq"},
+                /* SwapResp -- for Swap ldstub type operations */
+                {{IsRead, IsWrite, IsResponse, HasData}, InvalidCmd, "SwapResp"},
+                {{}, InvalidCmd, "Deprecated_MessageReq"},
+                {{}, InvalidCmd, "Deprecated_MessageResp"},
+                /* MemFenceReq -- for synchronization requests */
+                {{IsRequest, NeedsResponse}, MemFenceResp, "MemFenceReq"},
+                /* MemSyncReq */
+                {{IsRequest, NeedsResponse}, MemSyncResp, "MemSyncReq"},
+                /* MemSyncResp */
+                {{IsResponse}, InvalidCmd, "MemSyncResp"},
+                /* MemFenceResp -- for synchronization responses */
+                {{IsResponse}, InvalidCmd, "MemFenceResp"},
+                /* Cache Clean Request -- Update with the latest data all existing
+                   copies of the block down to the point indicated by the
+                   request */
+                {{IsRequest, IsClean, NeedsResponse, FromCache},
+                 CleanSharedResp,
+                 "CleanSharedReq"},
+                /* Cache Clean Response - Indicates that all caches up to the
+                   specified point of reference have a up-to-date copy of the
+                   cache block or no copy at all */
+                {{IsResponse, IsClean}, InvalidCmd, "CleanSharedResp"},
+                /* Cache Clean and Invalidate Request -- Invalidate all existing
+                   copies down to the point indicated by the request */
+                {{IsRequest, IsInvalidate, IsClean, NeedsResponse, FromCache},
+                 CleanInvalidResp,
+                 "CleanInvalidReq"},
+                /* Cache Clean and Invalidate Respose -- Indicates that no cache
+                   above the specified point holds the block and that the block
+                   was written to a memory below the specified point. */
+                {{IsResponse, IsInvalidate, IsClean},
+                 InvalidCmd,
+                 "CleanInvalidResp"},
+                /* InvalidDestError  -- packet dest field invalid */
+                {{IsResponse, IsError}, InvalidCmd, "InvalidDestError"},
+                /* BadAddressError   -- memory address invalid */
+                {{IsResponse, IsError}, InvalidCmd, "BadAddressError"},
+                /* ReadError -- packet dest unable to fulfill read command */
+                {{IsRead, IsResponse, IsError}, InvalidCmd, "ReadError"},
+                /* WriteError -- packet dest unable to fulfill write command */
+                {{IsWrite, IsResponse, IsError}, InvalidCmd, "WriteError"},
+                /* FunctionalReadError */
+                {{IsRead, IsResponse, IsError}, InvalidCmd, "FunctionalReadError"},
+                /* FunctionalWriteError */
+                {{IsWrite, IsResponse, IsError}, InvalidCmd, "FunctionalWriteError"},
+                /* PrintReq */
+                {{IsRequest, IsPrint}, InvalidCmd, "PrintReq"},
+                /* Flush Request */
+                {{IsRequest, IsFlush, NeedsWritable}, InvalidCmd, "FlushReq"},
+                /* Invalidation Request */
+                {{IsInvalidate, IsRequest, NeedsWritable, NeedsResponse, FromCache},
+                 InvalidateResp,
+                 "InvalidateReq"},
+                /* Invalidation Response */
+                {{IsInvalidate, IsResponse},
+                 InvalidCmd,
+                 "InvalidateResp"},
+                // hardware transactional memory
+                {{IsRead, IsRequest, NeedsResponse}, HTMReqResp, "HTMReq"},
+                {{IsRead, IsResponse}, InvalidCmd, "HTMReqResp"},
+                {{IsRead, IsRequest}, InvalidCmd, "HTMAbort"},
+                {{IsRequest}, InvalidCmd, "TlbiExtSync"},
         };
 
         //AddrRange

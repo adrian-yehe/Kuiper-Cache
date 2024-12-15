@@ -7,6 +7,7 @@
 #include <initializer_list>
 #include <list>
 #include <cassert>
+#include <iostream>
 #include "flags.h"
 #include "cache_request.h"
 
@@ -44,7 +45,7 @@ namespace Kuiper {
                 WriteCompleteResp,
                 WritebackDirty,
                 WritebackClean,
-                WriteClean,            // writes dirty data below without evicting
+                WriteClean, // writes dirty data below without evicting
                 CleanEvict,
                 SoftPFReq,
                 SoftPFExReq,
@@ -53,17 +54,17 @@ namespace Kuiper {
                 HardPFResp,
                 WriteLineReq,
                 UpgradeReq,
-                SCUpgradeReq,           // Special "weak" upgrade for StoreCond
+                SCUpgradeReq, // Special "weak" upgrade for StoreCond
                 UpgradeResp,
-                SCUpgradeFailReq,       // Failed SCUpgradeReq in MSHR (never sent)
-                UpgradeFailResp,        // Valid for SCUpgradeReq only
+                SCUpgradeFailReq, // Failed SCUpgradeReq in MSHR (never sent)
+                UpgradeFailResp,  // Valid for SCUpgradeReq only
                 ReadExReq,
                 ReadExResp,
                 ReadCleanReq,
                 ReadSharedReq,
                 LoadLockedReq,
                 StoreCondReq,
-                StoreCondFailReq,       // Failed StoreCondReq in MSHR (never sent)
+                StoreCondFailReq, // Failed StoreCondReq in MSHR (never sent)
                 StoreCondResp,
                 LockedRMWReadReq,
                 LockedRMWReadResp,
@@ -84,16 +85,16 @@ namespace Kuiper {
                 // @TODO these should be classified as responses rather than
                 // requests; coding them as requests initially for backwards
                 // compatibility
-                InvalidDestError,  // packet dest field invalid
-                BadAddressError,   // memory address invalid
-                ReadError,         // packet dest unable to fulfill read command
-                WriteError,        // packet dest unable to fulfill write command
-                FunctionalReadError, // unable to fulfill functional read
+                InvalidDestError,     // packet dest field invalid
+                BadAddressError,      // memory address invalid
+                ReadError,            // packet dest unable to fulfill read command
+                WriteError,           // packet dest unable to fulfill write command
+                FunctionalReadError,  // unable to fulfill functional read
                 FunctionalWriteError, // unable to fulfill functional write
                 // Fake simulator-only commands
-                PrintReq,       // Print state matching address
-                FlushReq,      //request for a cache flush
-                InvalidateReq,   // request for address to be invalidated
+                PrintReq,      // Print state matching address
+                FlushReq,      // request for a cache flush
+                InvalidateReq, // request for address to be invalidated
                 InvalidateResp,
                 // hardware transactional memory
                 HTMReq,
@@ -681,11 +682,11 @@ namespace Kuiper {
 
             unsigned getSize() const { assert(flags.isSet(VALID_SIZE)); return size; }
 
-        //    /**
-        //     * Get address range to which this packet belongs.
-        //     *
-        //     * @return Address range of this packet.
-        //     */
+           /**
+            * Get address range to which this packet belongs.
+            *
+            * @return Address range of this packet.
+            */
             //AddrRange getAddrRange() const;
 
             Addr getOffset(unsigned int blk_size) const {
@@ -700,8 +701,6 @@ namespace Kuiper {
                 assert(flags.isSet(VALID_ADDR));
                 return _isSecure;
             }
-
-
 
             /**
              * Constructor. Note that a Request object must be constructed
@@ -857,7 +856,7 @@ namespace Kuiper {
             /**
              * clean up packet variables
              */
-            ~Packet() {
+            virtual ~Packet() {
                 deleteData();
             }
 
@@ -1091,8 +1090,8 @@ namespace Kuiper {
              * matter how data was allocted.
              */
             void deleteData() {
-                if (flags.isSet(DYNAMIC_DATA))
-                    delete[] data;
+                if (!flags.isSet(STATIC_DATA))
+                    delete data;
 
                 flags.clear(STATIC_DATA | DYNAMIC_DATA);
                 data = NULL;

@@ -193,7 +193,8 @@ CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o: \
  /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /usr/include/c++/11/bitset \
+ /usr/include/c++/11/bitset /usr/include/c++/11/iostream \
+ /usr/include/c++/11/istream /usr/include/c++/11/bits/istream.tcc \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/base/include/flags.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/cache/include/cache_request.h \
  /usr/include/c++/11/algorithm \
@@ -205,8 +206,6 @@ CMakeFiles/tx82_npu_cache.dir/tags/tag_base.cpp.o: \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/base/include/types.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/prefetch/include/prefetch_tagged_entry.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/replaceable/include/replaceable_entry.h \
- /usr/include/c++/11/iostream /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/cache/include/cache_packet.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/indexing/include/indexing_base.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/params/BaseIndexingPolicy.h \

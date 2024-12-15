@@ -20,6 +20,9 @@ namespace Kuiper {
             /// clear memory
             memset(m_memory, 0, size_t(m_memory_size));
 
+            for(std::uint32_t i = 0; i <= m_memory_size; i += 4)
+                m_memory[i] = i / 4;
+
             sc_assert(m_memory_width > 0);
             sc_assert(m_memory_size % m_memory_width == 0);
 
@@ -33,6 +36,11 @@ namespace Kuiper {
             tlm::tlm_command command = gp.get_command();     // memory command
             unsigned char* data = gp.get_data_ptr();    // data pointer
             unsigned  int     length = gp.get_data_length(); // data length
+
+            spdlog::info("{:s} recive {:s} transaction[{:#x}:{:#x}] from cpu side port",
+                    __func__,
+                    command == tlm::TLM_WRITE_COMMAND ? "write" : "read",
+                    address, address + length - 1);
 
             tlm::tlm_response_status response_status = check_address(gp);
 
@@ -53,8 +61,6 @@ namespace Kuiper {
                 case tlm::TLM_WRITE_COMMAND:
                 {
                     if (response_status == tlm::TLM_OK_RESPONSE) {
-                        spdlog::info("Recvive transaction from memory side port, write address:{:#x}", 
-                            address);
                         for (unsigned int i = 0; i < length; i++) {
                             m_memory[address++] = data[i];     // move the data to memory
                         }
@@ -66,8 +72,6 @@ namespace Kuiper {
                 case tlm::TLM_READ_COMMAND:
                 {
                     if (response_status == tlm::TLM_OK_RESPONSE)  {
-                        spdlog::info("Recvive transaction from memory side port, read address:{:#x}", 
-                            address);
                         for (unsigned int i = 0; i < length; i++) {
                             data[i] = m_memory[address++];         // move the data to memory
                         }

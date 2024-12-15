@@ -40,13 +40,16 @@ namespace Kuiper {
 							sc_module::name(), 
 							__FUNCTION__);
 			std::uint32_t req_id = 0;
-			auto pkt = AllocateReqPacket(MemCmd::ReadReq);
-			sc_core::sc_time delay(1, SC_SEC);
+			sc_core::sc_time delay(10, SC_SEC);
 
 			while (true) {
-				load0->write(pkt);
-				spdlog::info("{:s}.load0 write packet, request id: {:d}", 
-					sc_module::name(), req_id++);
+				if(req_id++ < 2) {
+					auto pkt = AllocateReqPacket(MemCmd::ReadReq);
+					load0->write(pkt);
+					spdlog::info("{:s}.load0 write packet, request id: {:d}",
+								 sc_module::name(), req_id);
+				}
+
 				wait(delay);;
 			}
 		}
@@ -80,8 +83,8 @@ namespace Kuiper {
 				_addr, _len, _flag, 0);
 
 			PacketPtr pkt = new Packet(req, _cmd, _len, _req_id);
-			
-			pkt->dataDynamic(_buf);
+			pkt->dataStatic(_buf);
+
 			return pkt;
         }
 	}
@@ -93,5 +96,5 @@ void TestCache() {
 
 	Kuiper::Cache::Top l0("Cache", *(sim.GetL0ParamsPtr()), 
 								*(sim.GetMemoryParamsPtr()));
-	sc_core::sc_start(100, SC_SEC);
+	sc_core::sc_start();
 }

@@ -46,12 +46,6 @@ namespace Kuiper {
 
             // cpuSidePort = p.cpu_side_port;
             // memSidePort = p.mem_side_port;
-
-            for (std::uint32_t i = 0; i != p.cpu_side_port.size(); i++)
-                cpuSidePort.push_back(p.cpu_side_port.at(i));
-
-            for (std::uint32_t i = 0; i != p.mem_side_port.size(); i++)
-                memSidePort.push_back(p.mem_side_port.at(i));
         }
 
         BaseCache::~BaseCache() {
@@ -207,6 +201,8 @@ namespace Kuiper {
                         // DPRINTF(Cache, "%s coalescing MSHR for %s\n", __func__,
                         //         pkt->print());
 
+                        spdlog::info("{:s} coalescing MSHR for {:s}", 
+                                        __func__, pkt->print());
                         assert(pkt->req->requestorId() < maxRequestors);
                         // stats.cmdStats(pkt).mshrHits[pkt->req->requestorId()]++;
 
@@ -360,165 +356,161 @@ namespace Kuiper {
         }
 
         void
-        BaseCache::recvTimingResp(PacketPtr pkt)
-        {
-            // assert(pkt->isResponse());
+        BaseCache::recvTimingResp(PacketPtr pkt) {
+            assert(pkt->isResponse());
 
-            // // all header delay should be paid for by the crossbar, unless
-            // // this is a prefetch response from above
-            // if(pkt->cmd == MemCmd::HardPFResp)
-            //     assert(0);
+            // all header delay should be paid for by the crossbar, unless
+            // this is a prefetch response from above
+            if(pkt->cmd == MemCmd::HardPFResp)
+                assert(0);
 
-            // // gem5::panic_if(pkt->cmd != MemCmd::HardPFResp,
-            // //          "%s saw a non-zero packet delay\n", name());
+            // gem5::panic_if(pkt->cmd != MemCmd::HardPFResp,
+            //          "%s saw a non-zero packet delay\n", name());
 
-            // const bool is_error = pkt->isError();
+            const bool is_error = pkt->isError();
 
-            // if (is_error)
-            // {
-            //     // DPRINTF(Cache, "%s: Cache received %s with error\n", __func__,
-            //     //         pkt->print());
-            // }
+            if (is_error) {
+                spdlog::info("{:s}  Cache received {:s} with error", 
+                        __func__, pkt->print());
+                // DPRINTF(Cache, "%s: Cache received %s with error\n", __func__,
+                //         pkt->print());
+            }
 
-            // // DPRINTF(Cache, "%s: Handling response %s\n", __func__,
-            // //         pkt->print());
+            // DPRINTF(Cache, "%s: Handling response %s\n", __func__,
+            //         pkt->print());
+            
+            spdlog::info("{:s}: Handling response {:s}", 
+                    __func__, pkt->print());
 
-            // // if this is a write, we should be looking at an uncacheable
-            // // write
-            // if (pkt->isWrite() && pkt->cmd != MemCmd::LockedRMWWriteResp) {
-            //     assert(pkt->req->isUncacheable());
-            //     handleUncacheableWriteResp(pkt);
-            //     return;
-            // }
+            // if this is a write, we should be looking at an uncacheable
+            // write
+            if (pkt->isWrite() && pkt->cmd != MemCmd::LockedRMWWriteResp) {
+                assert(pkt->req->isUncacheable());
+                handleUncacheableWriteResp(pkt);
+                return;
+            }
 
-            // // we have dealt with any (uncacheable) writes above, from here on
-            // // we know we are dealing with an MSHR due to a miss or a prefetch
-            // MSHR *mshr = dynamic_cast<MSHR *>(pkt->popSenderState());
-            // assert(mshr);
+            // we have dealt with any (uncacheable) writes above, from here on
+            // we know we are dealing with an MSHR due to a miss or a prefetch
+            MSHR *mshr = dynamic_cast<MSHR *>(pkt->popSenderState());
+            assert(mshr);
 
-            // if (mshr == noTargetMSHR) {
-            //     // we always clear at least one target
-            //     clearBlocked(Blocked_NoTargets);
-            //     noTargetMSHR = nullptr;
-            // }
+            if (mshr == noTargetMSHR) {
+                // we always clear at least one target
+                clearBlocked(Blocked_NoTargets);
+                noTargetMSHR = nullptr;
+            }
 
-            // // Initial target is used just for stats
-            // const QueueEntry::Target *initial_tgt = mshr->getTarget();
-            // const Tick miss_latency = curTick() - initial_tgt->recvTime;
-            // if (pkt->req->isUncacheable())
-            // {
-            //     // assert(pkt->req->requestorId() < system->maxRequestors());
-            //     // stats.cmdStats(initial_tgt->pkt)
-            //     //     .mshrUncacheableLatency[pkt->req->requestorId()] += miss_latency;
-            // }
-            // else
-            // {
-            //     // assert(pkt->req->requestorId() < system->maxRequestors());
-            //     // stats.cmdStats(initial_tgt->pkt)
-            //     //     .mshrMissLatency[pkt->req->requestorId()] += miss_latency;
-            // }
+            // Initial target is used just for stats
+            const QueueEntry::Target *initial_tgt = mshr->getTarget();
+            const Tick miss_latency = curTick() - initial_tgt->recvTime;
+            if (pkt->req->isUncacheable())
+            {
+                // assert(pkt->req->requestorId() < system->maxRequestors());
+                // stats.cmdStats(initial_tgt->pkt)
+                //     .mshrUncacheableLatency[pkt->req->requestorId()] += miss_latency;
+            }
+            else
+            {
+                // assert(pkt->req->requestorId() < system->maxRequestors());
+                // stats.cmdStats(initial_tgt->pkt)
+                //     .mshrMissLatency[pkt->req->requestorId()] += miss_latency;
+            }
 
-            // PacketList writebacks;
+            PacketList writebacks;
 
-            // bool is_fill = !mshr->isForward &&
-            //                (pkt->isRead() || pkt->cmd == MemCmd::UpgradeResp ||
-            //                 mshr->wasWholeLineWrite);
+            bool is_fill = !mshr->isForward &&
+                           (pkt->isRead() || pkt->cmd == MemCmd::UpgradeResp ||
+                            mshr->wasWholeLineWrite);
 
-            // // make sure that if the mshr was due to a whole line write then
-            // // the response is an invalidation
-            // assert(!mshr->wasWholeLineWrite || pkt->isInvalidate());
+            // make sure that if the mshr was due to a whole line write then
+            // the response is an invalidation
+            assert(!mshr->wasWholeLineWrite || pkt->isInvalidate());
 
-            // CacheBlk *blk = tags->findBlock(pkt->getAddr(), pkt->isSecure());
+            CacheBlk *blk = tags->findBlock(pkt->getAddr(), pkt->isSecure());
 
-            // if (is_fill && !is_error)
-            // {
-            //     // DPRINTF(Cache, "Block for addr %#llx being updated in Cache\n",
-            //     //         pkt->getAddr());
+            if (is_fill && !is_error) {
 
-            //     const bool allocate = (writeAllocator && mshr->wasWholeLineWrite) ? writeAllocator->allocate() : mshr->allocOnFill();
-            //     blk = handleFill(pkt, blk, writebacks, allocate);
-            //     assert(blk != nullptr);
-            //     ppFill->notify(CacheAccessProbeArg(pkt, accessor));
-            // }
+                spdlog::info("Block for addr {:#x} being updated in Cache",
+                        pkt->getAddr());
 
-            // // Don't want to promote the Locked RMW Read until
-            // // the locked write comes in
-            // if (!mshr->hasLockedRMWReadTarget()) {
-            //     if (blk && blk->isValid() && pkt->isClean() && !pkt->isInvalidate()) {
-            //         // The block was marked not readable while there was a pending
-            //         // cache maintenance operation, restore its flag.
-            //         blk->setCoherenceBits(CacheBlk::ReadableBit);
+                const bool allocate = (writeAllocator && mshr->wasWholeLineWrite) ? writeAllocator->allocate() : mshr->allocOnFill();
+                blk = handleFill(pkt, blk, writebacks, allocate);
+                assert(blk != nullptr);
+                // ppFill->notify(CacheAccessProbeArg(pkt, accessor));
+            }
 
-            //         // This was a cache clean operation (without invalidate)
-            //         // and we have a copy of the block already. Since there
-            //         // is no invalidation, we can promote targets that don't
-            //         // require a writable copy
-            //         mshr->promoteReadable();
-            //     }
+            // Don't want to promote the Locked RMW Read until
+            // the locked write comes in
+            if (!mshr->hasLockedRMWReadTarget()) {
+                if (blk && blk->isValid() && pkt->isClean() && !pkt->isInvalidate()) {
+                    // The block was marked not readable while there was a pending
+                    // cache maintenance operation, restore its flag.
+                    blk->setCoherenceBits(CacheBlk::ReadableBit);
 
-            //     if (blk && blk->isSet(CacheBlk::WritableBit) &&
-            //         !pkt->req->isCacheInvalidate())
-            //     {
-            //         // If at this point the referenced block is writable and the
-            //         // response is not a cache invalidate, we promote targets that
-            //         // were deferred as we couldn't guarrantee a writable copy
-            //         mshr->promoteWritable();
-            //     }
-            // }
+                    // This was a cache clean operation (without invalidate)
+                    // and we have a copy of the block already. Since there
+                    // is no invalidation, we can promote targets that don't
+                    // require a writable copy
+                    mshr->promoteReadable();
+                }
 
-            // serviceMSHRTargets(mshr, pkt, blk);
-            // // We are stopping servicing targets early for the Locked RMW Read until
-            // // the write comes.
-            // if (!mshr->hasLockedRMWReadTarget())
-            // {
-            //     if (mshr->promoteDeferredTargets())
-            //     {
-            //         // avoid later read getting stale data while write miss is
-            //         // outstanding.. see comment in timingAccess()
-            //         if (blk)
-            //         {
-            //             blk->clearCoherenceBits(CacheBlk::ReadableBit);
-            //         }
-            //         mshrQueue.markPending(mshr);
-            //         // schedMemSideSendEvent(clockEdge() + pkt->payloadDelay);
-            //     }
-            //     else
-            //     {
-            //         // while we deallocate an mshr from the queue we still have to
-            //         // check the isFull condition before and after as we might
-            //         // have been using the reserved entries already
-            //         const bool was_full = mshrQueue.isFull();
-            //         mshrQueue.deallocate(mshr);
-            //         if (was_full && !mshrQueue.isFull())
-            //         {
-            //             clearBlocked(Blocked_NoMSHRs);
-            //         }
+                if (blk && blk->isSet(CacheBlk::WritableBit) &&
+                    !pkt->req->isCacheInvalidate()) {
+                    // If at this point the referenced block is writable and the
+                    // response is not a cache invalidate, we promote targets that
+                    // were deferred as we couldn't guarrantee a writable copy
+                    mshr->promoteWritable();
+                }
+            }
 
-            //         // Request the bus for a prefetch if this deallocation freed enough
-            //         // MSHRs for a prefetch to take place
-            //         if (prefetcher && mshrQueue.canPrefetch() && !isBlocked())
-            //         {
-            //             // Tick next_pf_time = std::max(
-            //             //     prefetcher->nextPrefetchReadyTime(), clockEdge());
-            //             Tick next_pf_time = 0;
-            //             if (next_pf_time != MaxTick)
-            //                 schedMemSideSendEvent(next_pf_time);
-            //         }
-            //     }
+            serviceMSHRTargets(mshr, pkt, blk);
+            // We are stopping servicing targets early for the Locked RMW Read until
+            // the write comes.
+            if (!mshr->hasLockedRMWReadTarget()) {
+                if (mshr->promoteDeferredTargets()) {
+                    // avoid later read getting stale data while write miss is
+                    // outstanding.. see comment in timingAccess()
+                    if (blk) {
+                        blk->clearCoherenceBits(CacheBlk::ReadableBit);
+                    }
+                    mshrQueue.markPending(mshr);
+                    // schedMemSideSendEvent(clockEdge() + pkt->payloadDelay);
+                }
+                else {
+                    // while we deallocate an mshr from the queue we still have to
+                    // check the isFull condition before and after as we might
+                    // have been using the reserved entries already
+                    const bool was_full = mshrQueue.isFull();
+                    mshrQueue.deallocate(mshr);
+                    if (was_full && !mshrQueue.isFull()) {
+                        clearBlocked(Blocked_NoMSHRs);
+                    }
 
-            //     // if we used temp block, check to see if its valid and then clear it
-            //     if (blk == tempBlock && tempBlock->isValid())
-            //     {
-            //         evictBlock(blk, writebacks);
-            //     }
-            // }
+                    // Request the bus for a prefetch if this deallocation freed enough
+                    // MSHRs for a prefetch to take place
+                    if (prefetcher && mshrQueue.canPrefetch() && !isBlocked()) {
+                        // Tick next_pf_time = std::max(
+                        //     prefetcher->nextPrefetchReadyTime(), clockEdge());
+                        Tick next_pf_time = 0;
+                        if (next_pf_time != MaxTick)
+                            schedMemSideSendEvent(next_pf_time);
+                    }
+                }
 
-            // const Tick forward_time = 0;
-            // // copy writebacks to write buffer
-            // // doWritebacks(writebacks, forward_time);
+                // if we used temp block, check to see if its valid and then clear it
+                if (blk == tempBlock && tempBlock->isValid()) {
+                    evictBlock(blk, writebacks);
+                }
+            }
 
-            // // DPRINTF(CacheVerbose, "%s: Leaving with %s\n", __func__, pkt->print());
-            // delete pkt;
+            const Tick forward_time = 0;
+            // copy writebacks to write buffer
+            // doWritebacks(writebacks, forward_time);
+
+            // DPRINTF(CacheVerbose, "%s: Leaving with %s\n", __func__, pkt->print());
+            spdlog::info("{:s}: Leaving with {:s}", __func__, pkt->print());
+            delete pkt;
         }
 
         void
@@ -1122,38 +1114,15 @@ namespace Kuiper {
             assert(pkt->isRequest());
             assert((!(isReadOnly && pkt->isWrite())) && 
                         "Should never see a write in a read-only cache");
-            
-            // gem5::gem5_assert(!(isReadOnly && pkt->isWrite()),
-            //             "Should never see a write in a read-only cache %s\n",
-            //             name());
 
             // Access block in the tags
             Cycles tag_latency(0);
             blk = tags->accessBlock(pkt, tag_latency);
 
-            // DPRINTF(Cache, "%s for %s %s\n", __func__, pkt->print(),
-            //         blk ? "hit " + blk->print() : "miss");
-
             spdlog::info("{:s} {:s} for {:s} {:s}", 
                     sc_module::name(),
                     __func__, pkt->print(),
                     blk ? "hit " + blk->print() : "miss"); 
-
-            // if (pkt->req->isCacheMaintenance())
-            // {
-            //     // A cache maintenance operation is always forwarded to the
-            //     // memory below even if the block is found in dirty state.
-
-            //     // We defer any changes to the state of the block until we
-            //     // create and mark as in service the mshr for the downstream
-            //     // packet.
-
-            //     // Calculate access latency on top of when the packet arrives. This
-            //     // takes into account the bus delay.
-            //     lat = calculateTagOnlyLatency(pkt->headerDelay, tag_latency);
-
-            //     return false;
-            // }
 
             if (pkt->isEviction()) {
                 // We check for presence of block in above caches before issuing
@@ -1199,226 +1168,125 @@ namespace Kuiper {
                 }
             }
 
-            // // The critical latency part of a write depends only on the tag access
-            // if (pkt->isWrite())
-            // {
-            //     lat = calculateTagOnlyLatency(pkt->headerDelay, tag_latency);
-            // }
+            // The critical latency part of a write depends only on the tag access
+            if (pkt->isWrite())
+            {
+                lat = tag_latency;
+            }
 
             // Writeback handling is special case.  We can write the block into
             // the cache without having a writeable copy (or any copy at all).
-            // if (pkt->isWriteback())
-            // {
-            //     assert(blkSize == pkt->getSize());
+            if (pkt->isWriteback())
+            {
+                assert(blkSize == pkt->getSize());
 
-            //     // we could get a clean writeback while we are having
-            //     // outstanding accesses to a block, do the simple thing for
-            //     // now and drop the clean writeback so that we do not upset
-            //     // any ordering/decisions about ownership already taken
-            //     if (pkt->cmd == MemCmd::WritebackClean &&
-            //         mshrQueue.findMatch(pkt->getAddr(), pkt->isSecure()))
-            //     {
-            //         // DPRINTF(Cache, "Clean writeback %#llx to block with MSHR, "
-            //         //                "dropping\n",
-            //         //         pkt->getAddr());
+                // we could get a clean writeback while we are having
+                // outstanding accesses to a block, do the simple thing for
+                // now and drop the clean writeback so that we do not upset
+                // any ordering/decisions about ownership already taken
+                if (pkt->cmd == MemCmd::WritebackClean &&
+                    mshrQueue.findMatch(pkt->getAddr(), pkt->isSecure()))
+                {
+                    // DPRINTF(Cache, "Clean writeback %#llx to block with MSHR, "
+                    //                "dropping\n",
+                    //         pkt->getAddr());
 
-            //         // A writeback searches for the block, then writes the data.
-            //         // As the writeback is being dropped, the data is not touched,
-            //         // and we just had to wait for the time to find a match in the
-            //         // MSHR. As of now assume a mshr queue search takes as long as
-            //         // a tag lookup for simplicity.
-            //         return true;
-            //     }
+                    spdlog::info("Clean writeback {:#x} to block with MSHR, "
+                                   "dropping",
+                            pkt->getAddr());
 
-            //     const bool has_old_data = blk && blk->isValid();
-            //     if (!blk)
-            //     {
-            //         // need to do a replacement
-            //         blk = allocateBlock(pkt, writebacks);
-            //         if (!blk)
-            //         {
-            //             // no replaceable block available: give up, fwd to next level.
-            //             incMissCount(pkt);
-            //             return false;
-            //         }
+                    // A writeback searches for the block, then writes the data.
+                    // As the writeback is being dropped, the data is not touched,
+                    // and we just had to wait for the time to find a match in the
+                    // MSHR. As of now assume a mshr queue search takes as long as
+                    // a tag lookup for simplicity.
+                    return true;
+                }
 
-            //         blk->setCoherenceBits(CacheBlk::ReadableBit);
-            //     }
-            //     // else if (compressor)
-            //     // {
-            //     //     // This is an overwrite to an existing block, therefore we need
-            //     //     // to check for data expansion (i.e., block was compressed with
-            //     //     // a smaller size, and now it doesn't fit the entry anymore).
-            //     //     // If that is the case we might need to evict blocks.
-            //     //     if (!updateCompressionData(blk, pkt->getConstPtr<uint64_t>(),
-            //     //                                writebacks))
-            //     //     {
-            //     //         invalidateBlock(blk);
-            //     //         return false;
-            //     //     }
-            //     // }
+                const bool has_old_data = blk && blk->isValid();
+                if (!blk)
+                {
+                    // need to do a replacement
+                    blk = allocateBlock(pkt, writebacks);
+                    if (!blk)
+                    {
+                        // no replaceable block available: give up, fwd to next level.
+                        incMissCount(pkt);
+                        return false;
+                    }
 
-            //     // only mark the block dirty if we got a writeback command,
-            //     // and leave it as is for a clean writeback
-            //     if (pkt->cmd == MemCmd::WritebackDirty)
-            //     {
-            //         // TODO: the coherent cache can assert that the dirty bit is set
-            //         blk->setCoherenceBits(CacheBlk::DirtyBit);
-            //     }
-            //     // if the packet does not have sharers, it is passing
-            //     // writable, and we got the writeback in Modified or Exclusive
-            //     // state, if not we are in the Owned or Shared state
-            //     if (!pkt->hasSharers())
-            //     {
-            //         blk->setCoherenceBits(CacheBlk::WritableBit);
-            //     }
-            //     // nothing else to do; writeback doesn't expect response
-            //     assert(!pkt->needsResponse());
+                    blk->setCoherenceBits(CacheBlk::ReadableBit);
+                }
+                
 
-            //     updateBlockData(blk, pkt, has_old_data);
-            //     // DPRINTF(Cache, "%s new state is %s\n", __func__, blk->print());
-            //     incHitCount(pkt);
+                // only mark the block dirty if we got a writeback command,
+                // and leave it as is for a clean writeback
+                if (pkt->cmd == MemCmd::WritebackDirty)
+                {
+                    // TODO: the coherent cache can assert that the dirty bit is set
+                    blk->setCoherenceBits(CacheBlk::DirtyBit);
+                }
+                // if the packet does not have sharers, it is passing
+                // writable, and we got the writeback in Modified or Exclusive
+                // state, if not we are in the Owned or Shared state
+                if (!pkt->hasSharers())
+                {
+                    blk->setCoherenceBits(CacheBlk::WritableBit);
+                }
+                // nothing else to do; writeback doesn't expect response
+                assert(!pkt->needsResponse());
 
-            //     // When the packet metadata arrives, the tag lookup will be done while
-            //     // the payload is arriving. Then the block will be ready to access as
-            //     // soon as the fill is done
-            //     blk->setWhenReady(clockEdge(fillLatency) + pkt->headerDelay +
-            //                       std::max(cyclesToTicks(tag_latency), (uint64_t)pkt->payloadDelay));
+                updateBlockData(blk, pkt, has_old_data);
+                // DPRINTF(Cache, "%s new state is %s\n", __func__, blk->print());
+                incHitCount(pkt);
 
-            //     return true;
-            // }
-            // else if (pkt->cmd == MemCmd::CleanEvict)
-            // {
-            //     // A CleanEvict does not need to access the data array
-            //     lat = calculateTagOnlyLatency(pkt->headerDelay, tag_latency);
+                // When the packet metadata arrives, the tag lookup will be done while
+                // the payload is arriving. Then the block will be ready to access as
+                // soon as the fill is done
+                // blk->setWhenReady(clockEdge(fillLatency) + pkt->headerDelay +
+                //                   std::max(cyclesToTicks(tag_latency), (uint64_t)pkt->payloadDelay));
 
-            //     if (blk)
-            //     {
-            //         // Found the block in the tags, need to stop CleanEvict from
-            //         // propagating further down the hierarchy. Returning true will
-            //         // treat the CleanEvict like a satisfied write request and delete
-            //         // it.
-            //         return true;
-            //     }
-            //     // We didn't find the block here, propagate the CleanEvict further
-            //     // down the memory hierarchy. Returning false will treat the CleanEvict
-            //     // like a Writeback which could not find a replaceable block so has to
-            //     // go to next level.
-            //     return false;
-            // }
-            // else if (pkt->cmd == MemCmd::WriteClean)
-            // {
-            //     // WriteClean handling is a special case. We can allocate a
-            //     // block directly if it doesn't exist and we can update the
-            //     // block immediately. The WriteClean transfers the ownership
-            //     // of the block as well.
-            //     assert(blkSize == pkt->getSize());
+                return true;
+            }
+            else if (pkt->cmd == MemCmd::CleanEvict)
+            {
+                // A CleanEvict does not need to access the data array
+                lat = tag_latency ;
 
-            //     const bool has_old_data = blk && blk->isValid();
-            //     if (!blk)
-            //     {
-            //         if (pkt->writeThrough())
-            //         {
-            //             // if this is a write through packet, we don't try to
-            //             // allocate if the block is not present
-            //             return false;
-            //         }
-            //         else
-            //         {
-            //             // a writeback that misses needs to allocate a new block
-            //             blk = allocateBlock(pkt, writebacks);
-            //             if (!blk)
-            //             {
-            //                 // no replaceable block available: give up, fwd to
-            //                 // next level.
-            //                 incMissCount(pkt);
-            //                 return false;
-            //             }
+                if (blk)
+                {
+                    // Found the block in the tags, need to stop CleanEvict from
+                    // propagating further down the hierarchy. Returning true will
+                    // treat the CleanEvict like a satisfied write request and delete
+                    // it.
+                    return true;
+                }
+                // We didn't find the block here, propagate the CleanEvict further
+                // down the memory hierarchy. Returning false will treat the CleanEvict
+                // like a Writeback which could not find a replaceable block so has to
+                // go to next level.
+                return false;
+            }
+            else if (blk && (pkt->needsWritable() ? blk->isSet(CacheBlk::WritableBit) : blk->isSet(CacheBlk::ReadableBit)))
+            {
+                // OK to satisfy access
+                incHitCount(pkt);
+                satisfyRequest(pkt, blk);
+                maintainClusivity(pkt->fromCache(), blk);
 
-            //             blk->setCoherenceBits(CacheBlk::ReadableBit);
-            //         }
-            //     }
-            //     else if (compressor)
-            //     {
-            //         // This is an overwrite to an existing block, therefore we need
-            //         // to check for data expansion (i.e., block was compressed with
-            //         // a smaller size, and now it doesn't fit the entry anymore).
-            //         // If that is the case we might need to evict blocks.
-            //         if (!updateCompressionData(blk, pkt->getConstPtr<uint64_t>(),
-            //                                    writebacks))
-            //         {
-            //             invalidateBlock(blk);
-            //             return false;
-            //         }
-            //     }
-
-            //     // at this point either this is a writeback or a write-through
-            //     // write clean operation and the block is already in this
-            //     // cache, we need to update the data and the block flags
-            //     assert(blk);
-            //     // TODO: the coherent cache can assert that the dirty bit is set
-            //     if (!pkt->writeThrough())
-            //     {
-            //         blk->setCoherenceBits(CacheBlk::DirtyBit);
-            //     }
-            //     // nothing else to do; writeback doesn't expect response
-            //     assert(!pkt->needsResponse());
-
-            //     updateBlockData(blk, pkt, has_old_data);
-            //     // DPRINTF(Cache, "%s new state is %s\n", __func__, blk->print());
-
-            //     incHitCount(pkt);
-
-            //     // When the packet metadata arrives, the tag lookup will be done while
-            //     // the payload is arriving. Then the block will be ready to access as
-            //     // soon as the fill is done
-            //     blk->setWhenReady(clockEdge(fillLatency) + pkt->headerDelay +
-            //                       std::max(cyclesToTicks(tag_latency), (uint64_t)pkt->payloadDelay));
-
-            //     // If this a write-through packet it will be sent to cache below
-            //     return !pkt->writeThrough();
-            // }
-            // else if (blk && (pkt->needsWritable() ? blk->isSet(CacheBlk::WritableBit) : blk->isSet(CacheBlk::ReadableBit)))
-            // {
-            //     // OK to satisfy access
-            //     incHitCount(pkt);
-
-            //     // Calculate access latency based on the need to access the data array
-            //     if (pkt->isRead())
-            //     {
-            //         lat = calculateAccessLatency(blk, pkt->headerDelay, tag_latency);
-
-            //         // When a block is compressed, it must first be decompressed
-            //         // before being read. This adds to the access latency.
-            //         if (compressor)
-            //         {
-            //             lat += compressor->getDecompressionLatency(blk);
-            //         }
-            //     }
-            //     else
-            //     {
-            //         lat = calculateTagOnlyLatency(pkt->headerDelay, tag_latency);
-            //     }
-
-            //     satisfyRequest(pkt, blk);
-            //     maintainClusivity(pkt->fromCache(), blk);
-
-            //     return true;
-            // }
+                return true;
+            }
 
             // Can't satisfy access normally... either no block (blk == nullptr)
             // or have block but need writable
 
-            // incMissCount(pkt);
-
-            // lat = calculateAccessLatency(blk, pkt->headerDelay, tag_latency);
-
-            // if (!blk && pkt->isLLSC() && pkt->isWrite())
-            // {
-            //     // complete miss on store conditional... just give up now
-            //     pkt->req->setExtraData(0);
-            //     return true;
-            // }
+            incMissCount(pkt);
+            if (!blk && pkt->isLLSC() && pkt->isWrite())
+            {
+                // complete miss on store conditional... just give up now
+                pkt->req->setExtraData(0);
+                return true;
+            }
 
             return false;
         }
@@ -1522,6 +1390,9 @@ namespace Kuiper {
 
             // DPRINTF(Cache, "Block addr %#llx (%s) moving from %s to %s\n",
             //         addr, is_secure ? "s" : "ns", old_state, blk->print());
+
+            spdlog::info("Block for addr {:#x} being updated in Cache",
+                    pkt->getAddr());
 
             // if we got new data, copy it in (checking for a read response
             // and a response that has data is the same in the end)
@@ -1822,42 +1693,41 @@ namespace Kuiper {
         }
 
         bool
-        BaseCache::sendMSHRQueuePacket(MSHR *mshr)
-        {
+        BaseCache::sendMSHRQueuePacket(MSHR *mshr) {
             assert(mshr);
 
             // use request from 1st target
             PacketPtr tgt_pkt = mshr->getTarget()->pkt;
 
             // DPRINTF(Cache, "%s: MSHR %s\n", __func__, tgt_pkt->print());
+            spdlog::info("{:s}: MSHR {:s}", 
+                        __func__, tgt_pkt->print());
 
             // if the cache is in write coalescing mode or (additionally) in
             // no allocation mode, and we have a write packet with an MSHR
             // that is not a whole-line write (due to incompatible flags etc),
             // then reset the write mode
-            if (writeAllocator && writeAllocator->coalesce() && tgt_pkt->isWrite())
-            {
-                if (!mshr->isWholeLineWrite())
-                {
+            if (writeAllocator && writeAllocator->coalesce() && tgt_pkt->isWrite()) {
+                if (!mshr->isWholeLineWrite()) {
                     // if we are currently write coalescing, hold on the
                     // MSHR as many cycles extra as we need to completely
                     // write a cache line
-                    if (writeAllocator->delay(mshr->blkAddr))
-                    {
+                    if (writeAllocator->delay(mshr->blkAddr)) {
                         // Tick delay = blkSize / tgt_pkt->getSize() * clockPeriod();
                         // DPRINTF(CacheVerbose, "Delaying pkt %s %llu ticks to allow "
                         //                       "for write coalescing\n",
                         //         tgt_pkt->print(), delay);
+                        spdlog::info("Delaying pkt {:s} ticks to allow "
+                                              "for write coalescing",
+                                tgt_pkt->print());
                         // mshrQueue.delay(mshr, delay);
                         return false;
                     }
-                    else
-                    {
+                    else {
                         writeAllocator->reset();
                     }
                 }
-                else
-                {
+                else {
                     writeAllocator->resetDelay(mshr->blkAddr);
                 }
             }
@@ -1871,8 +1741,7 @@ namespace Kuiper {
 
             mshr->isForward = (pkt == nullptr);
 
-            if (mshr->isForward)
-            {
+            if (mshr->isForward) {
                 // not a cache block request, but a response is expected
                 // make copy of current packet to forward, keep current
                 // copy for response handling
@@ -1884,58 +1753,58 @@ namespace Kuiper {
             // as forwarded packets may already have existing state
             pkt->pushSenderState(mshr);
 
-            if (pkt->isClean() && blk && blk->isSet(CacheBlk::DirtyBit))
-            {
+            if (pkt->isClean() && blk && blk->isSet(CacheBlk::DirtyBit)) {
                 // A cache clean opearation is looking for a dirty block. Mark
                 // the packet so that the destination xbar can determine that
                 // there will be a follow-up write packet as well.
                 pkt->setSatisfied();
             }
 
-            // if (!memSidePort.sendTimingReq(pkt))
-            // {
-            //     // we are awaiting a retry, but we
-            //     // delete the packet and will be creating a new packet
-            //     // when we get the opportunity
-            //     delete pkt;
+            if (true == reqPacketQueue.sendTimingReq(pkt)) {
+                // we are awaiting a retry, but we
+                // delete the packet and will be creating a new packet
+                // when we get the opportunity
+                handleTimingRes(pkt);
 
-            //     // note that we have now masked any requestBus and
-            //     // schedSendEvent (we will wait for a retry before
-            //     // doing anything), and this is so even if we do not
-            //     // care about this packet and might override it before
-            //     // it gets retried
-            //     return true;
-            // }
-            // else
-            // {
-            //     // As part of the call to sendTimingReq the packet is
-            //     // forwarded to all neighbouring caches (and any caches
-            //     // above them) as a snoop. Thus at this point we know if
-            //     // any of the neighbouring caches are responding, and if
-            //     // so, we know it is dirty, and we can determine if it is
-            //     // being passed as Modified, making our MSHR the ordering
-            //     // point
-            //     bool pending_modified_resp = !pkt->hasSharers() &&
-            //                                  pkt->cacheResponding();
-            //     markInService(mshr, pending_modified_resp);
+                delete pkt;
 
-            //     if (pkt->isClean() && blk && blk->isSet(CacheBlk::DirtyBit))
-            //     {
-            //         // A cache clean opearation is looking for a dirty
-            //         // block. If a dirty block is encountered a WriteClean
-            //         // will update any copies to the path to the memory
-            //         // until the point of reference.
-            //         // DPRINTF(CacheVerbose, "%s: packet %s found block: %s\n",
-            //         //         __func__, pkt->print(), blk->print());
-            //         PacketPtr wb_pkt = writecleanBlk(blk, pkt->req->getDest(),
-            //                                          pkt->id);
-            //         PacketList writebacks;
-            //         writebacks.push_back(wb_pkt);
-            //         doWritebacks(writebacks, 0);
-            //     }
+                // note that we have now masked any requestBus and
+                // schedSendEvent (we will wait for a retry before
+                // doing anything), and this is so even if we do not
+                // care about this packet and might override it before
+                // it gets retried
+                return true;
+            }
+            else {
+                // As part of the call to sendTimingReq the packet is
+                // forwarded to all neighbouring caches (and any caches
+                // above them) as a snoop. Thus at this point we know if
+                // any of the neighbouring caches are responding, and if
+                // so, we know it is dirty, and we can determine if it is
+                // being passed as Modified, making our MSHR the ordering
+                // point
+                bool pending_modified_resp = !pkt->hasSharers() &&
+                                             pkt->cacheResponding();
+                markInService(mshr, pending_modified_resp);
+
+                if (pkt->isClean() && blk && blk->isSet(CacheBlk::DirtyBit)) {
+                    // A cache clean opearation is looking for a dirty
+                    // block. If a dirty block is encountered a WriteClean
+                    // will update any copies to the path to the memory
+                    // until the point of reference.
+                    // DPRINTF(CacheVerbose, "%s: packet %s found block: %s\n",
+                    //         __func__, pkt->print(), blk->print());
+                    spdlog::info("{:s}: packet {:s} found block: {:s}",
+                            __func__, pkt->print(), blk->print());
+                    // PacketPtr wb_pkt = writecleanBlk(blk, pkt->req->getDest(),
+                    //                                  pkt->id);
+                    // PacketList writebacks;
+                    // writebacks.push_back(wb_pkt);
+                    // doWritebacks(writebacks, 0);
+                }
 
                 return false;
-            // }
+            }
         }
 
         bool

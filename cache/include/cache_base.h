@@ -35,7 +35,7 @@ namespace Kuiper {
         class BaseCache: public sc_core::sc_module {
         public:
             std::vector<CpuSidePort<BaseCache> *> cpuSidePort;
-            std::vector<MemSidePort<BaseCache> *> memSidePort;
+           MemSidePort<BaseCache> *memSidePort;
 
         protected:
             /**
@@ -79,6 +79,7 @@ namespace Kuiper {
                  * requests.
                  */
                 virtual void sendDeferredPacket();
+                virtual bool sendTimingReq(PacketPtr pkt) {  return cache.sendTimingReq(pkt); };
             };
 
         public: 
@@ -241,6 +242,9 @@ namespace Kuiper {
              */
             Addr regenerateBlkAddr(CacheBlk *blk);
 
+
+            virtual bool sendTimingReq(PacketPtr _pkt) { return memSidePort->sendTimingReq(_pkt); };
+
             // /**
             //  * Calculate latency of accesses that only touch the tag array.
             //  * @sa calculateAccessLatency
@@ -298,6 +302,19 @@ namespace Kuiper {
             virtual void handleTimingReqMiss(PacketPtr pkt, CacheBlk *blk,
                                              Tick forward_time,
                                              Tick request_time) = 0;
+
+            /*
+             * Handle a timing request that missed in the cache
+             *
+             * Implementation specific handling for different cache
+             * implementations
+             *
+             * @param ptk The request packet
+             * @param blk The referenced block
+             * @param forward_time The tick at which we can process dependent requests
+             * @param request_time The tick at which the block lookup is compete
+             */
+            virtual void handleTimingRes(PacketPtr pkt) = 0;
 
             /*
              * Handle a timing request that missed in the cache

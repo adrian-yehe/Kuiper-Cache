@@ -183,7 +183,8 @@ CMakeFiles/tx82_npu_cache.dir/write/write_queue.cpp.o: \
  /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /usr/include/c++/11/bitset \
+ /usr/include/c++/11/bitset /usr/include/c++/11/iostream \
+ /usr/include/c++/11/istream /usr/include/c++/11/bits/istream.tcc \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/base/include/flags.h \
  /home/adrian-yan/Workspace/Github/Kuiper-Cache/cache/include/cache_request.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \

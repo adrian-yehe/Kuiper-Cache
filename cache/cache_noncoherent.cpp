@@ -39,6 +39,23 @@ namespace Kuiper {
             return success;
         }
 
+        void NoncoherentCache::handleTimingRes(PacketPtr pkt) {
+            MemCmd cmd;
+
+            if(pkt->isRead())
+                cmd = MemCmd::ReadExResp;
+            else
+                cmd = MemCmd::WriteResp;
+
+            PacketPtr p = new Packet(pkt->req,
+                                    cmd, pkt->getSize(), pkt->id);
+            p->dataStatic(pkt->getPtr<std::uint8_t>());
+
+            p->senderState = pkt->senderState;
+
+            recvTimingResp(p);
+        }
+
         // void
         // NoncoherentCache::doWritebacks(PacketList &writebacks, Tick forward_time)
         // {
@@ -106,74 +123,11 @@ namespace Kuiper {
             assert(pkt->getAddr() == pkt->getBlockAddr(blkSize));
 
             pkt->allocate();
-            // DPRINTF(Cache, "%s created %s from %s\n", __func__, pkt->print(),
-            //         cpu_pkt->print());
+
+            spdlog::info("{:s} created {:s} from {:s}", __func__, pkt->print(),
+                    cpu_pkt->print());
             return pkt;
         }
-
-        // Cycles
-        // NoncoherentCache::handleAtomicReqMiss(PacketPtr pkt, CacheBlk *&blk,
-        //                                       PacketList &writebacks)
-        // {
-        //     PacketPtr bus_pkt = createMissPacket(pkt, blk, true,
-        //                                          pkt->isWholeLineWrite(blkSize));
-        //     // DPRINTF(Cache, "Sending an atomic %s\n", bus_pkt->print());
-
-        //     Cycles latency = ticksToCycles(memSidePort.sendAtomic(bus_pkt));
-
-        //     assert(bus_pkt->isResponse());
-        //     // At the moment the only supported downstream requests we issue
-        //     // are ReadReq and therefore here we should only see the
-        //     // corresponding responses
-        //     assert(bus_pkt->isRead());
-        //     assert(pkt->cmd != MemCmd::UpgradeResp);
-        //     assert(!bus_pkt->isInvalidate());
-        //     assert(!bus_pkt->hasSharers());
-
-        //     // We are now dealing with the response handling
-        //     // DPRINTF(Cache, "Receive response: %s\n", bus_pkt->print());
-
-        //     if (!bus_pkt->isError())
-        //     {
-        //         // Any reponse that does not have an error should be filling,
-        //         // afterall it is a read response
-        //         // DPRINTF(Cache, "Block for addr %#llx being updated in Cache\n",
-        //         //         bus_pkt->getAddr());
-        //         blk = handleFill(bus_pkt, blk, writebacks, allocOnFill(bus_pkt->cmd));
-        //         assert(blk);
-        //     }
-        //     satisfyRequest(pkt, blk);
-
-        //     maintainClusivity(true, blk);
-
-        //     // Use the separate bus_pkt to generate response to pkt and
-        //     // then delete it.
-        //     if (!pkt->isWriteback() && pkt->cmd != MemCmd::WriteClean)
-        //     {
-        //         assert(pkt->needsResponse());
-        //         pkt->makeAtomicResponse();
-        //         if (bus_pkt->isError())
-        //         {
-        //             pkt->copyError(bus_pkt);
-        //         }
-        //     }
-
-        //     delete bus_pkt;
-
-        //     return latency;
-        // }
-
-        // Tick
-        // NoncoherentCache::recvAtomic(PacketPtr pkt)
-        // {
-        //     gem5::panic_if(pkt->cacheResponding(), "Should not see packets where cache "
-        //                                      "is responding");
-
-        //     gem5::panic_if(!(pkt->isRead() || pkt->isWrite()),
-        //              "Should only see read and writes at non-coherent cache\n");
-
-        //     return BaseCache::recvAtomic(pkt);
-        // }
 
         void
         NoncoherentCache::functionalAccess(PacketPtr pkt, bool from_cpu_side)

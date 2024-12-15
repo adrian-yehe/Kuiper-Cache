@@ -18,15 +18,15 @@
 
 namespace Kuiper {
     namespace Cache {
-    class Initiator: public sc_core::sc_module {
+    class Initiator {
         public:
-            Initiator(const std::string &_name):
-                sc_module(_name.c_str()) {};
+            Initiator(const std::string &_name) {};
+
         public:
 			tlm_utils::simple_initiator_socket<Initiator> mMemSidePort;
 
         private:
-            auto Read(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf) {
+            bool Read(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf) {
                 tlm::tlm_generic_payload trans; // Define a generic transaction
                 sc_time delay = SC_ZERO_TIME;
 
@@ -40,15 +40,19 @@ namespace Kuiper {
 
                 /* Send transaction using b_transport */
                 mMemSidePort->b_transport(trans, delay);
-                if (tlm::TLM_OK_RESPONSE == trans.get_response_status())
-                {
+                if (tlm::TLM_OK_RESPONSE == trans.get_response_status()) {
+                    spdlog::info("{:s} [{:#x}:{:#x}] success", 
+                                    __func__,
+                                    _addr, _addr + _size - 1);
                     return true;
                 }
                 else
-                    assert(0 && "from downstream response invalid");
+                    assert(0 && "from downstream read response invalid");
+                
+                return false;
             }
 
-            auto Write(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf)
+            bool Write(const std::uint64_t _addr, const std::size_t &_size, std::uint8_t *_buf)
             {
                 tlm::tlm_generic_payload trans; // Define a generic transaction
                 sc_time delay = SC_ZERO_TIME;
@@ -61,19 +65,23 @@ namespace Kuiper {
 
                 // Send transaction using b_transport
                 mMemSidePort->b_transport(trans, delay);
-                if (tlm::TLM_OK_RESPONSE == trans.get_response_status())
+                if (tlm::TLM_OK_RESPONSE == trans.get_response_status()) {
+                    spdlog::info("{:s} [{:#x}:{:#x}]success", 
+                                    __func__,
+                                    _addr, _addr + _size);
                     return true;
+                }
                 else
-                    assert(0 && "packet type invalid");
+                    assert(0 && "from downstream write response invalid");
+            } 
                 
-            }
         public:
-            virtual void sendTimingReq(PacketPtr pkt)
+            virtual bool sendTimingReq(PacketPtr pkt)
             {
                 if (pkt->isWrite())
-                    Write(pkt->getAddr(), pkt->getSize(), pkt->getPtr<std::uint8_t>());
+                    return Write(pkt->getAddr(), pkt->getSize(), pkt->getPtr<std::uint8_t>());
                 else if (pkt->isRead())
-                    Read(pkt->getAddr(), pkt->getSize(), pkt->getPtr<std::uint8_t>());
+                    return Read(pkt->getAddr(), pkt->getSize(), pkt->getPtr<std::uint8_t>());
                 else
                     assert(0 && "packet type invalid");
             }
@@ -92,6 +100,7 @@ namespace Kuiper {
             tlm_utils::simple_target_socket<Target> mCpuSidePort;
 
         void b_transport( tlm::tlm_generic_payload& gp, sc_core::sc_time& delay_time) {
+             spdlog::info("{:s} {:s} access target", sc_module::name(), __FUNCTION__);
             this->mCallback(gp, delay_time);
         }
 
